@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils;
+package com.daemawiki.daemawiki.global.utils.mongo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;

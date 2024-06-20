@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils;
+package com.daemawiki.daemawiki.global.utils.mongo;
 
 import org.springframework.data.mongodb.core.query.Query;
 import reactor.core.publisher.Flux;
