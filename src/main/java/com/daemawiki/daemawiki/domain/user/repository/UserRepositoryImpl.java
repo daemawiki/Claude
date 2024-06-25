@@ -25,7 +25,7 @@ public class UserRepositoryImpl extends UserAbstractRepository {
         Query query = new Query();
 
         Optional.ofNullable(generation)
-                .ifPresent(gen -> query.addCriteria(Criteria.where("userInfo.gen").is(gen)));
+                .ifPresent(gen -> query.addCriteria(Criteria.where("userInfo.generation").is(gen)));
 
         if (isNotBlank(major)){
             query.addCriteria(Criteria.where("userInfo.major").is(major));
