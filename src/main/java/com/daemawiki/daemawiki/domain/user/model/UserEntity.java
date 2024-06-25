@@ -5,9 +5,11 @@ import com.daemawiki.daemawiki.domain.user.model.detail.UserInfo;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class UserEntity {
 
     private boolean isSuspended;
 
-    private LocalDateTime registrationDate;
+    @CreatedDate
+    private LocalDate registrationDate;
 
     private UserRole role;
 
@@ -67,7 +70,6 @@ public class UserEntity {
         this.userInfo = userInfo;
         this.classInfos = classInfos;
         this.isSuspended = false;
-        this.registrationDate = LocalDateTime.now();
         this.role = role;
     }
 
