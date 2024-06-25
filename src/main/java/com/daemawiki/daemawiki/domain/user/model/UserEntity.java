@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.domain.user.model;
 
+import com.daemawiki.daemawiki.domain.user.model.detail.ClassInfo;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserInfo;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import lombok.AccessLevel;
@@ -8,10 +9,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document(collection = "users")
-@Getter(value = AccessLevel.PROTECTED)
-public class UserEntity implements UserModel {
+@Getter(value = AccessLevel.PUBLIC)
+public class UserEntity {
     @Id
     private String id;
 
@@ -25,45 +27,48 @@ public class UserEntity implements UserModel {
 
     private UserInfo userInfo;
 
+    private List<ClassInfo> classInfos;
+
     private boolean isSuspended;
 
     private LocalDateTime registrationDate;
 
     private UserRole role;
 
-    protected UserEntity() {}
-
-    protected UserEntity(String name, String email, String password, String documentId, UserInfo userInfo) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public void updateDocumentId(String documentId) {
         this.documentId = documentId;
-        this.userInfo = userInfo;
-        this.isSuspended = false;
-        this.registrationDate = LocalDateTime.now();
-        this.role = UserRole.USER;
     }
 
-    @Override
-    public UserEntity updateDocumentId(String documentId) {
-        this.documentId = documentId;
-        return this;
-    }
-
-    @Override
     public UserEntity updateUserRole(UserRole role) {
         this.role = role;
         return this;
     }
 
-    @Override
     public UserEntity updateUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
         return this;
     }
 
-    @Override
     public void changePassword(String password) {
         this.password = password;
     }
+
+    public static UserEntity createEntity(String name, String email, String password, String documentId, UserInfo userInfo, List<ClassInfo> classInfos, UserRole role) {
+        return new UserEntity(name, email, password, documentId, userInfo, classInfos, role);
+    }
+
+    protected UserEntity() {}
+
+    private UserEntity(String name, String email, String password, String documentId, UserInfo userInfo, List<ClassInfo> classInfos, UserRole role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.documentId = documentId;
+        this.userInfo = userInfo;
+        this.classInfos = classInfos;
+        this.isSuspended = false;
+        this.registrationDate = LocalDateTime.now();
+        this.role = role;
+    }
+
 }

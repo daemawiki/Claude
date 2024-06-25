@@ -1,7 +1,6 @@
 package com.daemawiki.daemawiki.domain.user.repository;
 
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
-import com.daemawiki.daemawiki.domain.user.model.UserModel;
 import com.daemawiki.daemawiki.global.utils.mongo.MongoQueryUtils;
 import com.daemawiki.daemawiki.global.utils.PagingInfo;
 import org.springframework.data.domain.Sort;
@@ -15,11 +14,11 @@ import java.util.Optional;
 @Repository
 public class UserRepositoryImpl extends UserAbstractRepository {
     @Override
-    public Flux<UserModel> findByGenerationAndMajor(Integer generation, String major, PagingInfo pagingInfo) {
+    public Flux<UserEntity> findByGenerationAndMajor(Integer generation, String major, PagingInfo pagingInfo) {
         return mongoQueryUtils.find(
                 findByGenerationAndMajorQuery(generation, major, pagingInfo),
                 UserEntity.class
-        ).map(UserModel.class::cast);
+        );
     }
 
     private Query findByGenerationAndMajorQuery(Integer generation, String major, PagingInfo pagingInfo) {
