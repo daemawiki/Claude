@@ -1,6 +1,9 @@
 package com.daemawiki.daemawiki.domain.user.service;
 
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
+import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.domain.mail.auth_user.repository.AuthUserRepository;
 import com.daemawiki.daemawiki.domain.user.dto.UserRegisterRequest;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -11,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +37,7 @@ public class UserRegisterService implements UserRegisterUseCase {
     }
 
     private Mono<Void> createDocumentAndSaveUser(UserEntity user) {
-        return createDocument(user)
+        return createDocumentAndGetId(user)
                 .doOnNext(user::updateDocumentId)
                 .flatMap(document -> userRepository.save(user))
                 .then();
@@ -50,14 +55,27 @@ public class UserRegisterService implements UserRegisterUseCase {
         );
     }
 
-    private Mono<String> createDocument(UserEntity user) {
+    private Mono<String> createDocumentAndGetId(UserEntity user) {
+        return documentRepository.save(
+                createDocumentEntity(user)
+        ).map(DocumentEntity::getId);
+    }
+
+    private DocumentEntity createDocumentEntity(UserEntity user) {
         // 해당 유저의 문서가 이미 존재할 때 / 존재 안할 때 구분 (어떤 기준으로?)
         // save :: return id
-        DocumentEntity document = DocumentEntity.createEntity(user.getName());
-        return Mono.just(document.getId());
+        return DocumentEntity.createEntity(
+                user.getName(),
+                DocumentInfo.of(
+                        user.getName(),
+                        Collections.emptyList()
+                ),
+                DocumentType.STUDENT
+        );
     }
 
     private final AuthUserRepository authUserRepository;
+    private final DocumentRepository documentRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 }
