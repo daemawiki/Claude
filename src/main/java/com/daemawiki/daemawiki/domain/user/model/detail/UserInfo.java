@@ -4,4 +4,7 @@ public record UserInfo(
         Integer generation,
         String major
 ) {
+    public static UserInfo of(Integer generation, String major) {
+        return new UserInfo(generation, major);
+    }
 }
