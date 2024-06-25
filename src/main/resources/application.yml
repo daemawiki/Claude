@@ -4,3 +4,21 @@ spring:
 
 server:
   port: 8080
+
+dm:
+  security:
+    secret: ${SECURITY_SECRET}
+    issuer: ${SECURITY_ISSUER}
+    expiration: ${SECURITY_EXPIRATION}
+
+mail:
+  sender:
+    host: ${MAIL_SENDER_HOST}
+    email: ${MAIL_SENDER_EMAIL}
+    password: ${MAIL_SENDER_PASSWORD}
+    auth: ${MAIL_SENDER_AUTH}
+    starttls-required: ${MAIL_SENDER_STARTTLS_REQUIRED}
+    starttls-enable: ${MAIL_SENDER_STARTTLS_ENABLE}
+    socket-factory-class: ${MAIL_SENDER_SOCKET_CLASS}
+    socket-factory-fallback: ${MAIL_SENDER_SOCKET_FALLBACK}
+    port: ${MAIL_SENDER_PORT}
