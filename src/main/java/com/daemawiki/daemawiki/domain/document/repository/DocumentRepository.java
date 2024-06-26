@@ -5,5 +5,6 @@ import reactor.core.publisher.Mono;
 
 public interface DocumentRepository {
     Mono<DocumentEntity> save(DocumentEntity entity);
+    Mono<DocumentEntity> increaseView(DocumentEntity entity);
 
 }
