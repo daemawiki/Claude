@@ -2,7 +2,6 @@ package com.daemawiki.daemawiki.domain.mail.service;
 
 import com.daemawiki.daemawiki.domain.mail.auth_code.model.AuthCodeModel;
 import com.daemawiki.daemawiki.domain.mail.auth_code.repository.AuthCodeRepository;
-import com.daemawiki.daemawiki.domain.mail.dto.AuthCodeRequest;
 import com.daemawiki.daemawiki.domain.mail.model.MailType;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
@@ -28,12 +27,10 @@ import java.util.Objects;
 @Slf4j(topic = "유저 메일 전송 서비스")
 public class UserMailSendService implements UserMailSendUseCase {
     @Override
-    public Mono<Void> send(AuthCodeRequest request) {
-        final String email = request.email();
-
-        return userRepository.findByEmail(email)
+    public Mono<Void> send(String to, String type) {
+        return userRepository.findByEmail(to)
                 .flatMap(user -> {
-                    if (Objects.equals(request.type(), MailType.REGISTER.name())) {
+                    if (Objects.equals(type.toUpperCase(), MailType.REGISTER.name())) {
                         return Mono.error(new RuntimeException()); // 메일이 이미 사용 중일 때
                     } else {
                         return Mono.empty();
@@ -42,13 +39,13 @@ public class UserMailSendService implements UserMailSendUseCase {
                 .then(Mono.defer(() -> {
                     String authCode = getRandomCode();
 
-                    log.info("authCode: {} to: {}", authCode, email);
+                    log.info("authCode: {} to: {}", authCode, to);
 
-                    sendMail(email, authCode)
+                    sendMail(to, authCode)
                             .subscribeOn(Schedulers.boundedElastic())
                             .subscribe();
 
-                    return saveAuthCode(email, authCode);
+                    return saveAuthCode(to, authCode);
                 }));
     }
 
