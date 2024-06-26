@@ -23,9 +23,9 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Objects;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Slf4j(topic = "유저 메일 전송 서비스")
 public class UserMailSendService implements UserMailSendUseCase {
     @Override
     public Mono<Void> send(AuthCodeRequest request) {
