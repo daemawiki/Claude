@@ -13,10 +13,10 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class AuthUserRepositoryImpl implements AuthUserRepository {
     @Override
-    public Mono<Boolean> save(AuthUserModel model) {
+    public Mono<Boolean> save(String mail) {
         return redisOperation.save(
-                AUTH_MAIL + model.email(),
-                model.email(),
+                AUTH_MAIL + mail,
+                mail,
                 Duration.ofHours(3)
         );
     }
