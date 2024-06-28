@@ -17,7 +17,7 @@ public class AuthCodeRepositoryImpl implements AuthCodeRepository {
         return redisOperation.save(
                 AUTH_CODE + model.email(),
                 model.code(),
-                Duration.ofHours(3)
+                Duration.ofMinutes(30)
         );
     }
 

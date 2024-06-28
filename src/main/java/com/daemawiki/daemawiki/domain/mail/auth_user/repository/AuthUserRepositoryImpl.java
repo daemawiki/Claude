@@ -17,7 +17,7 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
         return redisOperation.save(
                 AUTH_MAIL + mail,
                 mail,
-                Duration.ofHours(3)
+                Duration.ofHours(1)
         );
     }
 
