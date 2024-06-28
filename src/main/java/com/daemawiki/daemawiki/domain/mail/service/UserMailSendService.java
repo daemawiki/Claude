@@ -5,7 +5,6 @@ import com.daemawiki.daemawiki.domain.mail.auth_code.repository.AuthCodeReposito
 import com.daemawiki.daemawiki.domain.mail.model.MailType;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
-import com.daemawiki.daemawiki.global.error.customs.WrongRedisConnectionException;
 import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
