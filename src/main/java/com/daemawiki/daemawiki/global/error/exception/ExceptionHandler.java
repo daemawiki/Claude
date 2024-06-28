@@ -9,9 +9,9 @@ import reactor.core.publisher.Mono;
 @RestControllerAdvice
 public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(CustomException.class)
-    public Mono<ResponseEntity<ErrorResponse>> handleCustomException(CustomException e, ServerRequest request) {
-        return Mono.justOrEmpty(
-                ErrorResponse.of(e, request)
+    public Mono<ResponseEntity<ErrorResponse>> handleCustomException(CustomException e) {
+        return Mono.just(
+                ErrorResponse.of(e)
         );
     }
 }

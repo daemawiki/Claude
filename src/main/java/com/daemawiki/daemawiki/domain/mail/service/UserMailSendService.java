@@ -5,6 +5,7 @@ import com.daemawiki.daemawiki.domain.mail.auth_code.repository.AuthCodeReposito
 import com.daemawiki.daemawiki.domain.mail.model.MailType;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
+import com.daemawiki.daemawiki.global.error.customs.WrongRedisConnectionException;
 import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -36,29 +37,26 @@ public class UserMailSendService implements UserMailSendUseCase {
                         return Mono.empty();
                     }
                 })
-                .then(Mono.defer(() -> {
-                    String authCode = getRandomCode();
-
-                    log.info("authCode: {} to: {}", authCode, to);
-
-                    sendMail(to, authCode)
-                            .subscribeOn(Schedulers.boundedElastic())
-                            .subscribe();
-
-                    return saveAuthCode(to, authCode);
-                }));
+                .then(Mono.defer(() -> saveAuthCode(AuthCodeModel.of(to, getRandomCode()))
+                                .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
+                                        .flatMap(authCodeModel -> {
+                                            sendMail(authCodeModel)
+                                                            .subscribeOn(Schedulers.boundedElastic())
+                                                            .subscribe();
+                                            return Mono.empty();
+                                        })));
     }
 
-    private Mono<Void> sendMail(String to, String authCode) {
+    private Mono<Void> sendMail(AuthCodeModel authCodeModel) {
         return Mono.fromRunnable(() -> {
             try {
                 MimeMessage message = mailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-                helper.setTo(to);
+                helper.setTo(authCodeModel.email());
                 helper.setSubject("DSM 메일 인증");
 
-                String mail = getMailTemplate(authCode);
+                String mail = getMailTemplate(authCodeModel.code());
 
                 helper.setText(mail, true);
                 helper.setFrom(new InternetAddress(mailSenderProperties.email(), "DSM-MAIL-AUTH"));
@@ -70,9 +68,10 @@ public class UserMailSendService implements UserMailSendUseCase {
         }).then();
     }
 
-    private Mono<Void> saveAuthCode(String to, String authCode) {
-        return authCodeRepository.save(AuthCodeModel.of(to, authCode))
-                .then();
+    private Mono<AuthCodeModel> saveAuthCode(AuthCodeModel authCodeModel) {
+        return authCodeRepository.save(authCodeModel)
+                .thenReturn(authCodeModel)
+                .onErrorMap(e -> e);
     }
 
     private String getMailTemplate(String key) {
