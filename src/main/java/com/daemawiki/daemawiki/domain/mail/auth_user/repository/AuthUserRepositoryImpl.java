@@ -23,7 +23,7 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
     }
 
     @Override
-    public Mono<Boolean> findByMail(String mail) {
+    public Mono<Boolean> existsByEmail(String mail) {
         return handleError(redisOperation.getValue(AUTH_MAIL + mail)
                 .hasElement());
     }
