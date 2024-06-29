@@ -10,7 +10,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "users")
@@ -30,8 +29,6 @@ public class UserEntity {
     private UserInfo userInfo;
 
     private List<ClassInfo> classInfos;
-
-    private boolean isSuspended;
 
     @CreatedDate
     private LocalDate registrationDate;
@@ -69,8 +66,6 @@ public class UserEntity {
         this.documentId = documentId;
         this.userInfo = userInfo;
         this.classInfos = classInfos;
-        this.isSuspended = false;
         this.role = role;
     }
-
 }
