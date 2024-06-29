@@ -5,9 +5,7 @@ import com.daemawiki.daemawiki.domain.mail.auth_code.repository.AuthCodeReposito
 import com.daemawiki.daemawiki.domain.mail.model.MailType;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
-import com.daemawiki.daemawiki.global.error.customs.WrongRedisConnectionException;
 import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +16,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -30,13 +26,9 @@ public class UserMailSendService implements UserMailSendUseCase {
     @Override
     public Mono<Void> send(String to, String type) {
         return userRepository.findByEmail(to)
-                .flatMap(user -> {
-                    if (Objects.equals(type.toUpperCase(), MailType.REGISTER.name())) {
-                        return Mono.error(new RuntimeException()); // 메일이 이미 사용 중일 때
-                    } else {
-                        return Mono.empty();
-                    }
-                })
+                .flatMap(user -> MailType.REGISTER.name().equals(type.toUpperCase())
+                        ? Mono.error(new RuntimeException()) // 이메일이 이미 사용 중일 때
+                        : Mono.empty())
                 .then(Mono.defer(() -> saveAuthCode(AuthCodeModel.of(to, getRandomCode()))
                                 .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
                                         .flatMap(authCodeModel -> {
@@ -48,24 +40,21 @@ public class UserMailSendService implements UserMailSendUseCase {
     }
 
     private Mono<Void> sendMail(AuthCodeModel authCodeModel) {
-        return Mono.fromRunnable(() -> {
-            try {
-                MimeMessage message = mailSender.createMimeMessage();
-                MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        return Mono.fromCallable(() -> {
+                    MimeMessage message = mailSender.createMimeMessage();
+                    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-                helper.setTo(authCodeModel.email());
-                helper.setSubject("DSM 메일 인증");
+                    helper.setTo(authCodeModel.email());
+                    helper.setSubject("DSM 메일 인증");
+                    helper.setText(getMailTemplate(authCodeModel.code()), true);
+                    helper.setFrom(new InternetAddress(mailSenderProperties.email(), "DSM-MAIL-AUTH"));
 
-                String mail = getMailTemplate(authCodeModel.code());
-
-                helper.setText(mail, true);
-                helper.setFrom(new InternetAddress(mailSenderProperties.email(), "DSM-MAIL-AUTH"));
-
-                mailSender.send(message);
-            } catch (MessagingException | UnsupportedEncodingException e) {
-                throw new RuntimeException(); // 메일 전송 실패
-            }
-        }).then();
+                    mailSender.send(message);
+                    return null;
+                })
+                .subscribeOn(Schedulers.boundedElastic())
+                .onErrorMap(e -> new RuntimeException())
+                .then();
     }
 
     private Mono<AuthCodeModel> saveAuthCode(AuthCodeModel authCodeModel) {

@@ -4,6 +4,7 @@ public enum UserRole {
     ADMIN,
     USER,
     STUDENT,
+    DSM_MOP,
     TEACHER,
     MANAGER
 }

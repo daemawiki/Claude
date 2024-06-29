@@ -12,7 +12,7 @@ public enum Error {
     //401: AUTHENTICATION
     PASSWORD_MISMATCH(401, "비밀번호가 일치하지 않습니다.", ""),
 
-    //403: Forbidden
+    //403: FORBIDDEN
     DOCUMENT_DELETE_FAILED(403, "학생 문서는 삭제하지 못합니다.", ""),
     UNVERIFIED_EMAIL(403, "이메일 인증을 하지 않은 사용자입니다.", ""),
     NO_EDIT_PERMISSION_USER(403, "수정 권한이 없는 유저입니다.", ""),

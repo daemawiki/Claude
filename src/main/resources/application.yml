@@ -2,6 +2,17 @@ spring:
   application:
     name: Claude
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+#      password: ${REDIS_PW}
+
+    mongodb:
+      uri: ${MONGO_URI}
+      database: ${MONGO_DB}
+      auto-index-creation: true
+
 server:
   port: 8080
 
