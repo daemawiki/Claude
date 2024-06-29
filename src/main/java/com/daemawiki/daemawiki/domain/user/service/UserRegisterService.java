@@ -2,6 +2,7 @@ package com.daemawiki.daemawiki.domain.user.service;
 
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoDetail;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.domain.mail.auth_user.repository.AuthUserRepository;
@@ -15,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,19 +24,23 @@ public class UserRegisterService implements UserRegisterUseCase {
     @Override
     public Mono<Void> register(UserRegisterRequest request) {
         return userRepository.existsByEmail(request.email())
-                .filter(isExist -> !isExist)
-                .switchIfEmpty(Mono.error(new RuntimeException())) // 중복된 아메일
-                .flatMap(isExist -> validateAndCreateUser(request));
-    }
+                .zipWith(authUserRepository.existsByEmail(request.email()))
+                .flatMap(tuple -> {
+                    boolean emailExists = tuple.getT1();
+                    boolean isAuthenticated = tuple.getT2();
 
-    private Mono<Void> validateAndCreateUser(UserRegisterRequest request) {
-        return authUserRepository.findByMail(request.email())
-                .filter(authenticated -> authenticated)
-                .switchIfEmpty(Mono.error(new RuntimeException())) // 메일 인증 내역 x
-                .map(authenticated -> createUserEntity(request))
-                .flatMap(this::createDocumentAndSaveUser);
-    }
+                    if (emailExists) {
+                        return Mono.error(new RuntimeException()); // 이메일이 이미 사용 중일 때
+                    }
+                    if (!isAuthenticated) {
+                        return Mono.error(new RuntimeException()); // 이메일 인증이 안됐을 때
+                    }
 
+                    return createDocumentAndSaveUser(
+                            createUserEntity(request)
+                    );
+                });
+    }
     private Mono<Void> createDocumentAndSaveUser(UserEntity user) {
         return createDocumentAndGetId(user)
                 .doOnNext(user::updateDocumentId)
@@ -62,17 +67,28 @@ public class UserRegisterService implements UserRegisterUseCase {
     }
 
     private DocumentEntity createDocumentEntity(UserEntity user) {
-        // 해당 유저의 문서가 이미 존재할 때 / 존재 안할 때 구분 (어떤 기준으로?)
-        // save :: return id
         return DocumentEntity.createEntity(
                 user.getName(),
                 DocumentInfo.of(
                         user.getName(),
-                        Collections.emptyList()
+                        List.of(
+                            DocumentInfoDetail.of(
+                                    GENERATION_TITLE,
+                                    user.getUserInfo().generation() + GENERATION_SUFFIX
+                            ),
+                            DocumentInfoDetail.of(
+                                    MAJOR_TITLE,
+                                    user.getUserInfo().major()
+                            )
+                        )
                 ),
                 DocumentType.STUDENT
         );
     }
+
+    private static final String GENERATION_TITLE = "기수";
+    private static final String GENERATION_SUFFIX = "기";
+    private static final String MAJOR_TITLE = "전공";
 
     private final AuthUserRepository authUserRepository;
     private final DocumentRepository documentRepository;
