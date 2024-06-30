@@ -39,15 +39,17 @@ public class UserMailSendService implements UserMailSendUseCase {
                         })));
     }
 
+    private static final String MAIL_TITLE = "DSM 메일 인증";
+
     private Mono<Void> sendMail(AuthCodeModel authCodeModel) {
         return Mono.fromCallable(() -> {
                     MimeMessage message = mailSender.createMimeMessage();
                     MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
                     helper.setTo(authCodeModel.email());
-                    helper.setSubject("DSM 메일 인증");
+                    helper.setSubject(MAIL_TITLE);
                     helper.setText(getMailTemplate(authCodeModel.code()), true);
-                    helper.setFrom(new InternetAddress(mailSenderProperties.email(), "DSM-MAIL-AUTH"));
+                    helper.setFrom(new InternetAddress(mailSenderProperties.email(), MAIL_TITLE));
 
                     mailSender.send(message);
                     return null;
