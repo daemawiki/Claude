@@ -30,13 +30,13 @@ public class UserMailSendService implements UserMailSendUseCase {
                         ? Mono.error(new RuntimeException()) // 이메일이 이미 사용 중일 때
                         : Mono.empty())
                 .then(Mono.defer(() -> saveAuthCode(AuthCodeModel.of(to, getRandomCode()))
-                                .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
-                                        .flatMap(authCodeModel -> {
-                                            sendMail(authCodeModel)
-                                                            .subscribeOn(Schedulers.boundedElastic())
-                                                            .subscribe();
-                                            return Mono.empty();
-                                        })));
+                        .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
+                        .flatMap(authCodeModel -> {
+                            sendMail(authCodeModel)
+                                    .subscribeOn(Schedulers.boundedElastic())
+                                    .subscribe();
+                            return Mono.empty();
+                        })));
     }
 
     private Mono<Void> sendMail(AuthCodeModel authCodeModel) {
