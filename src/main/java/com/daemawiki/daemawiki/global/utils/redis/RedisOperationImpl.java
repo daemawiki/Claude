@@ -16,6 +16,11 @@ public class RedisOperationImpl implements RedisOperation {
     }
 
     @Override
+    public Mono<Boolean> hasKey(String key) {
+        return redisOperations.hasKey(key);
+    }
+
+    @Override
     public Mono<Void> delete(String key) {
         return redisOperations.delete(key)
                 .then();
