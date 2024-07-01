@@ -13,30 +13,34 @@ import java.util.Properties;
 public class MailSenderConfig {
     @Bean
     public JavaMailSender javaMailService() {
-        var javaMailSender = new JavaMailSenderImpl();
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        configureMailSender(javaMailSender);
+        return javaMailSender;
+    }
+
+    private void configureMailSender(JavaMailSenderImpl javaMailSender) {
         javaMailSender.setHost(mailProperties.host());
         javaMailSender.setUsername(mailProperties.email());
         javaMailSender.setPassword(mailProperties.password());
         javaMailSender.setPort(mailProperties.port());
         javaMailSender.setJavaMailProperties(getMailProperties());
         javaMailSender.setDefaultEncoding(UTF_8);
-
-        return javaMailSender;
     }
 
     private Properties getMailProperties() {
-        var properties = new Properties();
-        properties.put("mail.smtp.socketFactory.port", mailProperties.port());
-        properties.put("mail.smtp.auth", mailProperties.auth());
-        properties.put("mail.smtp.starttls.enable", mailProperties.starttlsEnable());
-        properties.put("mail.smtp.starttls.required", mailProperties.starttlsRequired());
-        properties.put("mail.smtp.socketFactory.fallback", mailProperties.socketFactoryFallback());
-        properties.put("mail.smtp.socketFactory.class", mailProperties.socketFactoryClass());
-        properties.put("mail.smtp.ssl.checkserveridentity", "true");
-
+        Properties properties = new Properties();
+        properties.put(MAIL_SMTP_PREFIX + "socketFactory.port", mailProperties.port());
+        properties.put(MAIL_SMTP_PREFIX + "auth", mailProperties.auth());
+        properties.put(MAIL_SMTP_PREFIX + "starttls.enable", mailProperties.starttlsEnable());
+        properties.put(MAIL_SMTP_PREFIX + "starttls.required", mailProperties.starttlsRequired());
+        properties.put(MAIL_SMTP_PREFIX + "socketFactory.fallback", mailProperties.socketFactoryFallback());
+        properties.put(MAIL_SMTP_PREFIX + "socketFactory.class", mailProperties.socketFactoryClass());
+        properties.put(MAIL_SMTP_PREFIX + "ssl.checkserveridentity", "true");
         return properties;
     }
 
-    private final MailSenderProperties mailProperties;
+    private static final String MAIL_SMTP_PREFIX = "mail.smtp.";
     private static final String UTF_8 = "UTF-8";
+
+    private final MailSenderProperties mailProperties;
 }
