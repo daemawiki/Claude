@@ -3,7 +3,7 @@ package com.daemawiki.daemawiki.global.error;
 import com.daemawiki.daemawiki.global.error.exception.CustomException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import java.time.LocalDateTime;
 
@@ -21,12 +21,12 @@ public record ErrorResponse(
         return new ErrorResponse(error.getStatus(), error.getMessage(), error.getViewMessage(), LocalDateTime.now(), path, exception, error.getDetail());
     }
 
-    public static ResponseEntity<ErrorResponse> of(CustomException e) {
+    public static ResponseEntity<ErrorResponse> of(CustomException e, ServerHttpRequest request) {
         var error = e.getError();
         return ResponseEntity.status(error.getStatus())
                 .body(of(
                         error,
-                        "path", // TODO: 6/28/24 ServerRequest 대안 필요. 
+                        request.getPath().toString(),
                         e.getClass().getSimpleName()
                 ));
     }
