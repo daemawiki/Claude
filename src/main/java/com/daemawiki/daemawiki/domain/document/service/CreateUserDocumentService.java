@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.domain.document.service;
 
-import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.DefaultDocumentEntityFactory;
+import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.domain.document.usecase.CreateUserDocumentUseCase;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -29,7 +29,7 @@ public class CreateUserDocumentService implements CreateUserDocumentUseCase {
     }
 
     private DocumentEntity createDocumentEntity(UserEntity user) {
-        return DefaultDocumentEntityFactory.createStudentDocument(user);
+        return DefaultDocumentEntityFactory.createDefault(user);
     }
 
     private final DocumentRepository documentRepository;
