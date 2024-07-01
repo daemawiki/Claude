@@ -10,4 +10,5 @@ public interface Tokenizer {
     Mono<Tuple2<String, LocalDateTime>> createToken(String user);
     Mono<Authentication> getAuthentication(String token);
     Mono<Tuple2<String, LocalDateTime>> reissue(String token);
+    String extractToken(String bearerToken);
 }

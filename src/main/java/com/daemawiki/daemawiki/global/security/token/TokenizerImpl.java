@@ -23,9 +23,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class TokenizerImpl implements Tokenizer {
-    private final SecurityProperties securityProperties;
-    private final UserRepository userRepository;
-
     @Override
     public Mono<Tuple2<String, LocalDateTime>> createToken(String user) {
         return Mono.just(tokenize(user));
@@ -39,12 +36,23 @@ public class TokenizerImpl implements Tokenizer {
 
     @Override
     public Mono<Tuple2<String, LocalDateTime>> reissue(String token) {
-        return parseClaims(token)
+        return parseClaims(extractToken(token))
                 .filter(this::validateIssuer)
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 잘못 된 토큰
                 .map(claims -> tokenize(claims.getSubject())) // 아직 유효할 때
                 .onErrorResume(ExpiredJwtException.class, this::handleExpiredToken)
-                .onErrorMap(e -> new RuntimeException("Token reissue failed", e));
+                .onErrorMap(e -> new RuntimeException());
+    }
+
+    private static final String TOKEN_PREFIX = "Bearer ";
+
+    @Override
+    public String extractToken(String bearerToken) {
+        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
+            return bearerToken.substring(7);
+        }
+
+        return null;
     }
 
     private Mono<Authentication> createAuthenticatedUserBySubject(String subject) {
@@ -110,4 +118,7 @@ public class TokenizerImpl implements Tokenizer {
         cal.add(Calendar.HOUR_OF_DAY, hours);
         return cal.getTime();
     }
+
+    private final SecurityProperties securityProperties;
+    private final UserRepository userRepository;
 }
