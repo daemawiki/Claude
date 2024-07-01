@@ -2,8 +2,10 @@ package com.daemawiki.daemawiki.global.error;
 
 import com.daemawiki.daemawiki.global.error.exception.CustomException;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.server.ServerWebExchange;
 
 import java.time.LocalDateTime;
 
@@ -15,19 +17,34 @@ public record ErrorResponse(
         LocalDateTime timestamp,
         String path,
         String exception,
-        String detail
+        String detail,
+        String cause
 ) {
-    private static ErrorResponse of(Error error, String path, String exception) {
-        return new ErrorResponse(error.getStatus(), error.getMessage(), error.getViewMessage(), LocalDateTime.now(), path, exception, error.getDetail());
-    }
-
-    public static ResponseEntity<ErrorResponse> of(CustomException e, ServerHttpRequest request) {
+    public static ResponseEntity<ErrorResponse> ofCustomException(CustomException e, ServerHttpRequest request) {
         var error = e.getError();
         return ResponseEntity.status(error.getStatus())
-                .body(of(
-                        error,
+                .body(new ErrorResponse(
+                        error.getStatus(),
+                        error.getMessage(),
+                        error.getViewMessage(),
+                        LocalDateTime.now(),
                         request.getPath().toString(),
-                        e.getClass().getSimpleName()
+                        e.getClass().getSimpleName(),
+                        error.getDetail(),
+                        e.getCause() != null ? e.getCause().toString() : "Not yet."
                 ));
+    }
+
+    public static ErrorResponse ofSecurityError(HttpStatus status, String message, String viewMessage, ServerWebExchange exchange, Exception e) {
+        return new ErrorResponse(
+                status.value(),
+                message,
+                viewMessage,
+                LocalDateTime.now(),
+                exchange.getRequest().getPath().toString(),
+                e.getClass().getSimpleName(),
+                e.getMessage(),
+                e.getCause() != null? e.getCause().toString() : "Not yet."
+        );
     }
 }

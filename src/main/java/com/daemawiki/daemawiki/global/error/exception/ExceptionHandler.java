@@ -11,7 +11,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(CustomException.class)
     public Mono<ResponseEntity<ErrorResponse>> handleCustomException(CustomException e, ServerHttpRequest request) {
         return Mono.just(
-                ErrorResponse.of(e, request)
+                ErrorResponse.ofCustomException(e, request)
         );
     }
 }
