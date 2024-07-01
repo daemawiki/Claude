@@ -13,6 +13,10 @@ public class DefaultDocumentEntityFactory {
     private static final String GENERATION_SUFFIX = "기";
     private static final String MAJOR_TITLE = "전공";
 
+    public static DocumentEntity createDefault(UserEntity user) {
+        return createStudentDocument(user);
+    }
+
     public static DocumentEntity createStudentDocument(UserEntity user) {
         return DocumentEntity.createEntity(
                 user.getName(),
