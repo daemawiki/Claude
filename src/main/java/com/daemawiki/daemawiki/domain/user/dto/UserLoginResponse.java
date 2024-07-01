@@ -8,10 +8,10 @@ public record UserLoginResponse(
         String token,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "Asia/Seoul")
         LocalDateTime issuedAt,
-        Long expiresIn,
+        Integer expiresIn,
         UserSimpleModel user
 ) {
-    public static UserLoginResponse of(String token, LocalDateTime issuedAt, Long expiresIn, String id, String name, UserRole role) {
+    public static UserLoginResponse of(String token, LocalDateTime issuedAt, Integer expiresIn, String id, String name, UserRole role) {
         return new UserLoginResponse(
                 token,
                 issuedAt,
