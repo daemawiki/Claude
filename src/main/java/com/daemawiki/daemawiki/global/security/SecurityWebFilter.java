@@ -18,17 +18,21 @@ import reactor.core.publisher.Mono;
 public class SecurityWebFilter implements WebFilter {
     @NonNull
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, @NonNull WebFilterChain chain) {
-        var authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        var token = tokenizer.extractToken(authorization);
+    public Mono<Void> filter(@NonNull ServerWebExchange exchange, @NonNull WebFilterChain chain) {
+        var token = extractToken(exchange);
+        return token.isBlank() ? chain.filter(exchange) : handleAuthentication(exchange, chain, token);
+    }
 
-        if (token != null) {
-            return tokenizer.getAuthentication(token)
-                    .flatMap(auth -> chain.filter(exchange)
-                            .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth)))
-                    .onErrorResume(JwtException.class, e -> handleJwtException(exchange, e));
-        }
-        return chain.filter(exchange);
+    private Mono<Void> handleAuthentication(ServerWebExchange exchange, WebFilterChain chain, String token) {
+        return tokenizer.getAuthentication(token)
+                .flatMap(auth -> chain.filter(exchange)
+                        .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth)))
+                .onErrorResume(JwtException.class, e -> handleJwtException(exchange, e));
+    }
+
+    private String extractToken(ServerWebExchange exchange) {
+        String authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        return tokenizer.extractToken(authorization);
     }
 
     private Mono<Void> handleJwtException(ServerWebExchange exchange, JwtException e) {
@@ -43,17 +47,16 @@ public class SecurityWebFilter implements WebFilter {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
+        var responseBytes = errorResponse.toString().getBytes();
         return exchange.getResponse()
-                .writeWith(
-                        Mono.just(exchange.getResponse()
-                                .bufferFactory()
-                                .wrap(errorResponse.toString().getBytes())
-                        )
+                .writeWith(Mono.just(exchange.getResponse()
+                        .bufferFactory()
+                        .wrap(responseBytes))
                 );
     }
 
-    private static final String HANDLE_MESSAGE = "유효하지 않은 토큰입니다.";
     private static final String HANDLE_VIEW_MESSAGE = "Invalid or expired JWT.";
+    private static final String HANDLE_MESSAGE = "유효하지 않은 토큰입니다.";
 
     private final Tokenizer tokenizer;
 }
