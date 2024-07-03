@@ -1,6 +1,7 @@
 package com.daemawiki.daemawiki.domain.document.model;
 
 import com.daemawiki.daemawiki.domain.document.dto.CreateDocumentRequest;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoDetail;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
@@ -15,8 +16,8 @@ public class DefaultDocumentEntityFactory {
     private static final String GENERATION_SUFFIX = "기";
     private static final String MAJOR_TITLE = "전공";
 
-    public static DocumentEntity createAnyDocument(CreateDocumentRequest request) {
-        return createDocumentEntity(request, null);
+    public static DocumentEntity createAnyDocument(CreateDocumentRequest request, DocumentEditor owner) {
+        return createDocumentEntity(request, null, owner);
     }
 
     public static DocumentEntity createStudentDocument(UserEntity user) {
@@ -37,11 +38,16 @@ public class DefaultDocumentEntityFactory {
                         user.getName(),
                         DocumentType.STUDENT,
                         List.of(generation, major)
-                ), details
+                ), details,
+                DocumentEditor.of(
+                        user.getName(),
+                        user.getEmail(),
+                        user.getId()
+                )
         );
     }
 
-    private static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentInfoDetail> details) {
+    private static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentInfoDetail> details, DocumentEditor owner) {
         return DocumentEntity.createEntity(
                 request.title(),
                 DocumentInfo.of(
@@ -49,7 +55,8 @@ public class DefaultDocumentEntityFactory {
                         details == null ? Collections.emptyList() : details
                 ),
                 request.category(),
-                request.type()
+                request.type(),
+                owner
         );
     }
 }

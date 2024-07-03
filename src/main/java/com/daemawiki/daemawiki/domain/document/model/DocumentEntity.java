@@ -34,6 +34,8 @@ public class DocumentEntity {
 
     private EditDateTime dateTime;
 
+    private DocumentEditor owner;
+
     private List<DocumentEditor> editors;
 
     public void updateContents(List<DocumentContent> contents) {
@@ -52,13 +54,13 @@ public class DocumentEntity {
         this.version++;
     }
 
-    public static DocumentEntity createEntity(String title, DocumentInfo info, List<String> category, DocumentType type) {
-        return new DocumentEntity(title, info, category, type);
+    public static DocumentEntity createEntity(String title, DocumentInfo info, List<String> category, DocumentType type, DocumentEditor owner) {
+        return new DocumentEntity(title, info, category, type, owner);
     }
 
     protected DocumentEntity() {}
 
-    private DocumentEntity(String title, DocumentInfo info, List<String> category, DocumentType type) {
+    private DocumentEntity(String title, DocumentInfo info, List<String> category, DocumentType type, DocumentEditor owner) {
         this.title = title;
         this.info = info;
         this.contents = null;
@@ -67,5 +69,7 @@ public class DocumentEntity {
         this.version = 0L;
         this.type = type;
         this.dateTime = EditDateTime.getNowInstance();
+        this.owner = owner;
+        this.editors = null;
     }
 }
