@@ -17,7 +17,7 @@ public class CreateDocumentService implements CreateDocumentUseCase {
     @Override
     public Mono<Void> create(CreateDocumentRequest request) {
         return currentUser.get()
-                .map(user -> DefaultDocumentEntityFactory.createAnyDocument(request, DocumentEditor.fromUser(user)))
+                .map(user -> DefaultDocumentEntityFactory.createDocumentEntity(request, null, DocumentEditor.fromUser(user)))
                 .flatMap(documentRepository::save)
                 .then();
     }

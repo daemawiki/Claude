@@ -16,15 +16,7 @@ public class DefaultDocumentEntityFactory {
     private static final String GENERATION_SUFFIX = "기";
     private static final String MAJOR_TITLE = "전공";
 
-    public static DocumentEntity createAnyDocument(CreateDocumentRequest request, DocumentEditor owner) {
-        return createDocumentEntity(request, null, owner);
-    }
-
-    public static DocumentEntity createStudentDocument(UserEntity user) {
-        return createStudentDocumentEntity(user);
-    }
-
-    private static DocumentEntity createStudentDocumentEntity(UserEntity user) {
+    public static DocumentEntity createStudentDocumentEntity(UserEntity user) {
         var generation = user.getUserInfo().generation() + GENERATION_SUFFIX;
         var major = user.getUserInfo().major();
 
@@ -43,7 +35,7 @@ public class DefaultDocumentEntityFactory {
         );
     }
 
-    private static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentInfoDetail> details, DocumentEditor owner) {
+    public static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentInfoDetail> details, DocumentEditor owner) {
         return DocumentEntity.createEntity(
                 request.title(),
                 DocumentInfo.of(
