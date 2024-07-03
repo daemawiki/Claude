@@ -1,5 +1,7 @@
 package com.daemawiki.daemawiki.domain.document.model;
 
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.global.utils.EditDateTime;
@@ -7,6 +9,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection = "documents")
 @Getter(value = AccessLevel.PUBLIC)
@@ -18,6 +22,10 @@ public class DocumentEntity {
 
     private DocumentInfo info;
 
+    private List<DocumentContent> contents;
+
+    private List<String> category;
+
     private Long view;
 
     private Long version;
@@ -25,6 +33,14 @@ public class DocumentEntity {
     private DocumentType type;
 
     private EditDateTime dateTime;
+
+    private DocumentEditor owner;
+
+    private List<DocumentEditor> editors;
+
+    public void updateContents(List<DocumentContent> contents) {
+        this.contents = contents;
+    }
 
     public void updateTitle(String title) {
         this.title = title;
@@ -38,18 +54,22 @@ public class DocumentEntity {
         this.version++;
     }
 
-    public static DocumentEntity createEntity(String title, DocumentInfo info, DocumentType type) {
-        return new DocumentEntity(title, info, type);
+    public static DocumentEntity createEntity(String title, DocumentInfo info, List<String> category, DocumentType type, DocumentEditor owner) {
+        return new DocumentEntity(title, info, category, type, owner);
     }
 
     protected DocumentEntity() {}
 
-    private DocumentEntity(String title, DocumentInfo info, DocumentType type) {
+    private DocumentEntity(String title, DocumentInfo info, List<String> category, DocumentType type, DocumentEditor owner) {
         this.title = title;
         this.info = info;
+        this.contents = null;
+        this.category = category;
         this.view = 0L;
         this.version = 0L;
         this.type = type;
         this.dateTime = EditDateTime.getNowInstance();
+        this.owner = owner;
+        this.editors = null;
     }
 }
