@@ -30,7 +30,8 @@ public class DefaultDocumentEntityFactory {
                         user.getName(),
                         DocumentType.STUDENT,
                         List.of(generation, major)
-                ), details,
+                ),
+                details,
                 DocumentEditor.fromUser(user)
         );
     }
