@@ -48,6 +48,7 @@ public class DefaultDocumentEntityFactory {
                         request.title(),
                         details == null ? Collections.emptyList() : details
                 ),
+                request.category(),
                 request.type()
         );
     }
