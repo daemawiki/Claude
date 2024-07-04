@@ -21,7 +21,7 @@ public class SecurityWebFilter implements WebFilter {
     @Override
     public Mono<Void> filter(@NonNull ServerWebExchange exchange, @NonNull WebFilterChain chain) {
         var token = extractToken(exchange);
-        return token.isBlank() ? chain.filter(exchange) : handleAuthentication(exchange, chain, token);
+        return token == null ? chain.filter(exchange) : handleAuthentication(exchange, chain, token);
     }
 
     private Mono<Void> handleAuthentication(ServerWebExchange exchange, WebFilterChain chain, String token) {
