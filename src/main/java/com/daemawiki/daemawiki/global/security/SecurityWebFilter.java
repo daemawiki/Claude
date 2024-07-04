@@ -32,7 +32,7 @@ public class SecurityWebFilter implements WebFilter {
 
     private String extractToken(ServerWebExchange exchange) {
         String authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        return tokenizer.extractToken(authorization);
+        return tokenizer.removePrefix(authorization);
     }
 
     private Mono<Void> handleJwtException(ServerWebExchange exchange, JwtException e) {
