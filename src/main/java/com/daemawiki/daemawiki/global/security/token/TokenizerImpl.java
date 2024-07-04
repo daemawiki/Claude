@@ -20,7 +20,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class TokenizerImpl implements Tokenizer {
+public class TokenizerImpl implements Tokenizer, TokenUtils {
     @Override
     public Mono<String> createToken(String user) {
         return Mono.just(tokenize(user));
