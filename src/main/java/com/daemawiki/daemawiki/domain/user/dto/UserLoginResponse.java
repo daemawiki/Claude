@@ -6,22 +6,16 @@ import java.time.LocalDateTime;
 
 public record UserLoginResponse(
         String token,
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "Asia/Seoul")
-        LocalDateTime issuedAt,
-        Integer expiresIn,
         UserSimpleModel user
 ) {
-    public static UserLoginResponse of(String token, LocalDateTime issuedAt, Integer expiresIn, String id, String name, UserRole role) {
+    public static UserLoginResponse of(String token, String name, UserRole role) {
         return new UserLoginResponse(
                 token,
-                issuedAt,
-                expiresIn,
-                new UserSimpleModel(id, name, role)
+                new UserSimpleModel(name, role)
         );
     }
 
     record UserSimpleModel(
-            String id,
             String name,
             UserRole role
     ) {}

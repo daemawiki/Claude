@@ -1,6 +1,7 @@
 package com.daemawiki.daemawiki.global.security;
 
 import com.daemawiki.daemawiki.global.error.ErrorResponse;
+import com.daemawiki.daemawiki.global.security.token.TokenUtils;
 import com.daemawiki.daemawiki.global.security.token.Tokenizer;
 import io.jsonwebtoken.JwtException;
 import lombok.NonNull;
@@ -20,11 +21,11 @@ public class SecurityWebFilter implements WebFilter {
     @Override
     public Mono<Void> filter(@NonNull ServerWebExchange exchange, @NonNull WebFilterChain chain) {
         var token = extractToken(exchange);
-        return token.isBlank() ? chain.filter(exchange) : handleAuthentication(exchange, chain, token);
+        return token == null ? chain.filter(exchange) : handleAuthentication(exchange, chain, token);
     }
 
     private Mono<Void> handleAuthentication(ServerWebExchange exchange, WebFilterChain chain, String token) {
-        return tokenizer.getAuthentication(token)
+        return tokenUtils.getAuthentication(token)
                 .flatMap(auth -> chain.filter(exchange)
                         .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth)))
                 .onErrorResume(JwtException.class, e -> handleJwtException(exchange, e));
@@ -32,7 +33,7 @@ public class SecurityWebFilter implements WebFilter {
 
     private String extractToken(ServerWebExchange exchange) {
         String authorization = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        return tokenizer.extractToken(authorization);
+        return tokenUtils.removePrefix(authorization);
     }
 
     private Mono<Void> handleJwtException(ServerWebExchange exchange, JwtException e) {
@@ -58,5 +59,5 @@ public class SecurityWebFilter implements WebFilter {
     private static final String HANDLE_VIEW_MESSAGE = "Invalid or expired JWT.";
     private static final String HANDLE_MESSAGE = "유효하지 않은 토큰입니다.";
 
-    private final Tokenizer tokenizer;
+    private final TokenUtils tokenUtils;
 }

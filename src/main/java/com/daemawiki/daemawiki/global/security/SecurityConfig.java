@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.global.security;
 
+import com.daemawiki.daemawiki.global.security.token.TokenUtils;
 import com.daemawiki.daemawiki.global.security.token.Tokenizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +26,9 @@ public class SecurityConfig {
                 .authorizeExchange(authorizeExchange -> authorizeExchange
                         .pathMatchers("/api/auth/**").permitAll()
                         .anyExchange().authenticated())
-                .addFilterBefore(new SecurityWebFilter(tokenizer), SecurityWebFiltersOrder.HTTP_BASIC)
+                .addFilterBefore(new SecurityWebFilter(tokenUtils), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();
     }
 
-    private final Tokenizer tokenizer;
+    private final TokenUtils tokenUtils;
 }

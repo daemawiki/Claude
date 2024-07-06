@@ -11,8 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
-import reactor.util.function.Tuples;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -22,9 +20,9 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class TokenizerImpl implements Tokenizer {
+public class TokenizerImpl implements Tokenizer, TokenUtils {
     @Override
-    public Mono<Tuple2<String, LocalDateTime>> createToken(String user) {
+    public Mono<String> createToken(String user) {
         return Mono.just(tokenize(user));
     }
 
@@ -35,8 +33,8 @@ public class TokenizerImpl implements Tokenizer {
     }
 
     @Override
-    public Mono<Tuple2<String, LocalDateTime>> reissue(String token) {
-        return parseClaims(extractToken(token))
+    public Mono<String> reissue(String token) {
+        return parseClaims(removePrefix(token))
                 .filter(this::validateIssuer)
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 잘못 된 토큰
                 .map(claims -> tokenize(claims.getSubject())) // 아직 유효할 때
@@ -47,7 +45,7 @@ public class TokenizerImpl implements Tokenizer {
     private static final String TOKEN_PREFIX = "Bearer ";
 
     @Override
-    public String extractToken(String bearerToken) {
+    public String removePrefix(String bearerToken) {
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
             return bearerToken.substring(7);
         }
@@ -84,12 +82,12 @@ public class TokenizerImpl implements Tokenizer {
                 .equals(claims.getIssuer());
     }
 
-    private Tuple2<String, LocalDateTime> tokenize(String user) {
+    private String tokenize(String user) {
         var now = LocalDateTime.now();
         var nowDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
         var expirationDate = Date.from(now.plusHours(securityProperties.expiration()).atZone(ZoneId.systemDefault()).toInstant());
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(user)
                 .setIssuer(securityProperties.issuer())
                 .setIssuedAt(nowDate)
@@ -97,11 +95,9 @@ public class TokenizerImpl implements Tokenizer {
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS256, securityProperties.secret())
                 .compact();
-
-        return Tuples.of(token, now);
     }
 
-    private Mono<Tuple2<String, LocalDateTime>> handleExpiredToken(ExpiredJwtException e) {
+    private Mono<String> handleExpiredToken(ExpiredJwtException e) {
         var user = e.getClaims().getSubject();
         var expiration = e.getClaims().getExpiration();
         var now = new Date();
