@@ -2,7 +2,6 @@ package com.daemawiki.daemawiki.global.infra.interceptor.request.impl;
 
 import com.daemawiki.daemawiki.global.infra.interceptor.request.RequestInterceptor;
 import com.daemawiki.daemawiki.global.infra.interceptor.request.RequestInterceptorRunner;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -26,14 +25,14 @@ public class RequestInterceptorRunnerImpl implements RequestInterceptorRunner {
 
         return Flux.fromIterable(requestInterceptors)
                 .filterWhen(it -> it.supports(exchange))
-                .flatMap(it -> it.interceptRequest(exchange))
+                .flatMap(it -> it.intercept(exchange))
                 .then();
     }
 
     private void init() {
         if (requestInterceptors == null) {
-            requestInterceptors =
-                    applicationContext.getBeansOfType(RequestInterceptor.class).values().stream().toList();
+            requestInterceptors = applicationContext.getBeansOfType(RequestInterceptor.class)
+                    .values().stream().toList();
         }
     }
 }

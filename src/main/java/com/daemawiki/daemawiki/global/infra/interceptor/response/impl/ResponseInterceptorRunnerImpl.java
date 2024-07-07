@@ -25,14 +25,14 @@ public class ResponseInterceptorRunnerImpl implements ResponseInterceptorRunner 
 
         return Flux.fromIterable(responseInterceptors)
                 .filterWhen(it -> it.supports(exchange))
-                .flatMap(it -> it.interceptResponse(exchange))
+                .flatMap(it -> it.intercept(exchange))
                 .then();
     }
 
     private void init() {
         if (responseInterceptors == null) {
-            responseInterceptors =
-                    applicationContext.getBeansOfType(ResponseInterceptor.class).values().stream().toList();
+            responseInterceptors = applicationContext.getBeansOfType(ResponseInterceptor.class)
+                    .values().stream().toList();
         }
     }
 }

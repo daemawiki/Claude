@@ -27,5 +27,5 @@ public interface RequestInterceptor {
      * @param exchange 요청, 응답 객체
      * @return 진행 가능 여부
      */
-    Mono<Boolean> interceptRequest(ServerWebExchange exchange);
+    Mono<Boolean> intercept(ServerWebExchange exchange);
 }
