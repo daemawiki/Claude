@@ -20,6 +20,7 @@ public interface RequestInterceptor extends WebInterceptor {
      * @param exchange 요청, 응답 객체
      * @return 사용 가능 여부
      */
+    @Override
     Mono<Boolean> supports(ServerWebExchange exchange);
 
     /**
@@ -28,5 +29,6 @@ public interface RequestInterceptor extends WebInterceptor {
      * @param exchange 요청, 응답 객체
      * @return 진행 가능 여부
      */
+    @Override
     Mono<Boolean> intercept(ServerWebExchange exchange);
 }

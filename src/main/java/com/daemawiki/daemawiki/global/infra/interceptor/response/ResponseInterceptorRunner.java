@@ -6,5 +6,6 @@ import reactor.core.publisher.Mono;
 
 public interface ResponseInterceptorRunner extends WebInterceptorRunner {
 
+    @Override
     Mono<Void> run(ServerWebExchange exchange);
 }
