@@ -5,5 +5,7 @@ import reactor.core.publisher.Mono;
 
 public interface RequestInterceptorRunner {
 
-    Mono<Void> run(ServerWebExchange exchange);
+    Mono<Void> runRequest(ServerWebExchange exchange);
+
+    Mono<Void> runResponse(ServerWebExchange exchange);
 }
