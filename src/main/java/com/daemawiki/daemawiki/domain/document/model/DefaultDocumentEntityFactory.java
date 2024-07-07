@@ -2,7 +2,7 @@ package com.daemawiki.daemawiki.domain.document.model;
 
 import com.daemawiki.daemawiki.domain.document.dto.CreateDocumentRequest;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoVO;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoDetail;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -39,7 +39,7 @@ public class DefaultDocumentEntityFactory {
     public static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentInfoDetail> details, DocumentEditor owner) {
         return DocumentEntity.createEntity(
                 request.title(),
-                DocumentInfo.of(
+                DocumentInfoVO.of(
                         request.title(),
                         details == null ? Collections.emptyList() : details
                 ),
