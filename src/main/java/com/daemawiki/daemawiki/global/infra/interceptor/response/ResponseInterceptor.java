@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.global.infra.interceptor.response;
 
+import com.daemawiki.daemawiki.global.infra.interceptor.WebInterceptor;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -11,7 +12,7 @@ import reactor.core.publisher.Mono;
  * @author Daybreak312
  * @since 07-07-2024
  */
-public interface ResponseInterceptor {
+public interface ResponseInterceptor extends WebInterceptor {
 
     /**
      * 해당 응답에 대한 사용 가능 여부
