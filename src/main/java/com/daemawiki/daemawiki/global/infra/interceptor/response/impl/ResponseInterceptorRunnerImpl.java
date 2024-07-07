@@ -21,15 +21,18 @@ public class ResponseInterceptorRunnerImpl implements ResponseInterceptorRunner 
 
     @Override
     public Mono<Void> run(ServerWebExchange exchange) {
+        init();
+
+        return Flux.fromIterable(responseInterceptors)
+                .filterWhen(it -> it.supports(exchange))
+                .flatMap(it -> it.interceptResponse(exchange))
+                .then();
+    }
+
+    private void init() {
         if (responseInterceptors == null) {
             responseInterceptors =
                     applicationContext.getBeansOfType(ResponseInterceptor.class).values().stream().toList();
         }
-
-        return Flux.fromIterable(responseInterceptors)
-                .map(it -> it.supports(exchange)
-                        .filter(isSupport -> isSupport.equals(Boolean.TRUE))
-                        .then(it.interceptResponse(exchange)))
-                .then();
     }
 }
