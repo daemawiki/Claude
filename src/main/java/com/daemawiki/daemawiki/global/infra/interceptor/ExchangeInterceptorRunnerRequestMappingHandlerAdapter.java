@@ -1,5 +1,7 @@
 package com.daemawiki.daemawiki.global.infra.interceptor;
 
+import com.daemawiki.daemawiki.global.infra.interceptor.request.RequestInterceptorRunner;
+import com.daemawiki.daemawiki.global.infra.interceptor.response.ResponseInterceptorRunner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.HandlerResult;
@@ -9,14 +11,16 @@ import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
-class RequestInterceptorRunnerRequestMappingHandlerAdapter extends RequestMappingHandlerAdapter {
+public class ExchangeInterceptorRunnerRequestMappingHandlerAdapter extends RequestMappingHandlerAdapter {
 
     private final RequestInterceptorRunner requestInterceptorRunner;
 
+    private final ResponseInterceptorRunner responseInterceptorRunner;
+
     @Override
     public Mono<HandlerResult> handle(ServerWebExchange exchange, Object handler) {
-        return requestInterceptorRunner.runRequest(exchange)
+        return requestInterceptorRunner.run(exchange)
                 .then(super.handle(exchange, handler))
-                .doOnNext(it -> requestInterceptorRunner.runResponse(exchange));
+                .doOnNext(it -> responseInterceptorRunner.run(exchange));
     }
 }
