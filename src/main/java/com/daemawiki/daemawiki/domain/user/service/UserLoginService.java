@@ -28,7 +28,8 @@ public class UserLoginService implements UserLoginUseCase {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return Mono.error(new RuntimeException());
         }
-        return tokenizer.createToken(user.getEmail()).map(token -> Tuples.of(user, token));
+        return tokenizer.createToken(user.getEmail())
+                .map(token -> Tuples.of(user, token));
     }
 
     private UserLoginResponse createLoginResponse(Tuple2<UserEntity, String> userAndToken) {

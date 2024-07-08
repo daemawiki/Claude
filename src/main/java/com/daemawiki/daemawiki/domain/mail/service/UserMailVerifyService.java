@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.domain.mail.service;
 
+import com.daemawiki.daemawiki.domain.mail.auth_code.model.AuthCodeModel;
 import com.daemawiki.daemawiki.domain.mail.auth_code.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.domain.mail.auth_user.repository.AuthUserRepository;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailVerifyUseCase;
@@ -14,13 +15,17 @@ public class UserMailVerifyService implements UserMailVerifyUseCase {
     public Mono<Void> verify(String target, String code) {
         return authCodeRepository.findByMail(target)
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 인증 내역 존재 x
-                .flatMap(model -> {
-                    if (!model.code().equals(code)) {
-                        return Mono.error(new RuntimeException()); // 인증 실패
-                    }
-                    return authUserRepository.save(model.email());
-                })
-                .then();
+                .filter(model -> isEquals(code, model))
+                .switchIfEmpty(Mono.error(new RuntimeException())) // 인증 실패
+                .flatMap(this::saveAuthenticationUser);
+    }
+
+    private static boolean isEquals(String code, AuthCodeModel model) {
+        return model.code().equals(code);
+    }
+
+    private Mono<Void> saveAuthenticationUser(AuthCodeModel model) {
+        return authUserRepository.save(model.email()).then();
     }
 
     private final AuthCodeRepository authCodeRepository;

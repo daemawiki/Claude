@@ -23,9 +23,8 @@ public class CreateUserDocumentService implements CreateUserDocumentUseCase {
     }
 
     private Mono<String> createDocumentAndGetId(UserEntity user) {
-        return documentRepository.save(
-                createDocumentEntity(user)
-        ).map(DocumentEntity::getId);
+        return documentRepository.save(createDocumentEntity(user))
+                .map(DocumentEntity::getId);
     }
 
     private DocumentEntity createDocumentEntity(UserEntity user) {

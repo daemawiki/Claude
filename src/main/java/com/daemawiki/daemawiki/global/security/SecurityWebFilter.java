@@ -6,6 +6,7 @@ import com.daemawiki.daemawiki.global.security.token.Tokenizer;
 import io.jsonwebtoken.JwtException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,10 +51,13 @@ public class SecurityWebFilter implements WebFilter {
 
         var responseBytes = errorResponse.toString().getBytes();
         return exchange.getResponse()
-                .writeWith(Mono.just(exchange.getResponse()
-                        .bufferFactory()
-                        .wrap(responseBytes))
-                );
+                .writeWith(wrapResponseToDataBuffer(exchange, responseBytes));
+    }
+
+    private static Mono<DataBuffer> wrapResponseToDataBuffer(ServerWebExchange exchange, byte[] responseBytes) {
+        return Mono.just(exchange.getResponse()
+                .bufferFactory()
+                .wrap(responseBytes));
     }
 
     private static final String HANDLE_VIEW_MESSAGE = "Invalid or expired JWT.";

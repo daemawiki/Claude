@@ -17,23 +17,30 @@ import reactor.core.publisher.Mono;
 public class UserRegisterService implements UserRegisterUseCase {
     @Override
     public Mono<Void> register(UserRegisterRequest request) {
-        return userRepository.existsByEmail(request.email())
-                .zipWith(authUserRepository.existsByEmail(request.email()))
-                .flatMap(tuple -> {
-                    boolean emailExists = tuple.getT1();
-                    boolean isAuthenticated = tuple.getT2();
+        return Mono.when(
+                validateEmailExists(request.email()),
+                validateEmailAuthentication(request.email())
+        )
+        .then(createUserDocumentUseCase.create(createUserEntity(request)));
+    }
 
-                    if (emailExists) { // 이메일이 이미 사용 중일 때
-                        return Mono.error(new RuntimeException("Email already in use."));
-                    }
-                    if (!isAuthenticated) { // 이메일 인증이 안됐을 때
-                        return Mono.error(new RuntimeException("Email is not authenticated."));
-                    }
+    private Mono<Void> validateEmailExists(String email) {
+        return Mono.just(email)
+                .filterWhen(this::existsUserEmail)
+                .switchIfEmpty(Mono.error(new RuntimeException()))
+                .then();
+    }
 
-                    return createUserDocumentUseCase.create(
-                            createUserEntity(request)
-                    );
-                });
+    private Mono<Boolean> existsUserEmail(String e) {
+        return userRepository.existsByEmail(e)
+                .map(exists -> !exists);
+    }
+
+    private Mono<Void> validateEmailAuthentication(String email) {
+        return Mono.just(email)
+                .filterWhen(authUserRepository::existsByEmail)
+                .switchIfEmpty(Mono.error(new RuntimeException()))
+                .then();
     }
 
     private UserEntity createUserEntity(UserRegisterRequest request) {
