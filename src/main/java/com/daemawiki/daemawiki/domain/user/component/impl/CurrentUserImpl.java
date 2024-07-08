@@ -19,7 +19,8 @@ public class CurrentUserImpl implements CurrentUser {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
-                .flatMap(userRepository::findByEmail);
+                .flatMap(userRepository::findByEmail)
+                .switchIfEmpty(Mono.error(new RuntimeException()));
     }
 
     private final UserRepository userRepository;

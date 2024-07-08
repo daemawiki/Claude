@@ -24,22 +24,28 @@ import java.util.Base64;
 @Slf4j(topic = "유저 메일 전송 서비스")
 public class UserMailSendService implements UserMailSendUseCase {
     @Override
-    public Mono<Void> send(String to, String type) {
+    public Mono<Void> send(String to, MailType type) {
         return userRepository.findByEmail(to)
-                .flatMap(user -> MailType.REGISTER.name().equals(type.toUpperCase())
+                .flatMap(user -> MailType.REGISTER.equals(type)
                         ? Mono.error(new RuntimeException()) // 이메일이 이미 사용 중일 때
                         : Mono.empty())
-                .then(Mono.defer(() -> saveAuthCode(AuthCodeModel.of(to, getRandomCode()))
-                        .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
-                        .flatMap(authCodeModel -> {
-                            sendMail(authCodeModel)
-                                    .subscribeOn(Schedulers.boundedElastic())
-                                    .subscribe();
-                            return Mono.empty();
-                        })));
+                .then(Mono.defer(() -> processSendMail(to)));
     }
 
-    private static final String MAIL_TITLE = "DSM 메일 인증";
+    private Mono<Void> processSendMail(String to) {
+        return saveAuthCode(AuthCodeModel.of(to, getRandomCode()))
+                .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
+                .flatMap(authCodeModel -> {
+                    sendMailInBackground(authCodeModel);
+                    return Mono.empty();
+                });
+    }
+
+    private void sendMailInBackground(AuthCodeModel authCodeModel) {
+        sendMail(authCodeModel)
+                .subscribeOn(Schedulers.boundedElastic())
+                .subscribe();
+    }
 
     private Mono<Void> sendMail(AuthCodeModel authCodeModel) {
         return Mono.fromCallable(() -> {
@@ -85,6 +91,8 @@ public class UserMailSendService implements UserMailSendUseCase {
                 .withoutPadding()
                 .encodeToString(randomBytes);
     }
+
+    private static final String MAIL_TITLE = "DSM 메일 인증";
 
     private final MailSenderProperties mailSenderProperties;
     private final AuthCodeRepository authCodeRepository;
