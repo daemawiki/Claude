@@ -11,5 +11,15 @@ public abstract class DocumentAbstractRepository implements DocumentRepository {
         return documentMongoRepository.save(entity);
     }
 
+    @Override
+    public Mono<DocumentEntity> findById(String id) {
+        return documentMongoRepository.findById(id);
+    }
+
+    @Override
+    public Mono<String> getRandom() {
+        return documentMongoRepository.getRandomDocumentId();
+    }
+
     private final DocumentMongoRepository documentMongoRepository;
 }
