@@ -43,8 +43,6 @@ public class DocumentEntity {
 
     public boolean canEdit(UserEntity user) {
         var editor = DocumentEditor.fromUser(user);
-        System.out.println((editors.contains(editor) || isOwner(editor))
-                && (!UserRole.DSM_MOP.equals(user.getRole())));
         return (editors.contains(editor) || isOwner(editor))
                 && (!UserRole.DSM_MOP.equals(user.getRole()));
     }
