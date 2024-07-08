@@ -17,7 +17,7 @@ public abstract class DocumentAbstractRepository implements DocumentRepository {
     }
 
     @Override
-    public Mono<String> getRandom() {
+    public Mono<DocumentEntity> getRandom() {
         return documentMongoRepository.getRandomDocumentId();
     }
 

@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.domain.document.service;
 
-import com.daemawiki.daemawiki.domain.document.dto.RandomDocumentResponse;
+import com.daemawiki.daemawiki.domain.document.dto.FullDocumentResponse;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.domain.document.usecase.GetRandomDocumentUseCase;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,9 @@ import reactor.core.publisher.Mono;
 public class GetRandomDocumentService implements GetRandomDocumentUseCase {
 
     @Override
-    public Mono<RandomDocumentResponse> get() {
+    public Mono<FullDocumentResponse> get() {
         return documentRepository.getRandom()
-                .map(RandomDocumentResponse::of);
+                .map(FullDocumentResponse::fromDocumentEntity);
     }
 
     private final DocumentRepository documentRepository;
