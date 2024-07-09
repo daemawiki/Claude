@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 
 public interface DocumentMongoRepository extends ReactiveMongoRepository<DocumentEntity, String> {
     @Aggregation("{ '$sample': { 'size': 1 } }")
-    Mono<DocumentEntity> getRandomDocumentId();
+    Mono<DocumentEntity> getRandomDocument();
 }
