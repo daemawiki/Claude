@@ -14,7 +14,7 @@ public class GetRandomDocumentService implements GetRandomDocumentUseCase {
     @Override
     public Mono<FullDocumentResponse> get() {
         return documentRepository.getRandom()
-                .map(FullDocumentResponse::fromDocumentEntity);
+                .map(FullDocumentResponse::fromDocumentEntityWithId);
     }
 
     private final DocumentRepository documentRepository;
