@@ -21,6 +21,9 @@ public class ExchangeInterceptorRunnerRequestMappingHandlerAdapter extends Reque
     public Mono<HandlerResult> handle(ServerWebExchange exchange, Object handler) {
         return requestInterceptorRunner.run(exchange)
                 .then(super.handle(exchange, handler))
-                .doOnNext(it -> responseInterceptorRunner.run(exchange));
+                .flatMap(it -> {
+                    responseInterceptorRunner.run(exchange);
+                    return Mono.just(it);
+                });
     }
 }
