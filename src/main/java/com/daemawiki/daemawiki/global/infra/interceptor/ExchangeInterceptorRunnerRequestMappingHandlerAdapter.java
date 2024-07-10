@@ -34,6 +34,6 @@ public class ExchangeInterceptorRunnerRequestMappingHandlerAdapter extends Reque
         return requestInterceptorRunner.run(exchange)
                 .then(super.handle(exchange, handler))
                 .flatMap(it -> responseInterceptorRunner.run(exchange)
-                        .then(Mono.just(it)));
+                        .thenReturn(it));
     }
 }
