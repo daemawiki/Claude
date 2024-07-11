@@ -19,25 +19,9 @@ public record FullDocumentResponse(
         DocumentType type,
         EditDateTime dateTime
 ) {
-    FullDocumentResponse(String title, DocumentInfoVO info, List<DocumentContent> contents, List<String> category, Long view, Long version, DocumentType type, EditDateTime dateTime) {
-        this(null, title, info, contents, category, view, version, type, dateTime);
-    }
-    public static FullDocumentResponse fromDocumentEntityWithId(DocumentEntity entity) {
+    public static FullDocumentResponse fromDocumentEntity(DocumentEntity entity) {
         return new FullDocumentResponse(
                 entity.getId(),
-                entity.getTitle(),
-                entity.getInfo(),
-                entity.getContents(),
-                entity.getCategory(),
-                entity.getView(),
-                entity.getVersion(),
-                entity.getType(),
-                entity.getDateTime()
-        );
-    }
-
-    public static FullDocumentResponse fromDocumentEntityWithoutId(DocumentEntity entity) {
-        return new FullDocumentResponse(
                 entity.getTitle(),
                 entity.getInfo(),
                 entity.getContents(),
