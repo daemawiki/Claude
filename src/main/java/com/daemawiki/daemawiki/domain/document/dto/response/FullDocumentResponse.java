@@ -1,8 +1,8 @@
-package com.daemawiki.daemawiki.domain.document.dto;
+package com.daemawiki.daemawiki.domain.document.dto.response;
 
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoVO;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.global.utils.EditDateTime;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public record FullDocumentResponse(
         String id,
         String title,
-        DocumentInfoVO info,
+        DocumentInfo info,
         List<DocumentContent> contents,
         List<String> category,
         Long view,

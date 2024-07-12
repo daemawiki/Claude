@@ -2,7 +2,7 @@ package com.daemawiki.daemawiki.domain.document.model;
 
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoVO;
+import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
@@ -23,7 +23,7 @@ public class DocumentEntity {
 
     private String title;
 
-    private DocumentInfoVO info;
+    private DocumentInfo info;
 
     private List<DocumentContent> contents;
 
@@ -48,7 +48,7 @@ public class DocumentEntity {
     }
 
     public boolean isOwner(DocumentEditor editor) {
-        return owner == editor;
+        return owner.equals(editor);
     }
 
     public void updateDocumentInfo(DocumentInfoVO info) {
@@ -71,13 +71,13 @@ public class DocumentEntity {
         this.version++;
     }
 
-    public static DocumentEntity createEntity(String title, DocumentInfoVO info, List<String> category, DocumentType type, DocumentEditor owner) {
+    public static DocumentEntity createEntity(String title, DocumentInfo info, List<String> category, DocumentType type, DocumentEditor owner) {
         return new DocumentEntity(title, info, category, type, owner);
     }
 
     protected DocumentEntity() {}
 
-    private DocumentEntity(String title, DocumentInfoVO info, List<String> category, DocumentType type, DocumentEditor owner) {
+    private DocumentEntity(String title, DocumentInfo info, List<String> category, DocumentType type, DocumentEditor owner) {
         this.title = title;
         this.info = info;
         this.contents = Collections.emptyList();
