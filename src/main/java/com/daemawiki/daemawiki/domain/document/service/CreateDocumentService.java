@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.domain.document.service;
 
-import com.daemawiki.daemawiki.domain.document.dto.CreateDocumentRequest;
+import com.daemawiki.daemawiki.domain.document.dto.request.CreateDocumentRequest;
 import com.daemawiki.daemawiki.domain.document.model.DefaultDocumentEntityFactory;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;

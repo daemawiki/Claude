@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.domain.document.dto;
+package com.daemawiki.daemawiki.domain.document.dto.request;
 
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 

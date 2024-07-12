@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.domain.document.service;
 
-import com.daemawiki.daemawiki.domain.document.dto.FullDocumentResponse;
+import com.daemawiki.daemawiki.domain.document.dto.response.FullDocumentResponse;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.domain.document.usecase.GetRandomDocumentUseCase;
 import lombok.RequiredArgsConstructor;

@@ -2,15 +2,13 @@ package com.daemawiki.daemawiki.domain.user.repository;
 
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.global.utils.mongo.MongoQueryUtils;
-import com.daemawiki.daemawiki.global.utils.PagingInfo;
+import com.daemawiki.daemawiki.global.utils.paging.PagingInfo;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
-
-import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl extends UserAbstractRepository {
@@ -35,7 +33,7 @@ public class UserRepositoryImpl extends UserAbstractRepository {
 
         if (pagingInfo.sortBy() != null) {
             Sort.Direction direction = pagingInfo.sortDirection() == 1 ? Sort.Direction.ASC : Sort.Direction.DESC;
-            query.with(Sort.by(direction, pagingInfo.sortBy()));
+            query.with(Sort.by(direction, pagingInfo.sortBy().getPath()));
         }
 
         return query;
