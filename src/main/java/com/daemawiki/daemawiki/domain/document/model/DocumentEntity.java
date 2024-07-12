@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.domain.document.model;
 
+import com.daemawiki.daemawiki.domain.document.dto.request.UpdateDocumentInfoAndCategoryRequest;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
@@ -51,8 +52,9 @@ public class DocumentEntity {
         return owner.equals(editor);
     }
 
-    public void updateDocumentInfo(DocumentInfoVO info) {
-        this.info = info;
+    public void updateDocumentInfoAndCategory(UpdateDocumentInfoAndCategoryRequest infoAndCatefory) {
+        this.info = infoAndCatefory.info();
+        this.category = infoAndCatefory.category();
     }
 
     public void updateContents(List<DocumentContent> contents) {
