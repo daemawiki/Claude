@@ -2,7 +2,6 @@ package com.daemawiki.daemawiki.domain.document.dto;
 
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoVO;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.global.utils.EditDateTime;
@@ -10,6 +9,7 @@ import com.daemawiki.daemawiki.global.utils.EditDateTime;
 import java.util.List;
 
 public record FullDocumentResponse(
+        String id,
         String title,
         DocumentInfoVO info,
         List<DocumentContent> contents,
@@ -21,6 +21,7 @@ public record FullDocumentResponse(
 ) {
     public static FullDocumentResponse fromDocumentEntity(DocumentEntity entity) {
         return new FullDocumentResponse(
+                entity.getId(),
                 entity.getTitle(),
                 entity.getInfo(),
                 entity.getContents(),
