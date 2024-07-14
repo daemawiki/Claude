@@ -57,6 +57,10 @@ public class DocumentEntity {
         this.category = infoAndCatefory.category();
     }
 
+    public void updateEditors(List<DocumentEditor> editors) {
+        this.editors = editors;
+    }
+
     public void updateContents(List<DocumentContent> contents) {
         this.contents = contents;
     }
