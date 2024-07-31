@@ -7,7 +7,7 @@ import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
-import com.daemawiki.daemawiki.global.utils.EditDateTime;
+import com.daemawiki.daemawiki.global.utils.date.EditDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;

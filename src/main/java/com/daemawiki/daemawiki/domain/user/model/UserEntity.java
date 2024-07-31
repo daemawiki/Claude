@@ -5,8 +5,10 @@ import com.daemawiki.daemawiki.domain.user.model.detail.UserInfo;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -17,13 +19,15 @@ import java.util.List;
 public class UserEntity {
     @Id
     private String id;
-
+    
     private String name;
 
+    @Indexed(unique = true)
     private String email;
 
     private String password;
 
+    @Indexed(unique = true)
     private String documentId;
 
     private UserInfo userInfo;
@@ -35,13 +39,16 @@ public class UserEntity {
 
     private UserRole role;
 
+    public boolean isAdmin() {
+        return role.equals(UserRole.ADMIN);
+    }
+
     public void updateDocumentId(String documentId) {
         this.documentId = documentId;
     }
 
-    public UserEntity updateUserRole(UserRole role) {
+    public void updateUserRole(UserRole role) {
         this.role = role;
-        return this;
     }
 
     public UserEntity updateUserInfo(UserInfo userInfo) {
