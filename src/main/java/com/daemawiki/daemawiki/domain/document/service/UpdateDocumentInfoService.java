@@ -1,37 +1,23 @@
 package com.daemawiki.daemawiki.domain.document.service;
 
+import com.daemawiki.daemawiki.domain.document.dto.request.UpdateDocumentInfoAndCategoryRequest;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoVO;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
+import com.daemawiki.daemawiki.domain.document.service.base.AbstractDocumentUpdateServiceBase;
 import com.daemawiki.daemawiki.domain.document.usecase.UpdateDocumentInfoUseCase;
 import com.daemawiki.daemawiki.domain.user.component.CurrentUser;
-import com.daemawiki.daemawiki.domain.user.model.UserEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
 
 @Service
-@RequiredArgsConstructor
-public class UpdateDocumentInfoService implements UpdateDocumentInfoUseCase {
+public class UpdateDocumentInfoService extends AbstractDocumentUpdateServiceBase<UpdateDocumentInfoAndCategoryRequest> implements UpdateDocumentInfoUseCase {
 
     @Override
-    public Mono<Void> update(String documentId, DocumentInfoVO request) {
-        return documentRepository.findById(documentId)
-                .zipWith(currentUser.get())
-                .flatMap(this::validateUser)
-                .doOnNext(document -> document.updateDocumentInfo(request))
-                .flatMap(documentRepository::save)
-                .then();
+    public Mono<Void> update(String documentId, UpdateDocumentInfoAndCategoryRequest request) {
+        return updateDocument(documentId, request, DocumentEntity::updateDocumentInfoAndCategory);
     }
 
-    private Mono<DocumentEntity> validateUser(Tuple2<DocumentEntity, UserEntity> tuple) {
-        return Mono.just(tuple)
-                .filter(t -> t.getT1().canEdit(t.getT2()))
-                .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 수정 권한 없음
-                .map(Tuple2::getT1);
+    public UpdateDocumentInfoService(DocumentRepository documentRepository, CurrentUser currentUser) {
+        super(documentRepository, currentUser);
     }
-
-    private final DocumentRepository documentRepository;
-    private final CurrentUser currentUser;
 }

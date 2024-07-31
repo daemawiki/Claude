@@ -3,7 +3,7 @@ package com.daemawiki.daemawiki.global.security.token;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import com.daemawiki.daemawiki.global.security.SecurityProperties;
-import io.jsonwebtoken.*;
+import dev.paseto.jpaseto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,8 +12,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import javax.crypto.SecretKey;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,35 +22,31 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class TokenizerImpl implements Tokenizer, TokenUtils {
+
     @Override
     public Mono<String> createToken(String user) {
         return Mono.just(tokenize(user));
     }
 
     @Override
-    public Mono<Authentication> getAuthentication(String token) {
-        return parseClaims(token)
-                .flatMap(claims -> createAuthenticatedUserBySubject(claims.getSubject()));
-    }
-
-    @Override
     public Mono<String> reissue(String token) {
-        return parseClaims(removePrefix(token))
-                .filter(this::validateIssuer)
-                .switchIfEmpty(Mono.error(new RuntimeException())) // 잘못 된 토큰
-                .map(claims -> tokenize(claims.getSubject())) // 아직 유효할 때
-                .onErrorResume(ExpiredJwtException.class, this::handleExpiredToken)
+        return parseToken(removePrefix(token))
+                .map(paseto -> tokenize(paseto.getClaims().getSubject())) // 아직 유효할 때
+                .onErrorResume(ExpiredPasetoException.class, this::handleExpiredToken)
                 .onErrorMap(e -> new RuntimeException());
     }
 
-    private static final String TOKEN_PREFIX = "Bearer ";
+    @Override
+    public Mono<Authentication> getAuthentication(String token) {
+        return parseToken(token)
+                .flatMap(paseto -> createAuthenticatedUserBySubject(paseto.getClaims().getSubject()));
+    }
 
     @Override
     public String removePrefix(String bearerToken) {
-        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
+        if (bearerToken != null && bearerToken.startsWith(TOKEN_BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
-
         return null;
     }
 
@@ -70,51 +67,73 @@ public class TokenizerImpl implements Tokenizer, TokenUtils {
                 new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
     }
 
-    private Mono<Claims> parseClaims(String token) {
-        return Mono.fromCallable(() -> Jwts.parser()
-                .setSigningKey(securityProperties.secret())
-                .parseClaimsJws(token)
-                .getBody());
+    private Mono<Paseto> parseToken(String token) {
+        return Mono.fromCallable(() -> {
+            var parser = Pasetos.parserBuilder()
+                    .setSharedSecret(secretKey)
+                    .build();
+
+            var tokenWithPrefix = token.startsWith(securityProperties.prefix())
+                    ? token
+                    : addPasetoPrefix(token);
+
+            var paseto = parser.parse(tokenWithPrefix);
+
+            if (!validateIssuer(paseto)) {
+                throw new RuntimeException("invalid 토큰");
+            }
+
+            return paseto;
+        });
     }
 
-    private boolean validateIssuer(Claims claims) {
+    private String addPasetoPrefix(String token) {
+        return securityProperties.prefix() + token;
+    }
+
+    private boolean validateIssuer(Paseto paseto) {
         return securityProperties.issuer()
-                .equals(claims.getIssuer());
+                .equals(paseto.getClaims().getIssuer());
     }
 
     private String tokenize(String user) {
-        var now = LocalDateTime.now();
-        var nowDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
-        var expirationDate = Date.from(now.plusHours(securityProperties.expiration()).atZone(ZoneId.systemDefault()).toInstant());
+        Instant now = Instant.now();
+        Instant expiration = now.plus(securityProperties.expiration(), ChronoUnit.HOURS);
 
-        return Jwts.builder()
+        return Pasetos.V2.LOCAL.builder()
+                .setSharedSecret(secretKey)
                 .setSubject(user)
+                .setIssuedAt(now)
                 .setIssuer(securityProperties.issuer())
-                .setIssuedAt(nowDate)
-                .setNotBefore(nowDate)
-                .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS256, securityProperties.secret())
+                .setExpiration(expiration)
+                .setIssuer(securityProperties.issuer())
+                .claim("nbf", now)
                 .compact();
     }
 
-    private Mono<String> handleExpiredToken(ExpiredJwtException e) {
-        var user = e.getClaims().getSubject();
-        var expiration = e.getClaims().getExpiration();
+    private Mono<String> handleExpiredToken(ExpiredPasetoException e) {
+        var claims = e.getPaseto().getClaims();
+
+        var user = claims.getSubject();
+        var expiration = claims.getExpiration();
         var now = new Date();
 
-        if (now.before(getDatePlusHours(expiration, 2))) {
+        if (now.before(getDatePlusHours(Date.from(expiration), 30))) {
             return Mono.just(tokenize(user));
         }
         return Mono.error(new RuntimeException()); // 만료된 지 2시간이 넘었을 때
     }
 
-    private static Date getDatePlusHours(Date date, int hours) {
+    private static Date getDatePlusHours(Date date, int minute) {
         var cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.HOUR_OF_DAY, hours);
+        cal.add(Calendar.MINUTE, minute);
         return cal.getTime();
     }
 
+    private static final String TOKEN_BEARER_PREFIX = "Bearer ";
+
     private final SecurityProperties securityProperties;
     private final UserRepository userRepository;
+    private final SecretKey secretKey;
 }

@@ -21,6 +21,7 @@ dm:
     secret: ${SECURITY_SECRET}
     issuer: ${SECURITY_ISSUER}
     expiration: ${SECURITY_EXPIRATION}
+    prefix: ${SECURITY_PREFIX}
 
 mail:
   sender:

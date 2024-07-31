@@ -30,8 +30,12 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+	implementation 'dev.paseto:jpaseto-api:0.7.0'
+	implementation 'dev.paseto:jpaseto-impl:0.7.0'
+	implementation 'dev.paseto:jpaseto-jackson:0.7.0'
+	implementation group: 'dev.paseto', name: 'jpaseto-bouncy-castle', version: '0.7.0'
+
 }
 
 tasks.named('test') {

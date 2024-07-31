@@ -11,4 +11,5 @@ public interface UserRepository {
     Flux<UserEntity> findByGenerationAndMajor(Integer generation, String major, PagingInfo pagingInfo);
 
     Mono<Boolean> existsByEmail(String email);
+    Mono<UserEntity> findById(String id);
 }
