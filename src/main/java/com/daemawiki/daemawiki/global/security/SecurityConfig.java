@@ -1,7 +1,8 @@
 package com.daemawiki.daemawiki.global.security;
 
-import com.daemawiki.daemawiki.global.security.token.TokenUtils;
-import com.daemawiki.daemawiki.global.security.token.Tokenizer;
+import com.daemawiki.daemawiki.global.security.session.filter.SecuritySessionFilter;
+import com.daemawiki.daemawiki.global.security.session.component.handler.SessionHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,11 +25,12 @@ public class SecurityConfig {
         return http.formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(authorizeExchange -> authorizeExchange
-                        .pathMatchers("/api/auth/**").permitAll()
+                        .pathMatchers("/api/auth/**", "/api/mail/**").permitAll()
                         .anyExchange().authenticated())
-                .addFilterBefore(new SecurityWebFilter(tokenUtils), SecurityWebFiltersOrder.HTTP_BASIC)
+                .addFilterBefore(new SecuritySessionFilter(objectMapper, sessionHandler), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();
     }
 
-    private final TokenUtils tokenUtils;
+    private final SessionHandler sessionHandler;
+    private final ObjectMapper objectMapper;
 }

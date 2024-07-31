@@ -4,6 +4,8 @@ import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+
 public record UserLoginResponse(
         String token,
         UserSimpleModel user

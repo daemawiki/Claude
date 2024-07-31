@@ -35,7 +35,9 @@ public record ErrorResponse(
                 ));
     }
 
-    public static ErrorResponse ofSecurityError(HttpStatus status, String message, String viewMessage, ServerWebExchange exchange, Exception e) {
+    public static ErrorResponse ofSecurityError(HttpStatus status, String message, String viewMessage, ServerWebExchange exchange, Throwable e) {
+        e = e == null ? new RuntimeException() : e;
+
         return new ErrorResponse(
                 status.value(),
                 message,

@@ -21,5 +21,10 @@ public abstract class UserAbstractRepository implements UserRepository {
         return userMongoRepository.existsByEmail(email);
     }
 
+    @Override
+    public Mono<UserEntity> findById(String id) {
+        return userMongoRepository.findById(id);
+    }
+
     private final UserMongoRepository userMongoRepository;
 }

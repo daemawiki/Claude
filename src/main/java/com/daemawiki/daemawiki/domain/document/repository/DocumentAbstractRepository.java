@@ -1,7 +1,9 @@
 package com.daemawiki.daemawiki.domain.document.repository;
 
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
+import com.daemawiki.daemawiki.global.utils.paging.PagingInfo;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -19,6 +21,22 @@ public abstract class DocumentAbstractRepository implements DocumentRepository {
     @Override
     public Mono<DocumentEntity> getRandom() {
         return documentMongoRepository.getRandomDocument();
+    }
+
+    @Override
+    public Mono<Void> deleteById(String id) {
+        return documentMongoRepository.deleteById(id);
+    }
+
+    @Override
+    public Flux<DocumentEntity> search(String searchText, PagingInfo pagingInfo) {
+        return documentMongoRepository.search(
+                searchText,
+                pagingInfo.sortBy().getPath(),
+                pagingInfo.sortDirection(),
+                pagingInfo.page() * pagingInfo.size(),
+                pagingInfo.size()
+        );
     }
 
     private final DocumentMongoRepository documentMongoRepository;
