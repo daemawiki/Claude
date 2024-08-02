@@ -45,7 +45,6 @@ public class UserMailSendService implements UserMailSendUseCase {
     private void sendMailInBackground(AuthCodeModel authCodeModel) {
         Mono.fromRunnable(() -> sendMail(authCodeModel))
                 .subscribeOn(Schedulers.boundedElastic())
-                .onErrorMap(e -> new RuntimeException())
                 .subscribe();
     }
 
