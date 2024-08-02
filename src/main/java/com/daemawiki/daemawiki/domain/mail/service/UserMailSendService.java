@@ -43,7 +43,6 @@ public class UserMailSendService implements UserMailSendUseCase {
 
     private void sendMailInBackground(AuthCodeModel authCodeModel) {
         sendMail(authCodeModel)
-                .subscribeOn(Schedulers.boundedElastic())
                 .subscribe();
     }
 
