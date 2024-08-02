@@ -6,6 +6,7 @@ import com.daemawiki.daemawiki.domain.mail.model.MailType;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
+import com.daemawiki.daemawiki.global.utils.AuthCodeGenerator;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class UserMailSendService implements UserMailSendUseCase {
     }
 
     private Mono<Void> processSendMail(String to) {
-        return saveAuthCode(AuthCodeModel.of(to, getRandomCode()))
+        return saveAuthCode(AuthCodeModel.of(to, authCodeGenerator.generate(CODE_LENGTH)))
                 .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
                 .flatMap(authCodeModel -> {
                     sendMailInBackground(authCodeModel);
@@ -70,19 +71,7 @@ public class UserMailSendService implements UserMailSendUseCase {
                 .onErrorMap(e -> e);
     }
 
-    private String getRandomCode() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] seed = new byte[32];
-        secureRandom.nextBytes(seed);
-        secureRandom.setSeed(seed);
-        byte[] randomBytes = new byte[4];
-        secureRandom.nextBytes(randomBytes);
-
-        return Base64.getUrlEncoder()
-                .withoutPadding()
-                .encodeToString(randomBytes);
-    }
-
+    private static final int CODE_LENGTH = 6;
     private static final String MAIL_TITLE = "DSM 메일 인증";
     private static final String MAIL_TEMPLATE =
             "<div style='margin: 10px; background-color: #f5f5f5; padding: 20px; border-radius: 10px;'>"
@@ -93,6 +82,7 @@ public class UserMailSendService implements UserMailSendUseCase {
 
     private final MailSenderProperties mailSenderProperties;
     private final AuthCodeRepository authCodeRepository;
+    private final AuthCodeGenerator authCodeGenerator;
     private final UserRepository userRepository;
     private final JavaMailSender mailSender;
 }
