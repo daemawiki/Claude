@@ -1,7 +1,6 @@
-package com.daemawiki.daemawiki.domain.mail.service;
+package com.daemawiki.daemawiki.domain.mail.event.handler;
 
-import com.daemawiki.daemawiki.domain.mail.model.event.MailSendEvent;
-import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendEventHandler;
+import com.daemawiki.daemawiki.domain.mail.event.model.MailSendEvent;
 import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;

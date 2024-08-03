@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.domain.mail.model.event;
+package com.daemawiki.daemawiki.domain.mail.event.model;
 
 public record MailSendEvent(
         String to,
