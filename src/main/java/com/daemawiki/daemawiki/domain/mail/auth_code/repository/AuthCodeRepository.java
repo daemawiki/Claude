@@ -7,5 +7,6 @@ public interface AuthCodeRepository {
     Mono<Boolean> save(AuthCodeModel model);
     Mono<AuthCodeModel> findByMail(String email);
     Mono<Void> delete(AuthCodeModel model);
+    Mono<Void> deleteByEmail(String email);
 
 }
