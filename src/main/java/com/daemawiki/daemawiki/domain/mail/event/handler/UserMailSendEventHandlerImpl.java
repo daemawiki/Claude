@@ -2,6 +2,7 @@ package com.daemawiki.daemawiki.domain.mail.event.handler;
 
 import com.daemawiki.daemawiki.domain.mail.event.model.MailSendEvent;
 import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
+import com.daemawiki.daemawiki.global.utils.event.EventFailureHandler;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserMailSendEventHandlerImpl implements UserMailSendEventHandler {
     public void handleEvent(MailSendEvent event) {
         Mono.fromRunnable(() -> sendMail(event))
                 .subscribeOn(Schedulers.boundedElastic())
+                .doOnError(e -> eventEventFailureHandler.handleFailure(event, e))
                 .subscribe();
     }
 
@@ -43,6 +45,7 @@ public class UserMailSendEventHandlerImpl implements UserMailSendEventHandler {
 
     private static final String MAIL_TITLE = "DSM 메일 인증";
 
+    private final EventFailureHandler<MailSendEvent> eventEventFailureHandler;
     private final MailSenderProperties mailSenderProperties;
     private final JavaMailSender mailSender;
 }
