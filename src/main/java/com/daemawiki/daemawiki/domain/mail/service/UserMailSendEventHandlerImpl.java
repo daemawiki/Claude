@@ -1,0 +1,49 @@
+package com.daemawiki.daemawiki.domain.mail.service;
+
+import com.daemawiki.daemawiki.domain.mail.model.event.MailSendEvent;
+import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendEventHandler;
+import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
+@Component
+@RequiredArgsConstructor
+public class UserMailSendEventHandlerImpl implements UserMailSendEventHandler {
+    @Async
+    @EventListener
+    @Override
+    public void handleEvent(MailSendEvent event) {
+        Mono.fromRunnable(() -> sendMail(event))
+                .subscribeOn(Schedulers.boundedElastic())
+                .subscribe();
+    }
+
+    private void sendMail(MailSendEvent event) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(event.to());
+            helper.setSubject(MAIL_TITLE);
+            helper.setText(event.content(), true);
+            helper.setFrom(new InternetAddress(mailSenderProperties.email(), MAIL_TITLE));
+
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+    private static final String MAIL_TITLE = "DSM 메일 인증";
+
+    private final MailSenderProperties mailSenderProperties;
+    private final JavaMailSender mailSender;
+}
