@@ -2,7 +2,7 @@ package com.daemawiki.daemawiki.domain.mail.event.handler;
 
 import com.daemawiki.daemawiki.domain.mail.auth_code.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.domain.mail.event.model.MailSendEvent;
-import com.daemawiki.daemawiki.global.utils.event.EventFailureHandler;
+import com.daemawiki.daemawiki.global.util.event.EventFailureHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.date;
+package com.daemawiki.daemawiki.global.util.date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

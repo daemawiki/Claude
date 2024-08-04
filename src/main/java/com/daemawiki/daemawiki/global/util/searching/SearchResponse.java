@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.searching;
+package com.daemawiki.daemawiki.global.util.searching;
 
 import java.util.List;
 

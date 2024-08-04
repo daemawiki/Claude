@@ -4,7 +4,7 @@ import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
-import com.daemawiki.daemawiki.global.utils.date.EditDateTime;
+import com.daemawiki.daemawiki.global.util.date.EditDateTime;
 
 import java.util.List;
 

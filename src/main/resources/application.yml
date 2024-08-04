@@ -34,3 +34,4 @@ mail:
     socket-factory-class: ${MAIL_SENDER_SOCKET_CLASS}
     socket-factory-fallback: ${MAIL_SENDER_SOCKET_FALLBACK}
     port: ${MAIL_SENDER_PORT}
+

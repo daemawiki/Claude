@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.redis;
+package com.daemawiki.daemawiki.global.util.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
