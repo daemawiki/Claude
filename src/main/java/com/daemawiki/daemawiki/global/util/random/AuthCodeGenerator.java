@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.random;
+package com.daemawiki.daemawiki.global.util.random;
 
 import org.springframework.stereotype.Component;
 

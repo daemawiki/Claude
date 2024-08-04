@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.async;
+package com.daemawiki.daemawiki.global.util.async;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

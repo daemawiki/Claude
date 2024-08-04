@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.sorting;
+package com.daemawiki.daemawiki.global.util.sorting;
 
 import lombok.Getter;
 

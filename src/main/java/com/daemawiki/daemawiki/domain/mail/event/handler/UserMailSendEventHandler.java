@@ -2,8 +2,8 @@ package com.daemawiki.daemawiki.domain.mail.event.handler;
 
 import com.daemawiki.daemawiki.domain.mail.event.model.MailSendEvent;
 import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
-import com.daemawiki.daemawiki.global.utils.event.EventFailureHandler;
-import com.daemawiki.daemawiki.global.utils.event.EventHandler;
+import com.daemawiki.daemawiki.global.util.event.EventFailureHandler;
+import com.daemawiki.daemawiki.global.util.event.EventHandler;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

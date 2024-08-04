@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.domain.document.repository;
 
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
-import com.daemawiki.daemawiki.global.utils.paging.PagingInfo;
+import com.daemawiki.daemawiki.global.util.paging.PagingInfo;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
