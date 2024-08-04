@@ -29,7 +29,7 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
 
     @Override
     public Mono<Void> delete(String mail) {
-        return handleError(redisOperation.delete(AUTH_MAIL + mail));
+        return handleError(redisOperation.delete(AUTH_MAIL + mail).then());
     }
 
     private static <T> Mono<T> handleError(Mono<T> mono) {
