@@ -33,7 +33,7 @@ public class AuthCodeRepositoryImpl implements AuthCodeRepository {
 
     @Override
     public Mono<Void> delete(AuthCodeModel model) {
-        return deleteByEmail(model.email());
+        return deleteByEmail(model.email()).then();
     }
 
     @Override
