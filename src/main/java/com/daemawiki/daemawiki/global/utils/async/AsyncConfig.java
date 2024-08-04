@@ -10,8 +10,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@EnableAsync
 @Configuration
+@EnableAsync(proxyTargetClass = true)
 public class AsyncConfig implements AsyncConfigurer {
     @Bean(name = "taskExecutor")
     public Executor taskExecutor() {

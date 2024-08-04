@@ -10,6 +10,7 @@ import com.daemawiki.daemawiki.global.utils.crypto.AuthCodeGenerator;
 import com.daemawiki.daemawiki.global.utils.event.EventHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -30,7 +31,7 @@ public class UserMailSendService implements UserMailSendUseCase {
         return saveAuthCode(AuthCodeModel.of(to, authCodeGenerator.generate(CODE_LENGTH)))
                 .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
                 .map(authCodeModel -> new MailSendEvent(authCodeModel.email(), String.format(MAIL_TEMPLATE, authCodeModel.code())))
-                .doOnSuccess(mailSendEventHandler::handle)
+                .doOnSuccess(eventPublisher::publishEvent)
                 .then();
     }
 
@@ -49,7 +50,7 @@ public class UserMailSendService implements UserMailSendUseCase {
                     + "</div>";
 
 
-    private final EventHandler<MailSendEvent> mailSendEventHandler;
+    private final ApplicationEventPublisher eventPublisher;
     private final AuthCodeRepository authCodeRepository;
     private final AuthCodeGenerator authCodeGenerator;
     private final UserRepository userRepository;
