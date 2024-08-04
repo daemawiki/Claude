@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.crypto;
+package com.daemawiki.daemawiki.global.utils.encrypt;
 
 import org.springframework.stereotype.Component;
 
