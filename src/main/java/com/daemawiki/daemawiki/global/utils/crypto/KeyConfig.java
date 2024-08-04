@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.encrypt;
+package com.daemawiki.daemawiki.global.utils.crypto;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

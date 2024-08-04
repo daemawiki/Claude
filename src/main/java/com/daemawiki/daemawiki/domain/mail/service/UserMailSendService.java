@@ -6,7 +6,7 @@ import com.daemawiki.daemawiki.domain.mail.event.model.MailSendEvent;
 import com.daemawiki.daemawiki.domain.mail.model.MailType;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
-import com.daemawiki.daemawiki.global.utils.encrypt.AuthCodeGenerator;
+import com.daemawiki.daemawiki.global.utils.random.AuthCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
