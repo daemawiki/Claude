@@ -33,9 +33,13 @@ public class AuthCodeRepositoryImpl implements AuthCodeRepository {
 
     @Override
     public Mono<Void> delete(AuthCodeModel model) {
-        return handleError(redisOperation.delete(AUTH_CODE + model.email()));
+        return deleteByEmail(model.email()).then();
     }
 
+    @Override
+    public Mono<Long> deleteByEmail(String email) {
+        return handleError(redisOperation.delete(AUTH_CODE + email));
+    }
     private static <T> Mono<T> handleError(Mono<T> mono) {
         return mono.onErrorMap(e -> e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e);
     }
