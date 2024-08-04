@@ -21,9 +21,8 @@ public class RedisOperationImpl implements RedisOperation {
     }
 
     @Override
-    public Mono<Void> delete(String key) {
-        return redisOperations.delete(key)
-                .then();
+    public Mono<Long> delete(String key) {
+        return redisOperations.delete(key);
     }
 
     @Override

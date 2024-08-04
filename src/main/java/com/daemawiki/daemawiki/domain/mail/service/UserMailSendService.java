@@ -3,11 +3,11 @@ package com.daemawiki.daemawiki.domain.mail.service;
 import com.daemawiki.daemawiki.domain.mail.auth_code.model.AuthCodeModel;
 import com.daemawiki.daemawiki.domain.mail.auth_code.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.domain.mail.model.MailType;
-import com.daemawiki.daemawiki.domain.mail.event.model.MailSendEvent;
-import com.daemawiki.daemawiki.domain.mail.event.handler.UserMailSendEventHandler;
 import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
-import com.daemawiki.daemawiki.global.utils.crypto.AuthCodeGenerator;
+import com.daemawiki.daemawiki.global.mail.MailSenderProperties;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,11 +29,10 @@ public class UserMailSendService implements UserMailSendUseCase {
     private Mono<Void> processSendMail(String to) {
         return saveAuthCode(AuthCodeModel.of(to, authCodeGenerator.generate(CODE_LENGTH)))
                 .doOnNext(authCodeModel -> log.info("authCode: {} to: {}", authCodeModel.code(), authCodeModel.email()))
-                .map(authCodeModel -> new MailSendEvent(authCodeModel.email(), String.format(MAIL_TEMPLATE, authCodeModel.code())))
                 .doOnSuccess(userMailSendEventHandler::handleEvent)
+                .map(authCodeModel -> new MailSendEvent(authCodeModel.email(), String.format(MAIL_TEMPLATE, authCodeModel.code())))
                 .then();
     }
-
 
     private Mono<AuthCodeModel> saveAuthCode(AuthCodeModel authCodeModel) {
         return authCodeRepository.save(authCodeModel)
@@ -50,7 +49,7 @@ public class UserMailSendService implements UserMailSendUseCase {
                     + "</div>";
 
 
-    private final UserMailSendEventHandler userMailSendEventHandler;
+    private final EventHandler<MailSendEvent> mailSendEventHandler;
     private final AuthCodeRepository authCodeRepository;
     private final AuthCodeGenerator authCodeGenerator;
     private final UserRepository userRepository;
