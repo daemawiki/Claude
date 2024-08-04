@@ -1,10 +1,10 @@
 package com.daemawiki.daemawiki.domain.document.controller;
 
 import com.daemawiki.daemawiki.domain.document.dto.request.CreateDocumentRequest;
-import com.daemawiki.daemawiki.domain.document.dto.response.FullDocumentResponse;
+import com.daemawiki.daemawiki.domain.document.dto.request.UpdateDocumentContentsRequest;
 import com.daemawiki.daemawiki.domain.document.dto.request.UpdateDocumentInfoAndCategoryRequest;
+import com.daemawiki.daemawiki.domain.document.dto.response.FullDocumentResponse;
 import com.daemawiki.daemawiki.domain.document.model.SimpleDocumentResult;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
 import com.daemawiki.daemawiki.domain.document.usecase.*;
 import com.daemawiki.daemawiki.global.util.paging.PagingRequest;
 import com.daemawiki.daemawiki.global.util.searching.SearchResponse;
@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,9 +32,9 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> updateDocumentContents(
             @PathVariable String documentId,
-            @RequestBody List<DocumentContent> documentContents
+            @RequestBody UpdateDocumentContentsRequest request
     ) {
-        return updateDocumentContentsUseCase.update(documentId, documentContents);
+        return updateDocumentContentsUseCase.update(documentId, request.contents());
     }
 
     @GetMapping("/random")
