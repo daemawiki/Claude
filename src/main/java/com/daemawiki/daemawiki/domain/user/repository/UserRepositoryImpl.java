@@ -1,8 +1,8 @@
 package com.daemawiki.daemawiki.domain.user.repository;
 
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
-import com.daemawiki.daemawiki.global.utils.mongo.MongoQueryUtils;
-import com.daemawiki.daemawiki.global.utils.paging.PagingInfo;
+import com.daemawiki.daemawiki.global.util.mongo.MongoQueryUtils;
+import com.daemawiki.daemawiki.global.util.paging.PagingInfo;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

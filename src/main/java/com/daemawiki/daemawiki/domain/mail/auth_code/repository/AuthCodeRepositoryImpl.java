@@ -2,8 +2,8 @@ package com.daemawiki.daemawiki.domain.mail.auth_code.repository;
 
 import com.daemawiki.daemawiki.domain.mail.auth_code.model.AuthCodeModel;
 import com.daemawiki.daemawiki.global.error.customs.WrongRedisConnectionException;
-import com.daemawiki.daemawiki.global.utils.redis.RedisKey;
-import com.daemawiki.daemawiki.global.utils.redis.RedisOperation;
+import com.daemawiki.daemawiki.global.util.redis.RedisKey;
+import com.daemawiki.daemawiki.global.util.redis.RedisOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.RedisConnectionFailureException;

@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.global.utils.serialize;
+package com.daemawiki.daemawiki.global.util.serialize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

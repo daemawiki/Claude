@@ -1,7 +1,7 @@
-package com.daemawiki.daemawiki.global.utils.paging;
+package com.daemawiki.daemawiki.global.util.paging;
 
-import com.daemawiki.daemawiki.global.utils.sorting.SortByOption;
-import com.daemawiki.daemawiki.global.utils.sorting.SortDirection;
+import com.daemawiki.daemawiki.global.util.sorting.SortByOption;
+import com.daemawiki.daemawiki.global.util.sorting.SortDirection;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
