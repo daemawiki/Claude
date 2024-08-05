@@ -1,11 +1,12 @@
 package com.daemawiki.daemawiki.domain.user.service;
 
-import com.daemawiki.daemawiki.domain.user.dto.UserLoginRequest;
-import com.daemawiki.daemawiki.domain.user.dto.UserLoginResponse;
+import com.daemawiki.daemawiki.application.user.service.UserLoginService;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserLoginRequest;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserLoginResponse;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
-import com.daemawiki.daemawiki.global.security.token.Tokenizer;
+import com.daemawiki.daemawiki.common.security.token.Tokenizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
