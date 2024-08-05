@@ -1,13 +1,13 @@
 package com.daemawiki.daemawiki.domain.document.model;
 
-import com.daemawiki.daemawiki.domain.document.dto.request.UpdateDocumentInfoAndCategoryRequest;
+import com.daemawiki.daemawiki.interfaces.document.dto.request.UpdateDocumentInfoAndCategoryRequest;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
-import com.daemawiki.daemawiki.global.util.date.EditDateTime;
+import com.daemawiki.daemawiki.common.util.date.EditDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
