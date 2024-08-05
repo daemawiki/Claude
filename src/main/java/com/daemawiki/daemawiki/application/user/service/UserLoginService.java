@@ -55,7 +55,7 @@ public class UserLoginService implements UserLoginUseCase {
                         remoteAddress.toString(),
                         tuple.getT2()
                 )))
-                .map(SessionEntity::id);
+                .map(SessionEntity::getId);
     }
 
     /**
