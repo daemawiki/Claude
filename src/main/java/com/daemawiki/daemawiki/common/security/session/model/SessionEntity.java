@@ -11,7 +11,6 @@ public class SessionEntity {
     @Id
     private String id;
 
-    @Indexed(unique = true)
     private String ip;
 
     private String token;
