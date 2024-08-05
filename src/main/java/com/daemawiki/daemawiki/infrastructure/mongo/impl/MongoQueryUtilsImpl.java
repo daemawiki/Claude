@@ -1,5 +1,6 @@
-package com.daemawiki.daemawiki.infrastructure.mongo;
+package com.daemawiki.daemawiki.infrastructure.mongo.impl;
 
+import com.daemawiki.daemawiki.infrastructure.mongo.MongoQueryUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
