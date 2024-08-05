@@ -33,3 +33,6 @@ mail:
     socket-factory-fallback: ${MAIL_SENDER_SOCKET_FALLBACK}
     port: ${MAIL_SENDER_PORT}
 
+app:
+  cors:
+    allow-hosts: ${ALLOW_HOSTS}

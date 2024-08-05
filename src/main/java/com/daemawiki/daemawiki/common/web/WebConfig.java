@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.common.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.codec.multipart.DefaultPartHttpMessageReader;
@@ -13,8 +14,10 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 public class WebConfig implements WebFluxConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        var hosts = allowHosts.split(",");
+
         registry.addMapping("/api/**")
-                .allowedOrigins("*")
+                .allowedOrigins(hosts)
                 .allowedMethods("POST", "GET", "PATCH", "DELETE", "PUT")
                 .allowedHeaders("*");
     }
@@ -30,4 +33,7 @@ public class WebConfig implements WebFluxConfigurer {
         multipartReader.setEnableLoggingRequestDetails(true);
         configurer.defaultCodecs().multipartReader(multipartReader);
     }
+
+    @Value("${app.cors.allow-hosts}")
+    private String allowHosts;
 }
