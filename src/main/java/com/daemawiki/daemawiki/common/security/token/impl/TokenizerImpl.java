@@ -1,6 +1,8 @@
-package com.daemawiki.daemawiki.common.security.token;
+package com.daemawiki.daemawiki.common.security.token.impl;
 
 import com.daemawiki.daemawiki.common.security.SecurityProperties;
+import com.daemawiki.daemawiki.common.security.token.TokenUtils;
+import com.daemawiki.daemawiki.common.security.token.Tokenizer;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import dev.paseto.jpaseto.*;

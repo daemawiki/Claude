@@ -1,5 +1,6 @@
-package com.daemawiki.daemawiki.common.security.session.component.handler;
+package com.daemawiki.daemawiki.common.security.session.component.handler.impl;
 
+import com.daemawiki.daemawiki.common.security.session.component.handler.SessionHandler;
 import com.daemawiki.daemawiki.common.security.session.repository.SessionRepository;
 import com.daemawiki.daemawiki.common.security.token.TokenUtils;
 import lombok.RequiredArgsConstructor;
