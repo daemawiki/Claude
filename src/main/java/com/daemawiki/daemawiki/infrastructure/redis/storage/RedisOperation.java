@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.infrastructure.redis;
+package com.daemawiki.daemawiki.infrastructure.redis.storage;
 
 import reactor.core.publisher.Mono;
 

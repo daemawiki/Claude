@@ -1,5 +1,6 @@
-package com.daemawiki.daemawiki.infrastructure.redis;
+package com.daemawiki.daemawiki.infrastructure.redis.storage.impl;
 
+import com.daemawiki.daemawiki.infrastructure.redis.storage.RedisOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.stereotype.Component;
