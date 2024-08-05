@@ -1,6 +1,8 @@
 package com.daemawiki.daemawiki.domain.document.controller;
 
+import com.daemawiki.daemawiki.application.document.usecase.*;
 import com.daemawiki.daemawiki.domain.document.usecase.*;
+import com.daemawiki.daemawiki.interfaces.document.controller.DocumentController;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

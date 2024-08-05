@@ -1,7 +1,8 @@
 package com.daemawiki.daemawiki.domain.user.service;
 
-import com.daemawiki.daemawiki.domain.user.dto.UserTokenReissueResponse;
-import com.daemawiki.daemawiki.global.security.token.Tokenizer;
+import com.daemawiki.daemawiki.application.user.service.UserTokenReissueService;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserTokenReissueResponse;
+import com.daemawiki.daemawiki.common.security.token.Tokenizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

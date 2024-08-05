@@ -1,8 +1,9 @@
 package com.daemawiki.daemawiki.domain.user.service;
 
-import com.daemawiki.daemawiki.domain.document.usecase.CreateUserDocumentUseCase;
-import com.daemawiki.daemawiki.domain.mail.auth_user.repository.AuthUserRepository;
-import com.daemawiki.daemawiki.domain.user.dto.UserRegisterRequest;
+import com.daemawiki.daemawiki.application.document.usecase.CreateUserDocumentUseCase;
+import com.daemawiki.daemawiki.application.user.service.UserRegisterService;
+import com.daemawiki.daemawiki.domain.mail.repository.AuthUserRepository;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserRegisterRequest;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;

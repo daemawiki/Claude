@@ -1,13 +1,14 @@
 package com.daemawiki.daemawiki.domain.user.controller;
 
-import com.daemawiki.daemawiki.domain.user.dto.UserLoginRequest;
-import com.daemawiki.daemawiki.domain.user.dto.UserLoginResponse;
-import com.daemawiki.daemawiki.domain.user.dto.UserRegisterRequest;
-import com.daemawiki.daemawiki.domain.user.dto.UserTokenReissueResponse;
+import com.daemawiki.daemawiki.interfaces.user.controller.UserAuthController;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserLoginRequest;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserLoginResponse;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserRegisterRequest;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserTokenReissueResponse;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
-import com.daemawiki.daemawiki.domain.user.usecase.UserLoginUseCase;
-import com.daemawiki.daemawiki.domain.user.usecase.UserRegisterUseCase;
-import com.daemawiki.daemawiki.domain.user.usecase.UserTokenReissueUseCase;
+import com.daemawiki.daemawiki.application.user.usecase.UserLoginUseCase;
+import com.daemawiki.daemawiki.application.user.usecase.UserRegisterUseCase;
+import com.daemawiki.daemawiki.application.user.usecase.UserTokenReissueUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

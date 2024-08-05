@@ -1,8 +1,9 @@
 package com.daemawiki.daemawiki.domain.mail.controller;
 
-import com.daemawiki.daemawiki.domain.mail.model.MailType;
-import com.daemawiki.daemawiki.domain.mail.usecase.UserMailSendUseCase;
-import com.daemawiki.daemawiki.domain.mail.usecase.UserMailVerifyUseCase;
+import com.daemawiki.daemawiki.domain.mail.model.type.MailType;
+import com.daemawiki.daemawiki.application.mail.usecase.UserMailSendUseCase;
+import com.daemawiki.daemawiki.application.mail.usecase.UserMailVerifyUseCase;
+import com.daemawiki.daemawiki.interfaces.mail.controller.MailController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

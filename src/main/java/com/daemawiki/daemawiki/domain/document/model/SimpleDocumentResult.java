@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.domain.document.model;
 
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
-import com.daemawiki.daemawiki.global.util.date.EditDateTime;
+import com.daemawiki.daemawiki.common.util.date.EditDateTime;
 
 import java.util.List;
 
