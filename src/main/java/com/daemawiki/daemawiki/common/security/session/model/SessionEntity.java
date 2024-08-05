@@ -7,16 +7,39 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Document("session-management")
-public record SessionEntity(
-        @Id
-        String id,
-        @Indexed(unique = true)
-        String ip,
-        String token,
-        @Indexed(expireAfterSeconds = 60 * 60 * 3)
-        LocalDateTime sessionStartAt
-) {
-        public static SessionEntity of(String address, String token) {
-                return new SessionEntity(null, address, token, LocalDateTime.now());
-        }
+public class SessionEntity {
+    @Id
+    private String id;
+
+    @Indexed(unique = true)
+    private String ip;
+
+    private String token;
+
+    @Indexed(expireAfterSeconds = 60 * 60 * 3)
+    private LocalDateTime sessionStartAt;
+
+    protected SessionEntity() {}
+
+    public void refresh() {
+        sessionStartAt = LocalDateTime.now();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    private SessionEntity(String address, String token) {
+        ip = address;
+        this.token = token;
+        sessionStartAt = LocalDateTime.now();
+    }
+
+    public static SessionEntity of(String address, String token) {
+        return new SessionEntity(address, token);
+    }
 }

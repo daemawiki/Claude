@@ -1,6 +1,7 @@
 package com.daemawiki.daemawiki.common.security.session.component.handler.impl;
 
 import com.daemawiki.daemawiki.common.security.session.component.handler.SessionHandler;
+import com.daemawiki.daemawiki.common.security.session.model.SessionEntity;
 import com.daemawiki.daemawiki.common.security.session.repository.SessionRepository;
 import com.daemawiki.daemawiki.common.security.token.TokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,10 @@ public class SessionHandlerImpl implements SessionHandler {
         }
 
         return sessionRepository.findBySessionIdAndIp(sessionId, socketAddress.toString())
+                .doOnSuccess(SessionEntity::refresh)
+                .doOnSuccess(sessionRepository::save)
                 .switchIfEmpty(Mono.error(new RuntimeException("너 누구야!!")))
-                .flatMap(session -> tokenUtils.getAuthentication(session.token()));
+                .flatMap(session -> tokenUtils.getAuthentication(session.getToken()));
     }
 
     private final SessionRepository sessionRepository;
