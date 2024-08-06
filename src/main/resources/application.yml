@@ -7,10 +7,10 @@ spring:
       uri: ${MONGO_URI}
       database: ${MONGO_DB}
       auto-index-creation: true
-    
+
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 server:
   port: 8080
