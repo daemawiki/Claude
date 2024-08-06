@@ -1,6 +1,6 @@
-package com.daemawiki.daemawiki.common.security.session.impl;
+package com.daemawiki.daemawiki.common.security.session.util.impl;
 
-import com.daemawiki.daemawiki.common.security.session.SessionUtil;
+import com.daemawiki.daemawiki.common.security.session.util.SessionUtil;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

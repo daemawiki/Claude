@@ -2,7 +2,7 @@ package com.daemawiki.daemawiki.common.security.session.component.handler.impl;
 
 import com.daemawiki.daemawiki.common.security.session.component.handler.SessionHandler;
 import com.daemawiki.daemawiki.common.security.session.repository.SessionRepository;
-import com.daemawiki.daemawiki.common.security.session.SessionUtil;
+import com.daemawiki.daemawiki.common.security.session.util.SessionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
