@@ -2,6 +2,7 @@ spring:
   application:
     name: Claude
 
+  data:
     mongodb:
       uri: ${MONGO_URI}
       database: ${MONGO_DB}
