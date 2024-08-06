@@ -5,6 +5,7 @@ import com.daemawiki.daemawiki.common.error.customs.WrongRedisConnectionExceptio
 import com.daemawiki.daemawiki.infrastructure.redis.RedisKey;
 import com.daemawiki.daemawiki.infrastructure.redis.storage.RedisOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
@@ -13,6 +14,7 @@ import java.time.Duration;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j(topic = "인증된 유저 레디스 레포지토리")
 public class AuthUserRepositoryImpl implements AuthUserRepository {
     @Override
     public Mono<Boolean> save(String mail) {
@@ -34,7 +36,10 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
     }
 
     private static <T> Mono<T> handleError(Mono<T> mono) {
-        return mono.onErrorMap(e -> e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e);
+        return mono.onErrorMap(e -> {
+            log.error("#- Error: " + e);
+            return e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e;
+        });
     }
 
     private static final String AUTH_MAIL = RedisKey.AUTH_USER.getKey();
