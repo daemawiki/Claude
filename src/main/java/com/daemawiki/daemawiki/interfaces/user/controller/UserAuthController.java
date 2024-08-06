@@ -36,11 +36,13 @@ public class UserAuthController {
                         .path("/api")
                         .httpOnly(true)
                         .secure(true)
-                        .maxAge(Duration.ofHours(3))
+                        .maxAge(COOKIE_EXPIRATION)
                         .build())
                 .doOnNext(serverHttpResponse::addCookie)
                 .then();
     }
+
+    private static final Duration COOKIE_EXPIRATION = Duration.ofHours(3);
 
     private final UserRegisterUseCase userRegisterUseCase;
     private final UserLoginUseCase userLoginUseCase;

@@ -47,5 +47,7 @@ public class SessionRepositoryImpl implements SessionRepository {
         });
     }
 
+    private static final Duration SESSION_EXPIRATION = Duration.ofHours(3);
+    
     private final RedisOperation redisOperation;
 }
