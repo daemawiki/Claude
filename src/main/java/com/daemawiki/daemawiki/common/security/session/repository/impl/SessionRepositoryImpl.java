@@ -22,21 +22,21 @@ public class SessionRepositoryImpl implements SessionRepository {
     @Override
     public Mono<SessionModel> save(SessionModel session) {
         return handleError(redisOperation.save(
-                (RedisKey.SESSION + session.id() + ":" + session.ip()),
+                (RedisKey.SESSION + session.id() + session.ip()),
                 session.userName(),
-                Duration.ofHours(3)
+                SESSION_EXPIRATION
         ).thenReturn(session));
     }
 
     @Override
     public Mono<SessionModel> findBySessionIdAndIp(String sessionId, String ip) {
-        return handleError(redisOperation.getValue(RedisKey.SESSION + sessionId + ":" + ip)
+        return handleError(redisOperation.getValue(RedisKey.SESSION + sessionId + ip)
                 .map(value -> SessionModel.of(sessionId, ip, value)));
     }
 
     @Override
     public Mono<Void> deleteById(String sessionId, String ip) {
-        return handleError(redisOperation.delete(RedisKey.SESSION + sessionId + ":" + ip)
+        return handleError(redisOperation.delete(RedisKey.SESSION + sessionId + ip)
                 .then());
     }
 
