@@ -10,11 +10,14 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @RequiredArgsConstructor
 public class SecuritySessionFilter implements WebFilter {
@@ -31,6 +34,7 @@ public class SecuritySessionFilter implements WebFilter {
 
     private Mono<Void> handleAuthentication(ServerWebExchange exchange, WebFilterChain chain, String sessionId) {
         return sessionHandler.getAuthentication(sessionId, exchange.getRequest().getRemoteAddress())
+                .doOnSuccess(ignored -> refreshSessionCookie(exchange, sessionId))
                 .flatMap(auth -> chain.filter(exchange)
                         .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth)))
                 .onErrorResume(e -> handleSessionException(exchange, e));
@@ -40,6 +44,15 @@ public class SecuritySessionFilter implements WebFilter {
         return exchange.getRequest()
                 .getCookies()
                 .getFirst("sessionId");
+    }
+
+    private void refreshSessionCookie(ServerWebExchange exchange, String sessionId) {
+        exchange.getResponse().addCookie(ResponseCookie.from("sessionId", sessionId)
+                .path("/api")
+                .httpOnly(true)
+                .secure(true)
+                .maxAge(Duration.ofHours(3))
+                .build());
     }
 
     private Mono<Void> handleSessionException(ServerWebExchange exchange, Throwable e) {
