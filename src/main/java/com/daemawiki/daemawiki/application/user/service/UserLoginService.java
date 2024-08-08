@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.application.user.service;
 
+import com.daemawiki.daemawiki.common.error.exception.CustomExceptionFactory;
 import com.daemawiki.daemawiki.common.security.session.component.service.SaveSessionComponent;
 import com.daemawiki.daemawiki.common.security.session.model.SessionEntity;
 import com.daemawiki.daemawiki.interfaces.user.dto.UserLoginRequest;
@@ -38,7 +39,10 @@ public class UserLoginService implements UserLoginUseCase {
 
     private Mono<Tuple2<UserEntity, String>> loginProcess(UserLoginRequest request) {
         return userRepository.findByEmail(request.email())
-                .switchIfEmpty(Mono.error(new RuntimeException()))
+                .switchIfEmpty(
+                        Mono.error(CustomExceptionFactory.notFound(
+                                "유저를 찾을 수 없습니다."
+                        )))
                 .flatMap(user -> validatePasswordAndCreateToken(user, request.password()));
     }
 
@@ -61,7 +65,7 @@ public class UserLoginService implements UserLoginUseCase {
     /**
      * 비밀번호 검증 및 토큰 생성
      *
-     * @param user DB에서 조회된 사용자 엔티티
+     * @param user            DB에서 조회된 사용자 엔티티
      * @param requestPassword 로그인 요청에서 제공된 비밀번호
      * @return 인증 성공 시 사용자 엔티티와 생성된 토큰을 묶은 Tuple2, 비밀번호 불일치 시 Mono error signal
      */

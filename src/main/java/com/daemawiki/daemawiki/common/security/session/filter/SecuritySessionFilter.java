@@ -45,10 +45,7 @@ public class SecuritySessionFilter implements WebFilter {
     private Mono<Void> handleSessionException(ServerWebExchange exchange, Throwable e) {
         var errorResponse = ErrorResponse.ofSecurityError(
                 HttpStatus.UNAUTHORIZED,
-                HANDLE_MESSAGE,
-                HANDLE_VIEW_MESSAGE,
-                exchange,
-                e
+                HANDLE_MESSAGE
         );
         byte[] responseBytes;
 
