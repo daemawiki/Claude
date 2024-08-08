@@ -3,24 +3,20 @@ package com.daemawiki.daemawiki.infrastructure.exception;
 import com.daemawiki.daemawiki.common.error.ErrorResponse;
 import com.daemawiki.daemawiki.common.error.exception.CustomException;
 import com.daemawiki.daemawiki.common.error.exception.CustomExceptionFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.daemawiki.daemawiki.infrastructure.exchange.response.ResponseWriterFactory;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
 public class ExceptionHandlerFilter implements WebFilter {
 
-    private final ObjectMapper mapper;
+    private final ResponseWriterFactory responseWriterFactory;
 
     @NonNull
     @Override
@@ -31,31 +27,13 @@ public class ExceptionHandlerFilter implements WebFilter {
     }
 
     private void resolveError(Throwable error, ServerWebExchange exchange) {
-        try {
-            var ex = convertToCustomException(error);
-            var errorResponse = resolveCustomException(ex);
+        var ex = convertToCustomException(error);
+        var errorResponse = resolveCustomException(ex);
 
-            var buffer = exchange.getResponse().bufferFactory().wrap(
-                    mapper.writeValueAsBytes(
-                            errorResponse
-                    )
-            );
-
-            // Set Status
-            exchange.getResponse().setStatusCode(ex.getStatus());
-            // Set Header
-            exchange.getResponse().getHeaders().set(
-                    HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE
-            );
-            // Set Body
-            exchange.getResponse().writeWith(
-                    Flux.just(buffer)
-            ).block();
-        } catch (JsonProcessingException e) {
-            throw CustomExceptionFactory.internalServerError(
-                    e.getMessage(), e
-            );
-        }
+        responseWriterFactory.getWriter(exchange)
+                .setStatus(ex.getStatus())
+                .setBody(errorResponse)
+                .end();
     }
 
     private CustomException convertToCustomException(Throwable throwable) {
