@@ -2,6 +2,7 @@ package com.daemawiki.daemawiki.common.error;
 
 import lombok.Getter;
 
+@Deprecated
 @Getter
 public enum Error {
     //400: BAD REQUEST

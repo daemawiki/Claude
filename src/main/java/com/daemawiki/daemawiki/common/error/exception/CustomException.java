@@ -1,20 +1,43 @@
 package com.daemawiki.daemawiki.common.error.exception;
 
-import com.daemawiki.daemawiki.common.error.Error;
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 public class CustomException extends RuntimeException {
-    private final Error error;
 
-    public Error getError() {
-        return error;
-    }
+    @Getter
+    private final HttpStatus status;
 
-    protected CustomException(Error error) {
-        this.error = error;
+    private final String message;
+
+    private final Throwable cause;
+
+    @Override
+    public synchronized Throwable getCause() {
+        return cause;
     }
 
     @Override
-    public synchronized Throwable fillInStackTrace() {
-        return this;
+    public String getMessage() {
+        return this.message;
+    }
+
+    public CustomException(
+            final HttpStatus status,
+            final String message,
+            final Throwable cause
+    ) {
+        super(message, cause);
+        this.status = status;
+        this.message = message;
+        this.cause = cause;
+    }
+
+    public CustomException(
+            final HttpStatus status,
+            final String message
+    ) {
+        this(status, message, null);
     }
 }
+
