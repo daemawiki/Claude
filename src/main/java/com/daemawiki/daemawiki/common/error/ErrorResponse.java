@@ -15,7 +15,7 @@ public record ErrorResponse(
         String errorId
 ) {
     public ErrorResponse {
-        final var httpStatus = HttpStatus.valueOf(status());
+        final var httpStatus = HttpStatus.valueOf(status);
 
         if (httpStatus.is5xxServerError()) {
             message = httpStatus.name();
