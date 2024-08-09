@@ -52,7 +52,7 @@ class DefaultResponseWriter implements ResponseWriter {
 
         exchange.getResponse().writeWith(
                 Flux.just(buffer)
-        );
+        ).block();
 
         return this;
     }
