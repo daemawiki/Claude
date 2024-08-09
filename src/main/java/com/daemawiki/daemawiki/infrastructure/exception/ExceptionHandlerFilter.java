@@ -18,17 +18,20 @@ public class ExceptionHandlerFilter implements WebFilter {
 
     private final ResponseWriterFactory responseWriterFactory;
 
+    private final CustomExceptionLogger logger = CustomExceptionLogger.of(this.getClass());
+
     @NonNull
     @Override
     public Mono<Void> filter(@NonNull ServerWebExchange exchange, WebFilterChain chain) {
         return chain.filter(exchange)
                 .doOnError(error -> resolveError(error, exchange));
-
     }
 
     private void resolveError(Throwable error, ServerWebExchange exchange) {
         var ex = convertToCustomException(error);
-        var errorResponse = resolveCustomException(ex);
+        var errorResponse = convertExceptionToResponse(ex);
+
+        logger.log(ex, errorResponse, exchange);
 
         responseWriterFactory.getWriter(exchange)
                 .setStatus(ex.getStatus())
@@ -44,10 +47,9 @@ public class ExceptionHandlerFilter implements WebFilter {
                     throwable.getMessage(), throwable.getCause()
             );
         }
-
     }
 
-    private ErrorResponse resolveCustomException(CustomException exception) {
+    private ErrorResponse convertExceptionToResponse(CustomException exception) {
         return ErrorResponse.ofCustomException(exception);
     }
 }
