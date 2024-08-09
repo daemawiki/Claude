@@ -15,7 +15,7 @@ import java.time.Duration;
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j(topic = "인증 코드 레포지토리")
+@Slf4j(topic = "메일 인증 코드 레디스 레포지토리")
 public class AuthCodeRepositoryImpl implements AuthCodeRepository {
     @Override
     public Mono<Boolean> save(AuthCodeModel model) {
@@ -43,13 +43,15 @@ public class AuthCodeRepositoryImpl implements AuthCodeRepository {
     }
 
     private static <T> Mono<T> handleError(Mono<T> mono) {
-        return mono.onErrorMap(
-                e -> e instanceof RedisConnectionFailureException ?
-                        CustomExceptionFactory.internalServerError(
-                                "레디스 서버에 연결하는데 문제가 발생했습니다."
-                        ) : e
-        );
+        return mono.onErrorMap(e -> {
+            log.error("#- Error: " + e);
+            return e instanceof RedisConnectionFailureException ?
+                    CustomExceptionFactory.internalServerError(
+                            "레디스 서버에 연결하는데 문제가 발생했습니다."
+                    ) : e;
+        });
     }
+
 
     private static final String AUTH_CODE = RedisKey.AUTH_CODE.getKey();
     private final RedisOperation redisOperation;
