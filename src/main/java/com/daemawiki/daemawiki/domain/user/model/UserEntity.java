@@ -47,8 +47,12 @@ public class UserEntity {
         this.documentId = documentId;
     }
 
-    public void updateUserRole(UserRole role) {
-        this.role = role;
+    public void setRoleToDSM_MOP() {
+        this.role = UserRole.DSM_MOP;
+    }
+
+    public void setRoleToMANAGER() {
+        this.role = UserRole.MANAGER;
     }
 
     public UserEntity updateUserInfo(UserInfo userInfo) {

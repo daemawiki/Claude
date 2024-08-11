@@ -38,7 +38,7 @@ public class AddManagerService implements AddManagerUseCase {
      * @return Mono<UserEntity> UserEntity 유저 엔티티
      */
     private Mono<UserEntity> updateUserRoleAndSave(UserEntity user) {
-        user.updateUserRole(UserRole.MANAGER);
+        user.setRoleToMANAGER();
         return userRepository.save(user);
     }
 

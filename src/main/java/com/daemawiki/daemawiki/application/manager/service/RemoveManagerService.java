@@ -3,6 +3,7 @@ package com.daemawiki.daemawiki.application.manager.service;
 import com.daemawiki.daemawiki.domain.manager.model.ManagerEntity;
 import com.daemawiki.daemawiki.domain.manager.repository.ManagerRepository;
 import com.daemawiki.daemawiki.application.manager.usecase.RemoveManagerUseCase;
+import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class RemoveManagerService implements RemoveManagerUseCase {
 
     private Mono<ManagerEntity> lossOfRole(ManagerEntity manager) {
         return userRepository.findById(manager.getId())
-                .doOnNext(user -> user.updateUserRole(UserRole.DSM_MOP))
+                .doOnNext(UserEntity::setRoleToDSM_MOP)
                 .flatMap(userRepository::save)
                 .thenReturn(manager);
     }
