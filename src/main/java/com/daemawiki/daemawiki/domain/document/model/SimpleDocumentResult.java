@@ -15,14 +15,14 @@ public record SimpleDocumentResult(
         EditDateTime dateTime
 ) {
     public static SimpleDocumentResult fromDocumentEntity(DocumentEntity entity) {
-        final var contents = entity.getContents();
+        final var contents = entity.getContentList();
 
         return new SimpleDocumentResult(
                 entity.getId(),
                 entity.getType(),
                 entity.getTitle(),
                 contents.isEmpty() ? "none." : contents.getFirst().content(),
-                entity.getCategory(),
+                entity.getCategoryList(),
                 entity.getView(),
                 entity.getDateTime()
         );
