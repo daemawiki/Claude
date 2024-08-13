@@ -98,7 +98,10 @@ public class DocumentEntity {
 
     /* value objects */
 
-    public record Info(String subTitle, List<DocumentInfoDetail> details) {}
+    public record Info(String subTitle, List<Detail> detailList) {
+
+        public record Detail(String title, String content) {}
+    }
 
     public record Content(String index, String title, String content) {}
 
