@@ -24,7 +24,7 @@ public abstract class AbstractDocumentUpdateServiceBase<T> {
 
     private Mono<DocumentEntity> validateAccess(Tuple2<DocumentEntity, UserEntity> tuple) {
         return Mono.just(tuple)
-                .filter(t -> t.getT1().canEdit(t.getT2()))
+                .filter(t -> t.getT1().canEdit(DocumentEntity.Editor.fromUser(t.getT2())))
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 수정 권한 x
                 .map(Tuple2::getT1);
     }
