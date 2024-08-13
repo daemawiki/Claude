@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.user.service;
 
-import com.daemawiki.daemawiki.application.document.usecase.CreateUserDocumentUseCase;
+import com.daemawiki.daemawiki.application.document.CreateUserDocumentUseCase;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthUserRepository;
 import com.daemawiki.daemawiki.domain.manager.model.ManagerEntity;
 import com.daemawiki.daemawiki.domain.manager.repository.ManagerRepository;

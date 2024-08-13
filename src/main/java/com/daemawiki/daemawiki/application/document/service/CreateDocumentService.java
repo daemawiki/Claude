@@ -5,7 +5,7 @@ import com.daemawiki.daemawiki.domain.document.model.DefaultDocumentEntityFactor
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
-import com.daemawiki.daemawiki.application.document.usecase.CreateDocumentUseCase;
+import com.daemawiki.daemawiki.application.document.CreateDocumentUseCase;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class CreateDocumentService implements CreateDocumentUseCase {
+class CreateDocumentService implements CreateDocumentUseCase {
 
     @Override
     public Mono<Void> create(CreateDocumentRequest request) {

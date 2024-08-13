@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.service.base.AbstractDocumentUpdateServiceBase;
-import com.daemawiki.daemawiki.application.document.usecase.UpdateDocumentContentsUseCase;
+import com.daemawiki.daemawiki.application.document.UpdateDocumentContentsUseCase;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Service
-public class UpdateDocumentContentsService extends AbstractDocumentUpdateServiceBase<List<DocumentContent>> implements UpdateDocumentContentsUseCase {
+class UpdateDocumentContentsService extends AbstractDocumentUpdateServiceBase<List<DocumentContent>> implements UpdateDocumentContentsUseCase {
 
     @Override
     public Mono<Void> update(String documentId, List<DocumentContent> contents) {

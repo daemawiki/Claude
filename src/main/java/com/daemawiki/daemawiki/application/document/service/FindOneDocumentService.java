@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service;
 
-import com.daemawiki.daemawiki.application.document.usecase.FindOneDocumentUseCase;
+import com.daemawiki.daemawiki.application.document.FindOneDocumentUseCase;
 import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class FindOneDocumentService implements FindOneDocumentUseCase {
+class FindOneDocumentService implements FindOneDocumentUseCase {
 
     @Override
     public Mono<FullDocumentResponse> findById(String documentId) {
