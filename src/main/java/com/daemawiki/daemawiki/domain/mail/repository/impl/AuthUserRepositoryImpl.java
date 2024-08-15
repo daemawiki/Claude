@@ -15,7 +15,7 @@ import java.time.Duration;
 @Repository
 @RequiredArgsConstructor
 @Slf4j(topic = "인증된 유저 레디스 레포지토리")
-public class AuthUserRepositoryImpl implements AuthUserRepository {
+class AuthUserRepositoryImpl implements AuthUserRepository {
     @Override
     public Mono<Boolean> save(String mail) {
         return handleError(redisOperation.save(

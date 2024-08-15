@@ -16,7 +16,7 @@ import java.time.Duration;
 @Repository
 @RequiredArgsConstructor
 @Slf4j(topic = "메일 인증 코드 레디스 레포지토리")
-public class AuthCodeRepositoryImpl implements AuthCodeRepository {
+class AuthCodeRepositoryImpl implements AuthCodeRepository {
     @Override
     public Mono<Boolean> save(AuthCodeModel model) {
         return handleError(redisOperation.save(
