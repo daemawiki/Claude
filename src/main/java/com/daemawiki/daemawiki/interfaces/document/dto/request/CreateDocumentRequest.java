@@ -1,10 +1,12 @@
 package com.daemawiki.daemawiki.interfaces.document.dto.request;
 
-import java.util.List;
+import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
+
+import java.util.Set;
 
 public record CreateDocumentRequest(
         String title,
-        String type,
-        List<String> category
+        DocumentEntity.Type type,
+        Set<String> category
 ) {
 }

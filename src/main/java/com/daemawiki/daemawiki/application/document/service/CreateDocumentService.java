@@ -25,7 +25,7 @@ class CreateDocumentService implements CreateDocumentUseCase {
     }
 
     private static DocumentEntity createDocumentEntity(CreateDocumentRequest request, UserEntity user) {
-        return DefaultDocumentEntityFactory.createDocumentEntity(request, null, DocumentEditor.fromUser(user));
+        return DefaultDocumentEntityFactory.createDocumentEntity(request, null, DocumentEntity.Editor.fromUser(user));
     }
 
     private final DocumentRepository documentRepository;

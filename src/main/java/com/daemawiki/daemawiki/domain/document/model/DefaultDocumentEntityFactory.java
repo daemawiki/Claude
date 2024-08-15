@@ -1,14 +1,10 @@
 package com.daemawiki.daemawiki.domain.document.model;
 
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentEditor;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfo;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentInfoDetail;
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class DefaultDocumentEntityFactory {
 
@@ -21,27 +17,27 @@ public class DefaultDocumentEntityFactory {
         var major = user.getUserInfo().major();
 
         var details = List.of(
-                DocumentInfoDetail.of(GENERATION_TITLE, generation),
-                DocumentInfoDetail.of(MAJOR_TITLE, major)
+                new DocumentEntity.Info.Detail(GENERATION_TITLE, generation),
+                new DocumentEntity.Info.Detail(MAJOR_TITLE, major)
         );
 
         return createDocumentEntity(
-                CreateDocumentRequest.of(
+                new CreateDocumentRequest(
                         user.getName(),
-                        DocumentType.STUDENT,
-                        List.of(generation, major)
+                        DocumentEntity.Type.STUDENT,
+                        Set.of(generation, major)
                 ),
                 details,
-                DocumentEditor.fromUser(user)
+                DocumentEntity.Editor.fromUser(user)
         );
     }
 
-    public static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentInfoDetail> details, DocumentEditor owner) {
+    public static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentEntity.Info.Detail> details, DocumentEntity.Editor owner) {
         return DocumentEntity.createEntity(
                 request.title(),
-                DocumentInfo.of(
+                new DocumentEntity.Info(
                         request.title(),
-                        details == null ? Collections.emptyList() : details
+                        details
                 ),
                 request.category(),
                 request.type(),
