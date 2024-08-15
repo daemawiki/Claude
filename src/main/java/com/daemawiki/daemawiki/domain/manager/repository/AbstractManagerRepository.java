@@ -6,7 +6,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public abstract class AbstractManagerRepository implements ManagerRepository {
+abstract class AbstractManagerRepository implements ManagerRepository {
 
     @Override
     public Mono<ManagerEntity> save(ManagerEntity entity) {
