@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 @Repository
-public class DocumentRepositoryImpl extends DocumentAbstractRepository {
+class DocumentRepositoryImpl extends DocumentAbstractRepository {
     @Override
     public Mono<DocumentEntity> increaseView(DocumentEntity entity) {
         return Mono.justOrEmpty(entity)

@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public abstract class DocumentAbstractRepository implements DocumentRepository {
+abstract class DocumentAbstractRepository implements DocumentRepository {
     @Override
     public Mono<DocumentEntity> save(DocumentEntity entity) {
         return documentMongoRepository.save(entity);
