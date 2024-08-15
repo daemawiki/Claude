@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
 
 @Repository
-public class UserRepositoryImpl extends UserAbstractRepository {
+class UserRepositoryImpl extends UserAbstractRepository {
     @Override
     public Flux<UserEntity> findByGenerationAndMajor(Integer generation, String major, PagingInfo pagingInfo) {
         return mongoQueryUtils.find(

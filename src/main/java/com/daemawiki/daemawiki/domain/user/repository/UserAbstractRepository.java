@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public abstract class UserAbstractRepository implements UserRepository {
+abstract class UserAbstractRepository implements UserRepository {
     @Override
     public Mono<UserEntity> save(UserEntity entity) {
         return userMongoRepository.save(entity);
