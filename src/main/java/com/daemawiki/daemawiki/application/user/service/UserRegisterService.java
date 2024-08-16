@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
  */
 @Service
 @RequiredArgsConstructor
-public class UserRegisterService implements UserRegisterUseCase {
+class UserRegisterService implements UserRegisterUseCase {
     /**
      * 회원가입 메서드<br/>
      * validateRegistration 메서드에서 에러 signal을 보내어 then이 작동 안하는 상황이 있어 <br/>

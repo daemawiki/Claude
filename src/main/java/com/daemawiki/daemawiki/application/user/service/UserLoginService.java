@@ -20,7 +20,7 @@ import java.net.InetSocketAddress;
  */
 @Service
 @RequiredArgsConstructor
-public class UserLoginService implements UserLoginUseCase {
+class UserLoginService implements UserLoginUseCase {
 
     @Override
     public Mono<String> loginWithSession(UserLoginRequest request, ServerHttpRequest serverHttpRequest) {
