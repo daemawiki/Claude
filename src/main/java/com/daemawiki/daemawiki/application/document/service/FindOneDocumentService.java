@@ -15,7 +15,7 @@ class FindOneDocumentService implements FindOneDocumentUseCase {
     public Mono<FullDocumentResponse> findById(String documentId) {
         return documentRepository.findById(documentId)
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 id로 찾지 못했을 때
-                .map(FullDocumentResponse::fromDocumentEntity);
+                .map(FullDocumentResponse::fromEntity);
     }
 
     private final DocumentRepository documentRepository;

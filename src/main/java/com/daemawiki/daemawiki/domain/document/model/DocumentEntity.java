@@ -2,6 +2,7 @@ package com.daemawiki.daemawiki.domain.document.model;
 
 import com.daemawiki.daemawiki.common.util.date.EditDateTime;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
+import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
