@@ -6,7 +6,7 @@ import java.util.Set;
 
 public record CreateDocumentRequest(
         String title,
-        DocumentEntity.Type type,
+        String type,
         Set<String> category
 ) {
 }
