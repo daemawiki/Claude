@@ -43,6 +43,10 @@ public class DocumentEntity {
         return editorList.contains(editor) || isOwner(editor);
     }
 
+    public boolean canDelete(Editor editor) {
+        return canEdit(editor) && !type.equals(Type.STUDENT);
+    }
+
     public boolean isOwner(Editor editor) {
         return owner.equals(editor);
     }

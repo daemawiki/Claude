@@ -1,6 +1,7 @@
 package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.DeleteDocumentUseCase;
+import com.daemawiki.daemawiki.domain.document.model.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
@@ -30,7 +31,7 @@ class DeleteDocumentService implements DeleteDocumentUseCase {
 
     private Mono<String> validateAccess(DocumentEntity document, UserEntity user) {
         return Mono.just(user)
-                .filter(u -> document.canEdit(DocumentEntity.Editor.fromUser(u)) && !document.getType().equals(DocumentEntity.Type.STUDENT))
+                .filter(u -> document.canDelete(DocumentElementMapper.fromUserToEditor(u)))
                 .switchIfEmpty(Mono.error(new RuntimeException()))
                 .thenReturn(document.getId());
     }
