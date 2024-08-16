@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service.base;
 
+import com.daemawiki.daemawiki.domain.document.model.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
@@ -24,7 +25,7 @@ public abstract class AbstractDocumentUpdateServiceBase<T> {
 
     private Mono<DocumentEntity> validateAccess(Tuple2<DocumentEntity, UserEntity> tuple) {
         return Mono.just(tuple)
-                .filter(t -> t.getT1().canEdit(DocumentEntity.Editor.fromUser(t.getT2())))
+                .filter(t -> t.getT1().canEdit(DocumentElementMapper.fromUserToEditor(t.getT2())))
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 수정 권한 x
                 .map(Tuple2::getT1);
     }
