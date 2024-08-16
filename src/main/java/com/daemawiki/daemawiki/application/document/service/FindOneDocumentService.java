@@ -1,6 +1,7 @@
 package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.FindOneDocumentUseCase;
+import com.daemawiki.daemawiki.domain.document.model.DocumentEntityMapper;
 import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ class FindOneDocumentService implements FindOneDocumentUseCase {
     public Mono<FullDocumentResponse> findById(String documentId) {
         return documentRepository.findById(documentId)
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 id로 찾지 못했을 때
-                .map(FullDocumentResponse::fromEntity);
+                .map(DocumentEntityMapper::toFullResponse);
     }
 
     private final DocumentRepository documentRepository;
