@@ -7,13 +7,14 @@ import com.daemawiki.daemawiki.interfaces.document.dto.request.DocumentElementDt
 import java.util.List;
 
 /**
- * <pre>  DocumentInfoDto     to  DocumentEntity.Info
+ * <pre>
+ * DocumentInfoDto     to  DocumentEntity.Info
  * DocumentContentDto  to  DocumentEntity.Content
  * DocumentEditorInfo  to  DocumentEntity.Editor
- * String              to  DocumentEntity.Type <pre/>
+ * String              to  DocumentEntity.Type
  *
- * application layer에서
- * Document의 요소로 변환 과정이 필요할 때 무조건 해당 Mapper 클래스를 사용합니다.
+ * application / business layer에서
+ * Document의 요소로 변환 과정이 필요할 때 해당 Mapper 클래스를 사용합니다.<pre/>
  * */
 public class DocumentElementMapper {
 
@@ -51,5 +52,4 @@ public class DocumentElementMapper {
                 .map(DocumentElementMapper::toEditor)
                 .toList();
     }
-
 }

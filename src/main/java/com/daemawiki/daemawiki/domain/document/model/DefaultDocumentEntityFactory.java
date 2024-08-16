@@ -24,7 +24,7 @@ public class DefaultDocumentEntityFactory {
         return createDocumentEntity(
                 new CreateDocumentRequest(
                         user.getName(),
-                        DocumentType.STUDENT.name(),
+                        DocumentEntity.Type.STUDENT.name(),
                         Set.of(generation, major)
                 ),
                 details,
@@ -40,7 +40,7 @@ public class DefaultDocumentEntityFactory {
                         details
                 ),
                 request.category(),
-                DocumentType.valueOf(request.type()),
+                DocumentEntity.Type.valueOf(request.type()),
                 owner
         );
     }
