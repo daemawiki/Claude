@@ -97,24 +97,20 @@ public class DocumentEntity {
 
     /* value objects */
 
-    public record Info(String subTitle, List<Detail> detailList) {
+    record Info(String subTitle, List<Detail> detailList) {
 
-        public record Detail(String title, String content) {}
+        record Detail(String title, String content) {}
     }
 
-    public record Content(String index, String title, String content) {}
+    record Content(String index, String title, String content) {}
 
-    public record Editor(String name, String userId) {
+    record Editor(String name, String userId) {
         public static Editor fromUser(UserEntity user) {
             return new Editor(user.getName(), user.getId());
         }
     }
 
-    public enum Type {
-        STUDENT,
-        MAIN,
-        TEACHER,
-        INCIDENT,
-        TEST
+    enum Type {
+        STUDENT, MAIN, TEACHER, INCIDENT, TEST
     }
 }
