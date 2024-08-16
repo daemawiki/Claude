@@ -1,5 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service;
 
+import com.daemawiki.daemawiki.domain.document.model.DocumentElementMapper;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
 import com.daemawiki.daemawiki.domain.document.model.DefaultDocumentEntityFactory;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
@@ -24,7 +25,11 @@ class CreateDocumentService implements CreateDocumentUseCase {
     }
 
     private static DocumentEntity createDocumentEntity(CreateDocumentRequest request, UserEntity user) {
-        return DefaultDocumentEntityFactory.createDocumentEntity(request, null, DocumentEntity.Editor.fromUser(user));
+        return DefaultDocumentEntityFactory.createDocumentEntity(
+                request,
+                null,
+                DocumentElementMapper.fromUserToEditor(user)
+        );
     }
 
     private final DocumentRepository documentRepository;
