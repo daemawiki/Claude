@@ -1,7 +1,6 @@
-package com.daemawiki.daemawiki.application.document;
+package com.daemawiki.daemawiki.application.document.usecase;
 
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentContent;
-import com.daemawiki.daemawiki.application.document.base.DocumentUpdateUseCaseBase;
+import com.daemawiki.daemawiki.application.document.usecase.base.DocumentUpdateUseCaseBase;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.DocumentElementDtos;
 import reactor.core.publisher.Mono;
 

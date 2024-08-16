@@ -4,7 +4,6 @@ import com.daemawiki.daemawiki.application.manager.usecase.AddManagerUseCase;
 import com.daemawiki.daemawiki.domain.manager.model.ManagerEntity;
 import com.daemawiki.daemawiki.domain.manager.repository.ManagerRepository;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
-import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import reactor.core.publisher.Mono;
  */
 @Service
 @RequiredArgsConstructor
-public class AddManagerService implements AddManagerUseCase {
+class AddManagerService implements AddManagerUseCase {
 
     /**
      * 관리자 추가 메서드

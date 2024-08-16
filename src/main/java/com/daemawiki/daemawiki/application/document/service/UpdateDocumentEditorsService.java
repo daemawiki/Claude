@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service;
 
-import com.daemawiki.daemawiki.application.document.UpdateDocumentEditorsUseCase;
+import com.daemawiki.daemawiki.application.document.usecase.UpdateDocumentEditorsUseCase;
 import com.daemawiki.daemawiki.domain.document.internal.DocumentEditorInfo;
 import com.daemawiki.daemawiki.domain.document.model.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;

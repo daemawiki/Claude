@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class UserMailVerifyService implements UserMailVerifyUseCase {
+class UserMailVerifyService implements UserMailVerifyUseCase {
     @Override
     public Mono<Void> verify(String target, String code) {
         return authCodeRepository.findByMail(target)

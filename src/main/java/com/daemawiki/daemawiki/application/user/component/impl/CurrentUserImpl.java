@@ -13,7 +13,7 @@ import java.security.Principal;
 
 @Component
 @RequiredArgsConstructor
-public class CurrentUserImpl implements CurrentUser {
+class CurrentUserImpl implements CurrentUser {
     @Override
     public Mono<UserEntity> get() {
         return ReactiveSecurityContextHolder.getContext()

@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service;
 
-import com.daemawiki.daemawiki.application.document.CreateUserDocumentUseCase;
+import com.daemawiki.daemawiki.application.document.usecase.CreateUserDocumentUseCase;
 import com.daemawiki.daemawiki.domain.document.model.DefaultDocumentEntityFactory;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;

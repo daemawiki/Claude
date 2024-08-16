@@ -4,7 +4,6 @@ import com.daemawiki.daemawiki.domain.manager.model.ManagerEntity;
 import com.daemawiki.daemawiki.domain.manager.repository.ManagerRepository;
 import com.daemawiki.daemawiki.application.manager.usecase.RemoveManagerUseCase;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
-import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class RemoveManagerService implements RemoveManagerUseCase {
+class RemoveManagerService implements RemoveManagerUseCase {
 
     @Override
     public Mono<Void> remove(String email) {

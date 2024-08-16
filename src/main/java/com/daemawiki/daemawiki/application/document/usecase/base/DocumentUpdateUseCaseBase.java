@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.application.document.base;
+package com.daemawiki.daemawiki.application.document.usecase.base;
 
 import reactor.core.publisher.Mono;
 

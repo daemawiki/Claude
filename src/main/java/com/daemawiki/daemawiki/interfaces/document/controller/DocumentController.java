@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.interfaces.document.controller;
 
-import com.daemawiki.daemawiki.application.document.*;
+import com.daemawiki.daemawiki.application.document.usecase.*;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.UpdateDocumentContentsRequest;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.UpdateDocumentInfoAndCategoryRequest;

@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.application.document;
+package com.daemawiki.daemawiki.application.document.usecase;
 
 import com.daemawiki.daemawiki.domain.document.model.SimpleDocumentResult;
 import com.daemawiki.daemawiki.common.util.paging.PagingRequest;

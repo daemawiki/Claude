@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 @Slf4j(topic = "유저 메일 전송 서비스")
-public class UserMailSendService implements UserMailSendUseCase {
+class UserMailSendService implements UserMailSendUseCase {
     @Override
     public Mono<Void> send(String to, MailType type) {
         return userRepository.findByEmail(to)

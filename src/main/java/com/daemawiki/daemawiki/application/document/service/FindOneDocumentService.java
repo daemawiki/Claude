@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service;
 
-import com.daemawiki.daemawiki.application.document.FindOneDocumentUseCase;
+import com.daemawiki.daemawiki.application.document.usecase.FindOneDocumentUseCase;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntityMapper;
 import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
