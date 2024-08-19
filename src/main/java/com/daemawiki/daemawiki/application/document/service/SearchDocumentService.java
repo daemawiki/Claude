@@ -8,6 +8,7 @@ import com.daemawiki.daemawiki.common.util.paging.PagingRequest;
 import com.daemawiki.daemawiki.common.util.searching.SearchResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -19,6 +20,7 @@ class SearchDocumentService implements SearchDocumentUseCase {
     private final DocumentRepository documentRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<SearchResponse<SimpleDocumentResult>> searchDocument(String searchText, PagingRequest request) {
         return documentRepository.search(searchText, PagingInfo.fromPagingRequest(request))
                 .map(SimpleDocumentResult::fromDocumentEntity)

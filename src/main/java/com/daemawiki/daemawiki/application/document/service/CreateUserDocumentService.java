@@ -8,6 +8,7 @@ import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 class CreateUserDocumentService implements CreateUserDocumentUseCase {
 
     @Override
+    @Transactional
     public Mono<Void> create(UserEntity user) {
         return createDocumentAndGetId(user)
                 .doOnNext(user::updateDocumentId)

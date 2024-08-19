@@ -6,6 +6,7 @@ import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResp
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -13,6 +14,7 @@ import reactor.core.publisher.Mono;
 class FindOneDocumentService implements FindOneDocumentUseCase {
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<FullDocumentResponse> findById(String documentId) {
         return documentRepository.findById(documentId)
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 id로 찾지 못했을 때

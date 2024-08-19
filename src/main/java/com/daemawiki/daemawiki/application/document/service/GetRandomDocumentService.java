@@ -6,6 +6,7 @@ import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResp
 import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -13,6 +14,7 @@ import reactor.core.publisher.Mono;
 class GetRandomDocumentService implements GetRandomDocumentUseCase {
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<FullDocumentResponse> get() {
         return documentRepository.getRandom()
                 .map(DocumentEntityMapper::toFullResponse);

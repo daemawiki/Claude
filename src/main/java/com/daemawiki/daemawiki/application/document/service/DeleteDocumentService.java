@@ -8,6 +8,7 @@ import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -17,6 +18,7 @@ class DeleteDocumentService implements DeleteDocumentUseCase {
     private final CurrentUser currentUser;
 
     @Override
+    @Transactional
     public Mono<Void> delete(String documentId) {
         return findDocument(documentId)
                 .zipWith(currentUser.get())

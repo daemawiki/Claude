@@ -7,6 +7,7 @@ import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
 import com.daemawiki.daemawiki.application.document.service.base.AbstractDocumentUpdateServiceBase;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 class UpdateDocumentEditorsService extends AbstractDocumentUpdateServiceBase<List<DocumentEditorInfo>> implements UpdateDocumentEditorsUseCase {
 
     @Override
+    @Transactional
     public Mono<Void> update(String documentId, List<DocumentEditorInfo> updateData) {
         return updateDocument(
                 documentId,
