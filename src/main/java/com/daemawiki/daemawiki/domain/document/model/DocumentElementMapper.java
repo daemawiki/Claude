@@ -3,6 +3,8 @@ package com.daemawiki.daemawiki.domain.document.model;
 import com.daemawiki.daemawiki.domain.document.internal.DocumentEditorInfo;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.DocumentElementDtos;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 import java.util.List;
 
@@ -14,15 +16,17 @@ import java.util.List;
  * String              to  DocumentEntity.Type
  *
  * application / business layer에서
- * Document의 요소로 변환 과정이 필요할 때 해당 Mapper 클래스를 사용합니다.<pre/>
+ * Document의 요소로 변환 과정이 필요할 때 해당 Mapper 클래스를 사용합니다.
  * */
 public class DocumentElementMapper {
 
-    public static DocumentEntity.Info toInfo(DocumentElementDtos.DocumentInfoDto dto) {
-        List<DocumentEntity.Info.Detail> details = dto.details().stream()
-                .map(detailDto -> new DocumentEntity.Info.Detail(detailDto.title(), detailDto.content()))
-                .toList();
-        return new DocumentEntity.Info(dto.subTitle(), details);
+    public static Tuple2<List<DocumentEntity.Detail>, DocumentEntity.Title> toInfoTuple(DocumentElementDtos.DocumentInfoUpdateDto dto) {
+        return Tuples.of(
+                dto.detailList().stream()
+                        .map(detail -> new DocumentEntity.Detail(detail.title(), detail.content()))
+                        .toList(),
+                new DocumentEntity.Title(dto.title().mainTitle(), dto.title().subTitle())
+        );
     }
 
     public static DocumentEntity.Content toContent(DocumentElementDtos.DocumentContentDto dto) {
