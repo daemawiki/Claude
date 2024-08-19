@@ -1,13 +1,15 @@
 package com.daemawiki.daemawiki.domain.document.model;
 
-import com.daemawiki.daemawiki.common.util.date.EditDateTime;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
-import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import reactor.util.function.Tuple2;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -15,12 +17,14 @@ import java.util.Set;
 @Document(collection = "documents")
 @Getter(value = AccessLevel.PUBLIC)
 public class DocumentEntity {
+    /* fields */
+
     @Id
     private String id;
 
-    private String title;
+    private Title title;
 
-    private Info info;
+    private List<Detail> detailList;
 
     private List<Content> contentList;
 
@@ -38,10 +42,10 @@ public class DocumentEntity {
 
     private List<Editor> editorList;
 
-    /* setter And more. */
+    /* validate methods */
 
     public boolean canEdit(Editor editor) { // TODO: 8/13/24 DSM_MOP 검사 로직 옮기기
-        return editorList.contains(editor) || isOwner(editor);
+        return isOwner(editor) || editorList.contains(editor);
     }
 
     public boolean canDelete(Editor editor) {
@@ -52,60 +56,92 @@ public class DocumentEntity {
         return owner.equals(editor);
     }
 
-    public void updateDocumentInfoAndCategory(Info info, Set<String> categoryList) {
-        this.info = info;
-        this.categoryList = categoryList;
-    }
+    /* setters */
 
     public void updateEditors(List<Editor> editorList) {
         this.editorList = editorList;
+        increaseVersion();
     }
 
     public void updateContents(List<Content> contentList) {
         this.contentList = contentList;
+        increaseVersion();
     }
 
-    public void updateTitle(String title) {
+    public void updateDocumentInfo(Tuple2<List<Detail>, Title> tuple) {
+        updateDetailList(tuple.getT1());
+        updateTitle(tuple.getT2());
+    }
+
+    private void updateTitle(Title title) {
         this.title = title;
     }
 
-    public void increaseView() {
-        this.view++;
+    private void updateDetailList(List<Detail> detailList) {
+        this.detailList = detailList;
     }
 
-    public void increaseVersion() {
-        this.version++;
+    public void increaseView() {
+        view++;
+    }
+
+    private void increaseVersion() {
+        version++;
     }
 
     /* static factory methods */
 
-    public static DocumentEntity createEntity(String title, Info info, Set<String> categoryList, Type type, Editor owner) {
-        return new DocumentEntity(title, info, categoryList, type, owner);
+    public static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
+        return new DocumentEntity(title, detailList, categoryList, type, owner);
     }
 
     /* constructors */
 
     protected DocumentEntity() {}
 
-    private DocumentEntity(String title, Info info, Set<String> categoryList, Type type, Editor owner) {
+    private DocumentEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
         this.title = title;
-        this.info = info;
+        this.detailList = detailList;
         this.contentList = Collections.emptyList();
         this.categoryList = categoryList;
         this.view = 0L;
         this.version = 0L;
         this.type = type;
-        this.dateTime = EditDateTime.getNewInstance();
+        this.dateTime = EditDateTime.createNewInstance();
         this.owner = owner;
         this.editorList = Collections.emptyList();
     }
 
     /* value objects */
 
-    record Info(String subTitle, List<Detail> detailList) {
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    static class EditDateTime {
+        private final LocalDateTime createdDateTime;
+        @LastModifiedDate
+        private LocalDateTime lastModifiedDateTime;
 
-        record Detail(String title, String content) {}
+        /**
+         * getters <br/><br/>
+         *
+         * 다른 record value object와 일관성을 유지하기 위해 메서드명 유지
+         * */
+        public LocalDateTime createdDateTime() {
+            return createdDateTime;
+        }
+
+        public LocalDateTime lastModifiedDateTime() {
+            return lastModifiedDateTime;
+        }
+
+        public static EditDateTime createNewInstance() {
+            final var now = LocalDateTime.now();
+            return new EditDateTime(now, now);
+        }
     }
+
+    record Title(String mainTitle, String subTitle) {}
+
+    record Detail(String title, String content) {}
 
     record Content(String index, String title, String content) {}
 
@@ -115,6 +151,12 @@ public class DocumentEntity {
         }
     }
 
+    /**
+     * <pre>
+     * STUDENT : 학생 문서    : 삭제 불가능
+     * MAIN    : 메인 페이지   : 삭제 불가능
+     * TEACHER : 선생님 문서   :
+     * INCIDENT: 사건사고 문서 :*/
     enum Type {
         STUDENT, MAIN, TEACHER, INCIDENT, TEST
     }

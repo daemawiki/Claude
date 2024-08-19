@@ -17,8 +17,8 @@ public class DefaultDocumentEntityFactory {
         var major = user.getUserInfo().major();
 
         var details = List.of(
-                new DocumentEntity.Info.Detail(GENERATION_TITLE, generation),
-                new DocumentEntity.Info.Detail(MAJOR_TITLE, major)
+                new DocumentEntity.Detail(GENERATION_TITLE, generation),
+                new DocumentEntity.Detail(MAJOR_TITLE, major)
         );
 
         return createDocumentEntity(
@@ -32,13 +32,13 @@ public class DefaultDocumentEntityFactory {
         );
     }
 
-    public static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentEntity.Info.Detail> details, DocumentEntity.Editor owner) {
+    public static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentEntity.Detail> details, DocumentEntity.Editor owner) {
         return DocumentEntity.createEntity(
-                request.title(),
-                new DocumentEntity.Info(
+                new DocumentEntity.Title(
                         request.title(),
-                        details
+                        request.title()
                 ),
+                details,
                 request.category(),
                 DocumentEntity.Type.valueOf(request.type()),
                 owner
