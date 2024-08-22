@@ -46,8 +46,8 @@ public class DocumentElementMapper {
         return DocumentEntity.Editor.fromUser(user);
     }
 
-    public static DocumentEntity.Type toType(String typeString) {
-        return DocumentEntity.Type.valueOf(typeString.toUpperCase());
+    public static DocumentEntity.Type toType(DocumentElementDtos.TypeDto typeDto) {
+        return DocumentEntity.Type.valueOf(typeDto.name());
     }
 
     public static List<DocumentEntity.Content> toContentList(List<DocumentElementDtos.ContentDto> dtoList) {
@@ -89,8 +89,8 @@ public class DocumentElementMapper {
         return new DocumentElementDtos.ContentDto(documentContent.index(), documentContent.title(), documentContent.content());
     }
 
-    public static String toTypeStringDto(DocumentEntity.Type documentType) {
-        return documentType.name();
+    public static DocumentElementDtos.TypeDto toTypeDto(DocumentEntity.Type documentType) {
+        return DocumentElementDtos.TypeDto.valueOf(documentType.name());
     }
 
     public static List<DocumentElementDtos.ContentDto> toContentListDto(List<DocumentEntity.Content> documentContentList) {

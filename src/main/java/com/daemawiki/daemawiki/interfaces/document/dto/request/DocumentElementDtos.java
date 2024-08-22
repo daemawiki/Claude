@@ -9,6 +9,7 @@ public class DocumentElementDtos {
     public enum TypeDto {
         STUDENT, MAIN, TEACHER, INCIDENT, TEST
     }
+
     public record InfoUpdateDto(
             List<DetailDto> detailList,
             TitleDto title

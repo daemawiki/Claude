@@ -21,7 +21,7 @@ public record DocumentModel(
 
         Long version,
 
-        String type,
+        DocumentElementDtos.TypeDto type,
 
         DocumentElementDtos.EditDatetimeDto dateTime,
 
