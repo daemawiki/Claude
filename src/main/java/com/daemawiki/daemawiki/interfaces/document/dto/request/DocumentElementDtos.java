@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Layer 간의 document element를 정의하고, 전달할 수 있는 클래스 모임입니다.
+ */
 public class DocumentElementDtos {
 
     public enum TypeDto {
