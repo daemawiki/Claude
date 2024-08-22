@@ -23,7 +23,7 @@ public record DocumentModel(
 
         DocumentElementDtos.TypeDto type,
 
-        DocumentElementDtos.EditDatetimeDto dateTime,
+        DocumentElementDtos.EditDateTimeDto dateTime,
 
         DocumentElementDtos.EditorDto owner,
 

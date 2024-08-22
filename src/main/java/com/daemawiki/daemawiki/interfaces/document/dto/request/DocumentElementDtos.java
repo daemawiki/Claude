@@ -42,8 +42,13 @@ public class DocumentElementDtos {
             String userId
     ) {}
 
-    public record EditDatetimeDto(
+    public record EditDateTimeDto(
             LocalDateTime createdDateTime,
             LocalDateTime lastModifiedDateTime
-    ) {}
+    ) {
+        public static EditDateTimeDto createNewInstance() {
+            LocalDateTime now = LocalDateTime.now();
+            return new EditDateTimeDto(now, now);
+        }
+    }
 }

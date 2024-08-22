@@ -25,7 +25,7 @@ public class DocumentElementMapper {
         return new DocumentEntity.Editor(dto.name(), dto.userId());
     }
 
-    public static DocumentEntity.EditDateTime toEditDateTime(DocumentElementDtos.EditDatetimeDto dto) {
+    public static DocumentEntity.EditDateTime toEditDateTime(DocumentElementDtos.EditDateTimeDto dto) {
         return new DocumentEntity.EditDateTime(dto.createdDateTime(), dto.lastModifiedDateTime());
     }
 
@@ -81,8 +81,8 @@ public class DocumentElementMapper {
         return new DocumentElementDtos.EditorDto(documentEditor.name(), documentEditor.userId());
     }
 
-    public static DocumentElementDtos.EditDatetimeDto toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime) {
-        return new DocumentElementDtos.EditDatetimeDto(documentEditDateTime.createdDateTime(), documentEditDateTime.lastModifiedDateTime());
+    public static DocumentElementDtos.EditDateTimeDto toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime) {
+        return new DocumentElementDtos.EditDateTimeDto(documentEditDateTime.createdDateTime(), documentEditDateTime.lastModifiedDateTime());
     }
 
     public static DocumentElementDtos.ContentDto toContentDto(DocumentEntity.Content documentContent) {
