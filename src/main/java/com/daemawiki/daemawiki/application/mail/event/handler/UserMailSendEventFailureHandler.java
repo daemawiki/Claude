@@ -6,6 +6,7 @@ import com.daemawiki.daemawiki.common.util.event.EventFailureHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 @Component
@@ -16,6 +17,7 @@ public class UserMailSendEventFailureHandler implements EventFailureHandler<Mail
         authCodeRepository.deleteByEmail(event.to())
                 .doOnNext(l -> log.error(l + "- Mail send failed : " + throwable))
                 .doOnError(e -> log.error("Redis entity delete failed : " + e))
+                .subscribeOn(Schedulers.boundedElastic())
                 .subscribe();
     }
 

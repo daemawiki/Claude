@@ -20,12 +20,13 @@ import reactor.core.scheduler.Schedulers;
 public class UserMailSendEventHandler implements EventHandler<MailSendEvent> {
 
     @Async
-    @EventListener
     @Override
+    @EventListener(MailSendEvent.class)
     public void handle(MailSendEvent event) {
         Mono.fromRunnable(() -> sendMail(event))
                 .subscribeOn(Schedulers.boundedElastic())
                 .doOnError(e -> eventEventFailureHandler.handleFailure(event, e))
+                .subscribeOn(Schedulers.boundedElastic())
                 .subscribe();
     }
 
