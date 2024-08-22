@@ -6,16 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import reactor.util.function.Tuple2;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Getter(value = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @org.springframework.data.mongodb.core.mapping.Document(collection = "documents")
-@Getter(value = AccessLevel.PUBLIC)
-@AllArgsConstructor
 class DocumentEntity {
     /* fields */
 
@@ -41,53 +40,6 @@ class DocumentEntity {
     private Editor owner;
 
     private List<Editor> editorList;
-
-    /* validate methods */
-
-    public boolean canEdit(Editor editor) { // TODO: 8/13/24 DSM_MOP 검사 로직 옮기기
-        return isOwner(editor) || editorList.contains(editor);
-    }
-
-    public boolean canDelete(Editor editor) {
-        return canEdit(editor) && !type.equals(Type.STUDENT);
-    }
-
-    public boolean isOwner(Editor editor) {
-        return owner.equals(editor);
-    }
-
-    /* setters */
-
-    public void updateEditors(List<Editor> editorList) {
-        this.editorList = editorList;
-        increaseVersion();
-    }
-
-    public void updateContents(List<Content> contentList) {
-        this.contentList = contentList;
-        increaseVersion();
-    }
-
-    public void updateDocumentInfo(Tuple2<List<Detail>, Title> tuple) {
-        updateDetailList(tuple.getT1());
-        updateTitle(tuple.getT2());
-    }
-
-    private void updateTitle(Title title) {
-        this.title = title;
-    }
-
-    private void updateDetailList(List<Detail> detailList) {
-        this.detailList = detailList;
-    }
-
-    public void increaseView() {
-        view++;
-    }
-
-    private void increaseVersion() {
-        version++;
-    }
 
     /* static factory methods */
     static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
