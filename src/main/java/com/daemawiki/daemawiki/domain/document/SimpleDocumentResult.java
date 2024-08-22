@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.domain.document.model;
+package com.daemawiki.daemawiki.domain.document;
 
 import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
 import com.daemawiki.daemawiki.common.util.date.EditDateTime;
@@ -7,7 +7,7 @@ import java.util.List;
 
 public record SimpleDocumentResult(
         String id,
-        DocumentType type,
+        String type,
         String title,
         String content,
         List<String> category,

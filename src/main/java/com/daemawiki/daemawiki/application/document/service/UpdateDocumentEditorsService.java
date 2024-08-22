@@ -2,8 +2,8 @@ package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.usecase.UpdateDocumentEditorsUseCase;
 import com.daemawiki.daemawiki.domain.document.internal.DocumentEditorInfo;
-import com.daemawiki.daemawiki.domain.document.model.DocumentElementMapper;
-import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
+import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
+import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.document.service.base.AbstractDocumentUpdateServiceBase;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import org.springframework.stereotype.Service;

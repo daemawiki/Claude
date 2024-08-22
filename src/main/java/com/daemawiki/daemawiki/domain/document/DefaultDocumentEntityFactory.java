@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.domain.document.model;
+package com.daemawiki.daemawiki.domain.document;
 
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -32,7 +32,7 @@ public class DefaultDocumentEntityFactory {
         );
     }
 
-    public static DocumentEntity createDocumentEntity(CreateDocumentRequest request, List<DocumentEntity.Detail> details, DocumentEntity.Editor owner) {
+    public static DocumentModel createDocumentEntity(CreateDocumentRequest request, List<DocumentEntity.Detail> details, DocumentEntity.Editor owner) {
         return DocumentEntity.createEntity(
                 new DocumentEntity.Title(
                         request.title(),

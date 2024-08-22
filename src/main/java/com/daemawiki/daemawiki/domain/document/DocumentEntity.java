@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.domain.document.model;
+package com.daemawiki.daemawiki.domain.document;
 
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import lombok.AccessLevel;
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.Document;
 import reactor.util.function.Tuple2;
 
 import java.time.LocalDateTime;
@@ -14,9 +13,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@Document(collection = "documents")
+@org.springframework.data.mongodb.core.mapping.Document(collection = "documents")
 @Getter(value = AccessLevel.PUBLIC)
-public class DocumentEntity {
+@AllArgsConstructor
+class DocumentEntity {
     /* fields */
 
     @Id
@@ -90,8 +90,7 @@ public class DocumentEntity {
     }
 
     /* static factory methods */
-
-    public static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
+    static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
         return new DocumentEntity(title, detailList, categoryList, type, owner);
     }
 
@@ -114,7 +113,7 @@ public class DocumentEntity {
 
     /* value objects */
 
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PACKAGE)
     static class EditDateTime {
         private final LocalDateTime createdDateTime;
         @LastModifiedDate
