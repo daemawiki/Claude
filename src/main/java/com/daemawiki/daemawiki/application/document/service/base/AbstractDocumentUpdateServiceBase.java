@@ -1,8 +1,8 @@
 package com.daemawiki.daemawiki.application.document.service.base;
 
-import com.daemawiki.daemawiki.domain.document.model.DocumentElementMapper;
-import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
-import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
+import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
+import com.daemawiki.daemawiki.domain.document.DocumentModel;
+import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 @RequiredArgsConstructor
 public abstract class AbstractDocumentUpdateServiceBase<T> {
 
-    protected Mono<Void> updateDocument(String documentId, T updateData, BiConsumer<DocumentEntity, T> updateFunction) {
+    protected Mono<Void> updateDocument(String documentId, T updateData, BiConsumer<DocumentModel, T> updateFunction) {
         return documentRepository.findById(documentId)
                 .zipWith(currentUser.get())
                 .flatMap(this::validateAccess)
@@ -23,7 +23,7 @@ public abstract class AbstractDocumentUpdateServiceBase<T> {
                 .then();
     }
 
-    private Mono<DocumentEntity> validateAccess(Tuple2<DocumentEntity, UserEntity> tuple) {
+    private Mono<DocumentModel> validateAccess(Tuple2<DocumentModel, UserEntity> tuple) {
         return Mono.just(tuple)
                 .filter(t -> t.getT1().canEdit(DocumentElementMapper.fromUserToEditor(t.getT2())))
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 수정 권한 x

@@ -1,9 +1,9 @@
 package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.usecase.DeleteDocumentUseCase;
-import com.daemawiki.daemawiki.domain.document.model.DocumentElementMapper;
+import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
-import com.daemawiki.daemawiki.domain.document.repository.DocumentRepository;
+import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
