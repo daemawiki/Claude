@@ -5,7 +5,7 @@ import com.daemawiki.daemawiki.interfaces.document.dto.request.UpdateDocumentCon
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.UpdateDocumentInfoAndCategoryRequest;
 import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
-import com.daemawiki.daemawiki.domain.document.model.SimpleDocumentResult;
+import com.daemawiki.daemawiki.domain.document.SimpleDocumentResult;
 import com.daemawiki.daemawiki.common.util.paging.PagingRequest;
 import com.daemawiki.daemawiki.common.util.searching.SearchResponse;
 import jakarta.validation.Valid;
