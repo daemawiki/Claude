@@ -81,6 +81,10 @@ public class DocumentElementMapper {
         return new DocumentElementDtos.EditorDto(documentEditor.name(), documentEditor.userId());
     }
 
+    public static DocumentElementDtos.EditorDto fromUsertoEditorDto(UserEntity user) {
+        return new DocumentElementDtos.EditorDto(user.getName(), user.getId());
+    }
+
     public static DocumentElementDtos.EditDateTimeDto toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime) {
         return new DocumentElementDtos.EditDateTimeDto(documentEditDateTime.createdDateTime(), documentEditDateTime.lastModifiedDateTime());
     }
