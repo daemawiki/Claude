@@ -3,7 +3,6 @@ package com.daemawiki.daemawiki.application.document.service;
 import com.daemawiki.daemawiki.application.document.usecase.CreateUserDocumentUseCase;
 import com.daemawiki.daemawiki.domain.document.DefaultDocumentModelFactory;
 import com.daemawiki.daemawiki.domain.document.DocumentModel;
-import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
