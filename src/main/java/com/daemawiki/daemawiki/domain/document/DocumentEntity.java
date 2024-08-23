@@ -29,7 +29,7 @@ class DocumentEntity {
 
     private Set<String> categoryList;
 
-    private Long view;
+    private Long viewCount;
 
     private Long version;
 
@@ -55,7 +55,7 @@ class DocumentEntity {
         this.detailList = detailList;
         this.contentList = Collections.emptyList();
         this.categoryList = categoryList;
-        this.view = 0L;
+        this.viewCount = 0L;
         this.version = 0L;
         this.type = type;
         this.dateTime = EditDateTime.createNewInstance();

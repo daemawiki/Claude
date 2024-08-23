@@ -25,7 +25,7 @@ public class DocumentEntityMapper {
                 DocumentElementMapper.toDetailListDto(entity.getDetailList()),
                 DocumentElementMapper.toContentListDto(entity.getContentList()),
                 entity.getCategoryList(),
-                entity.getView(),
+                entity.getViewCount(),
                 entity.getVersion(),
                 DocumentElementMapper.toTypeDto(entity.getType()),
                 DocumentElementMapper.toEditDateTimeDto(entity.getDateTime()),
