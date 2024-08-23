@@ -20,9 +20,10 @@ public class DefaultDocumentModelFactory {
                 new DocumentElementDtos.DetailDto(GENERATION_TITLE, generation),
                 new DocumentElementDtos.DetailDto(MAJOR_TITLE, major)
         );
+        final var title = user.getName();
 
         return createDocumentEntity(
-                user.getName(),
+                new DocumentElementDtos.TitleDto(title, title),
                 details,
                 Set.of(generation, major),
                 DocumentElementDtos.TypeDto.STUDENT,
@@ -30,9 +31,9 @@ public class DefaultDocumentModelFactory {
         );
     }
 
-    public static DocumentModel createDocumentEntity(String title, List<DocumentElementDtos.DetailDto> details, Set<String> category, DocumentElementDtos.TypeDto type, DocumentElementDtos.EditorDto owner) {
+    public static DocumentModel createDocumentEntity(DocumentElementDtos.TitleDto title, List<DocumentElementDtos.DetailDto> details, Set<String> category, DocumentElementDtos.TypeDto type, DocumentElementDtos.EditorDto owner) {
         return new DocumentModel(
-                new DocumentElementDtos.TitleDto(title, title),
+                title,
                 details,
                 category,
                 type,
