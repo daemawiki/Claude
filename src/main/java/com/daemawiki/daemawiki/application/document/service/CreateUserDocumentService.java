@@ -1,7 +1,8 @@
 package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.usecase.CreateUserDocumentUseCase;
-import com.daemawiki.daemawiki.domain.document.DefaultDocumentEntityFactory;
+import com.daemawiki.daemawiki.domain.document.DefaultDocumentModelFactory;
+import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -26,11 +27,11 @@ class CreateUserDocumentService implements CreateUserDocumentUseCase {
 
     private Mono<String> createDocumentAndGetId(UserEntity user) {
         return documentRepository.save(createDocumentEntity(user))
-                .map(DocumentEntity::getId);
+                .map(DocumentModel::id);
     }
 
-    private DocumentEntity createDocumentEntity(UserEntity user) {
-        return DefaultDocumentEntityFactory.createStudentDocumentEntity(user);
+    private DocumentModel createDocumentEntity(UserEntity user) {
+        return DefaultDocumentModelFactory.createDocumentModelByStudentEntity(user);
     }
 
     private final DocumentRepository documentRepository;

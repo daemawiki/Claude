@@ -3,7 +3,7 @@ package com.daemawiki.daemawiki.application.document.service;
 import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
-import com.daemawiki.daemawiki.domain.document.DefaultDocumentEntityFactory;
+import com.daemawiki.daemawiki.domain.document.DefaultDocumentModelFactory;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.document.usecase.CreateDocumentUseCase;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
@@ -25,7 +25,7 @@ class CreateDocumentService implements CreateDocumentUseCase {
     }
 
     private static DocumentModel createDocumentEntity(CreateDocumentRequest request, UserEntity user) {
-        return DefaultDocumentEntityFactory.createDocumentEntity(
+        return DefaultDocumentModelFactory.createDocumentEntity(
                 request,
                 null,
                 DocumentElementMapper.fromUserToEditor(user)
