@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
 class CreateDocumentService implements CreateDocumentUseCase {
@@ -26,9 +28,11 @@ class CreateDocumentService implements CreateDocumentUseCase {
 
     private static DocumentModel createDocumentEntity(CreateDocumentRequest request, UserEntity user) {
         return DefaultDocumentModelFactory.createDocumentEntity(
-                request,
-                null,
-                DocumentElementMapper.fromUserToEditor(user)
+                request.title(),
+                Collections.emptyList(),
+                request.category(),
+                request.type(),
+                DocumentElementMapper.fromUsertoEditorDto(user)
         );
     }
 
