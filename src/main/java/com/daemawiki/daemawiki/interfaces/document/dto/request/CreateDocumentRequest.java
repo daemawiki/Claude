@@ -15,22 +15,40 @@ import java.util.Set;
  * <p>
  * 사용 예제 :
  * <pre>
+ * in Application
  * {@code
  * var request = new CreateDocumentRequest(
  *     new DocumentElementDtos.TitleDto(
- *          "김승원 메인 타이틀",
- *          "김승원 서브 타이틀"
+ *          "김승원 문서 메인 타이틀",
+ *          "김승원 문서 서브 타이틀"
  *     ),
- *     DocumentElementDtos.TypeDto.STUDENT,
+ *     DocumentElementDtos.TypeDto.INCIDENT,
  *     Set.of("학생", "9기", "백엔드")
  * );
+ * }
+ *
+ * in HTTP
+ * {@code
+ * POST: /api/document
+ * Content-Type: application/json
+ * Body:
+ * {
+ *     "title": {
+ *         "main_title" : "김승원 문서 메인 타이틀",
+ *         "sub_title" : "김승원 문서 서브 타이틀"
+ *     },
+ *     "type": "INCIDENT",
+ *     "category": ["학생", "9기", "백엔드"]
+ * }
  * }
  * </pre>
  * </p>
  *
  * @param title    문서의 제목 객체로 메인, 서브 타이틀로 정의됩니다. {@link DocumentElementDtos.TitleDto}
  * @param type     문서의 유형으로 미리 정의된 열거형 클래스 {@link DocumentElementDtos.TypeDto}로 표현됩니다.
- * @param category 문서가 속하는 카테고리로, 문자열 집합(Set)입니다.
+ * @param category 문서가 속하는 카테고리로, 문자열 Set입니다.
+ *
+ * @author seung won kim
  */
 public record CreateDocumentRequest(
         DocumentElementDtos.TitleDto title,
