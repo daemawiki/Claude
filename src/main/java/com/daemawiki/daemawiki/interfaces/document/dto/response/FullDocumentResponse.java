@@ -1,7 +1,5 @@
 package com.daemawiki.daemawiki.interfaces.document.dto.response;
 
-import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
-
 import java.util.List;
 import java.util.Set;
 
