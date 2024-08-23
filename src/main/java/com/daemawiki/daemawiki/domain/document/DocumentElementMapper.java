@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.domain.document;
 
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
-import com.daemawiki.daemawiki.interfaces.document.dto.request.DocumentElementDtos;
+import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 

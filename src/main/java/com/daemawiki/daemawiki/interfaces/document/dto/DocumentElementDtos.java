@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.interfaces.document.dto.request;
+package com.daemawiki.daemawiki.interfaces.document.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;

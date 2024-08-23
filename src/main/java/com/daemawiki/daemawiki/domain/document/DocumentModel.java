@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.domain.document;
 
-import com.daemawiki.daemawiki.interfaces.document.dto.request.DocumentElementDtos;
+import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
 import reactor.util.function.Tuple2;
 
 import java.util.List;
@@ -29,6 +29,9 @@ public record DocumentModel(
 
         List<DocumentElementDtos.EditorDto> editorList
 ) {
+    public DocumentModel(DocumentElementDtos.TitleDto title, List<DocumentElementDtos.DetailDto> detailList, Set<String> categoryList, DocumentElementDtos.TypeDto type, DocumentElementDtos.EditorDto owner) {
+        this(null, title, detailList, null, categoryList, 0L, 0L, type, null, owner, null);
+    }
 
     // TODO: 8/22/24 불변 record setter 올바르게 작성하기
 

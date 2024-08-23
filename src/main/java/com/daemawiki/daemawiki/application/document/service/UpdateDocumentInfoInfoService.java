@@ -5,7 +5,7 @@ import com.daemawiki.daemawiki.application.document.usecase.UpdateDocumentInfoUs
 import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
-import com.daemawiki.daemawiki.interfaces.document.dto.request.DocumentElementDtos;
+import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
