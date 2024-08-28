@@ -71,6 +71,7 @@ class DocumentEntity {
 
     /* value objects */
 
+    @ValueObject
     @AllArgsConstructor(access = AccessLevel.PACKAGE)
     static class EditDateTime {
         private final LocalDateTime createdDateTime;
