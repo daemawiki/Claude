@@ -22,7 +22,7 @@ public record SimpleDocumentResult(
                 entity.getType(),
                 entity.getTitle(),
                 contents.isEmpty() ? "none." : contents.getFirst().content(),
-                entity.getCategoryList(),
+                entity.getCategorySet(),
                 entity.getViewCount(),
                 entity.getDateTime()
         );

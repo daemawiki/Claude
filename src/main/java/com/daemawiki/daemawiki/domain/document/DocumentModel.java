@@ -15,7 +15,7 @@ public record DocumentModel(
 
         List<DocumentElementDtos.ContentDto> contentList,
 
-        Set<String> categoryList,
+        Set<String> categorySet,
 
         Long view,
 
@@ -50,18 +50,18 @@ public record DocumentModel(
     /* setters */
 
     public DocumentModel updateEditors(List<DocumentElementDtos.EditorDto> editorList) {
-        return new DocumentModel(id, title, detailList, contentList, categoryList, view, version + 1, type, dateTime, owner, editorList);
+        return new DocumentModel(id, title, detailList, contentList, categorySet, view, version + 1, type, dateTime, owner, editorList);
     }
 
     public DocumentModel updateContents(List<DocumentElementDtos.ContentDto> contentList) {
-        return new DocumentModel(id, title, detailList, contentList, categoryList, view, version + 1, type, dateTime, owner, editorList);
+        return new DocumentModel(id, title, detailList, contentList, categorySet, view, version + 1, type, dateTime, owner, editorList);
     }
 
     public DocumentModel updateDocumentInfo(Tuple2<List<DocumentElementDtos.DetailDto>, DocumentElementDtos.TitleDto> tuple) {
-        return new DocumentModel(id, tuple.getT2(), tuple.getT1(), contentList, categoryList, view, version + 1, type, dateTime, owner, editorList);
+        return new DocumentModel(id, tuple.getT2(), tuple.getT1(), contentList, categorySet, view, version + 1, type, dateTime, owner, editorList);
     }
 
     public DocumentModel increaseView() {
-        return new DocumentModel(id, title, detailList, contentList, categoryList, view + 1, version, type, dateTime, owner, editorList);
+        return new DocumentModel(id, title, detailList, contentList, categorySet, view + 1, version, type, dateTime, owner, editorList);
     }
 }

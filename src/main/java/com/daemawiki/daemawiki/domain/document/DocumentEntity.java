@@ -31,7 +31,7 @@ class DocumentEntity {
 
     private List<Content> contentList;
 
-    private Set<String> categoryList;
+    private Set<String> categorySet;
 
     private Long viewCount;
 
@@ -47,8 +47,8 @@ class DocumentEntity {
 
     /* static factory methods */
     @Factory
-    static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
-        return new DocumentEntity(title, detailList, categoryList, type, owner);
+    static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categorySet, Type type, Editor owner) {
+        return new DocumentEntity(title, detailList, categorySet, type, owner);
     }
 
     /* constructors */
@@ -60,7 +60,7 @@ class DocumentEntity {
         this.title = title;
         this.detailList = detailList;
         this.contentList = Collections.emptyList();
-        this.categoryList = categoryList;
+        this.categorySet = categoryList;
         this.viewCount = 0L;
         this.version = 0L;
         this.type = type;
