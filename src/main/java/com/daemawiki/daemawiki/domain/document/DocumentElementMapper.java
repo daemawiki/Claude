@@ -34,7 +34,7 @@ public interface DocumentElementMapper {
         );
     }
 
-    default DocumentEntity.Editor fromUserToEditor(UserEntity user) {
+    static DocumentEntity.Editor fromUserToEditor(UserEntity user) {
         return DocumentEntity.Editor.fromUser(user);
     }
 
@@ -67,7 +67,7 @@ public interface DocumentElementMapper {
 
     DocumentElementDtos.EditorDto toEditorDto(DocumentEntity.Editor documentEditor);
 
-    default DocumentElementDtos.EditorDto fromUsertoEditorDto(UserEntity user) {
+    static DocumentElementDtos.EditorDto fromUsertoEditorDto(UserEntity user) {
         return new DocumentElementDtos.EditorDto(user.getName(), user.getId());
     }
 
