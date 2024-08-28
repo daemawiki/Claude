@@ -2,6 +2,9 @@ package com.daemawiki.daemawiki.domain.document;
 
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
@@ -10,26 +13,19 @@ import java.util.List;
 /**
  * layer간의 dto 클래스가 Document의 요소 클래스로 변환 과정이 필요할 때 해당 Mapper 클래스를 사용합니다.
  * */
-public class DocumentElementMapper {
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface DocumentElementMapper {
 
     /* to Document elements */
-    public static DocumentEntity.Title toTitle(DocumentElementDtos.TitleDto dto) {
-        return new DocumentEntity.Title(dto.mainTitle(), dto.subTitle());
-    }
+    DocumentEntity.Title toTitle(DocumentElementDtos.TitleDto dto);
 
-    public static DocumentEntity.Detail toDetail(DocumentElementDtos.DetailDto dto) {
-        return new DocumentEntity.Detail(dto.title(), dto.content());
-    }
+    DocumentEntity.Detail toDetail(DocumentElementDtos.DetailDto dto);
 
-    public static DocumentEntity.Editor toEditor(DocumentElementDtos.EditorDto dto) {
-        return new DocumentEntity.Editor(dto.name(), dto.userId());
-    }
+    DocumentEntity.Editor toEditor(DocumentElementDtos.EditorDto dto);
 
-    public static DocumentEntity.EditDateTime toEditDateTime(DocumentElementDtos.EditDateTimeDto dto) {
-        return new DocumentEntity.EditDateTime(dto.createdDateTime(), dto.lastModifiedDateTime());
-    }
+    DocumentEntity.EditDateTime toEditDateTime(DocumentElementDtos.EditDateTimeDto dto);
 
-    public static Tuple2<List<DocumentEntity.Detail>, DocumentEntity.Title> toInfoTuple(DocumentElementDtos.InfoUpdateDto dto) {
+    default Tuple2<List<DocumentEntity.Detail>, DocumentEntity.Title> toInfoTuple(DocumentElementDtos.InfoUpdateDto dto) {
         return Tuples.of(
                 dto.detailList().stream()
                         .map(detail -> new DocumentEntity.Detail(detail.title(), detail.content()))
@@ -38,80 +34,64 @@ public class DocumentElementMapper {
         );
     }
 
-    public static DocumentEntity.Content toContent(DocumentElementDtos.ContentDto dto) {
-        return new DocumentEntity.Content(dto.index(), dto.title(), dto.content());
-    }
-
-    public static DocumentEntity.Editor fromUserToEditor(UserEntity user) {
+    default DocumentEntity.Editor fromUserToEditor(UserEntity user) {
         return DocumentEntity.Editor.fromUser(user);
     }
 
-    public static DocumentEntity.Type toType(DocumentElementDtos.TypeDto typeDto) {
-        return DocumentEntity.Type.valueOf(typeDto.name());
-    }
+    DocumentEntity.Content toContent(DocumentElementDtos.ContentDto dto);
 
-    public static List<DocumentEntity.Content> toContentList(List<DocumentElementDtos.ContentDto> dtoList) {
+    DocumentEntity.Type toType(DocumentElementDtos.TypeDto typeDto);
+
+    default List<DocumentEntity.Content> toContentList(List<DocumentElementDtos.ContentDto> dtoList) {
         return dtoList.stream()
-                .map(DocumentElementMapper::toContent)
+                .map(this::toContent)
                 .toList();
     }
 
-    public static List<DocumentEntity.Editor> toEditorList(List<DocumentElementDtos.EditorDto> dtoList) {
+    default List<DocumentEntity.Editor> toEditorList(List<DocumentElementDtos.EditorDto> dtoList) {
         return dtoList.stream()
-                .map(DocumentElementMapper::toEditor)
+                .map(this::toEditor)
                 .toList();
     }
 
-    public static List<DocumentEntity.Detail> toDetailList(List<DocumentElementDtos.DetailDto> dtoList) {
+    default List<DocumentEntity.Detail> toDetailList(List<DocumentElementDtos.DetailDto> dtoList) {
         return dtoList.stream()
-                .map(DocumentElementMapper::toDetail)
+                .map(this::toDetail)
                 .toList();
     }
 
     /* to dtos */
-    public static DocumentElementDtos.TitleDto toTitleDto(DocumentEntity.Title documentTitle) {
-        return new DocumentElementDtos.TitleDto(documentTitle.mainTitle(), documentTitle.subTitle());
-    }
+    DocumentElementDtos.TitleDto toTitleDto(DocumentEntity.Title documentTitle);
 
-    public static DocumentElementDtos.DetailDto toDetailDto(DocumentEntity.Detail documentDetail) {
-        return new DocumentElementDtos.DetailDto(documentDetail.title(), documentDetail.content());
-    }
+    DocumentElementDtos.DetailDto toDetailDto(DocumentEntity.Detail documentDetail);
 
-    public static DocumentElementDtos.EditorDto toEditorDto(DocumentEntity.Editor documentEditor) {
-        return new DocumentElementDtos.EditorDto(documentEditor.name(), documentEditor.userId());
-    }
+    DocumentElementDtos.EditorDto toEditorDto(DocumentEntity.Editor documentEditor);
 
-    public static DocumentElementDtos.EditorDto fromUsertoEditorDto(UserEntity user) {
+    default DocumentElementDtos.EditorDto fromUsertoEditorDto(UserEntity user) {
         return new DocumentElementDtos.EditorDto(user.getName(), user.getId());
     }
 
-    public static DocumentElementDtos.EditDateTimeDto toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime) {
-        return new DocumentElementDtos.EditDateTimeDto(documentEditDateTime.createdDateTime(), documentEditDateTime.lastModifiedDateTime());
-    }
+    DocumentElementDtos.EditDateTimeDto toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime);
 
-    public static DocumentElementDtos.ContentDto toContentDto(DocumentEntity.Content documentContent) {
-        return new DocumentElementDtos.ContentDto(documentContent.index(), documentContent.title(), documentContent.content());
-    }
+    DocumentElementDtos.ContentDto toContentDto(DocumentEntity.Content documentContent);
 
-    public static DocumentElementDtos.TypeDto toTypeDto(DocumentEntity.Type documentType) {
-        return DocumentElementDtos.TypeDto.valueOf(documentType.name());
-    }
+    DocumentElementDtos.TypeDto toTypeDto(DocumentEntity.Type documentType);
 
-    public static List<DocumentElementDtos.ContentDto> toContentListDto(List<DocumentEntity.Content> documentContentList) {
+    default List<DocumentElementDtos.ContentDto> toContentListDto(List<DocumentEntity.Content> documentContentList) {
         return documentContentList.stream()
-                .map(DocumentElementMapper::toContentDto)
+                .map(this::toContentDto)
                 .toList();
     }
 
-    public static List<DocumentElementDtos.EditorDto> toEditorListDto(List<DocumentEntity.Editor> documentEditorList) {
+    default List<DocumentElementDtos.EditorDto> toEditorListDto(List<DocumentEntity.Editor> documentEditorList) {
         return documentEditorList.stream()
-                .map(DocumentElementMapper::toEditorDto)
+                .map(this::toEditorDto)
                 .toList();
     }
 
-    public static List<DocumentElementDtos.DetailDto> toDetailListDto(List<DocumentEntity.Detail> documentDetailList) {
+    default List<DocumentElementDtos.DetailDto> toDetailListDto(List<DocumentEntity.Detail> documentDetailList) {
         return documentDetailList.stream()
-                .map(DocumentElementMapper::toDetailDto)
+                .map(this::toDetailDto)
                 .toList();
     }
 }
