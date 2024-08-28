@@ -11,23 +11,23 @@ import reactor.core.publisher.Mono;
 class DocumentRepositoryImpl implements DocumentRepository {
     @Override
     public Mono<DocumentModel> save(DocumentModel model) {
-        var mono = documentMongoRepository.save(DocumentEntityMapper.toEntity(model));
+        var mono = documentMongoRepository.save(documentEntityMapper.toEntity(model));
 
-        return toModel(mono);
+        return documentEntityMapper.toMonoModel(mono);
     }
 
     @Override
     public Mono<DocumentModel> findById(String id) {
         var mono = documentMongoRepository.findById(id);
 
-        return toModel(mono);
+        return documentEntityMapper.toMonoModel(mono);
     }
 
     @Override
     public Mono<DocumentModel> getRandom() {
         var mono = documentMongoRepository.getRandomDocument();
 
-        return toModel(mono);
+        return documentEntityMapper.toMonoModel(mono);
     }
 
     @Override
@@ -45,16 +45,9 @@ class DocumentRepositoryImpl implements DocumentRepository {
                 pagingInfo.size()
         );
 
-        return toModel(flux);
-    }
-
-    private Mono<DocumentModel> toModel(Mono<DocumentEntity> mono) {
-        return mono.map(DocumentEntityMapper::toModel);
-    }
-
-    private Flux<DocumentModel> toModel(Flux<DocumentEntity> flux) {
-        return flux.map(DocumentEntityMapper::toModel);
+        return documentEntityMapper.toFluxModel(flux);
     }
 
     private final DocumentMongoRepository documentMongoRepository;
+    private final DocumentEntityMapper documentEntityMapper;
 }

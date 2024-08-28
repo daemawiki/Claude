@@ -32,10 +32,11 @@ class CreateDocumentService implements CreateDocumentUseCase {
                 Collections.emptyList(),
                 request.category(),
                 request.type(),
-                DocumentElementMapper.fromUsertoEditorDto(user)
+                documentElementMapper.fromUsertoEditorDto(user)
         );
     }
 
     private final DocumentRepository documentRepository;
+    private final DocumentElementMapper documentElementMapper;
     private final CurrentUser currentUser;
 }
