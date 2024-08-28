@@ -1,21 +1,24 @@
 package com.daemawiki.daemawiki.domain.document;
 
+import com.daemawiki.daemawiki.common.annotation.Constructor;
+import com.daemawiki.daemawiki.common.annotation.Entity;
+import com.daemawiki.daemawiki.common.annotation.Factory;
+import com.daemawiki.daemawiki.common.annotation.ValueObject;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Entity
 @Getter
 @AllArgsConstructor
-@Document(collection = "documents")
 class DocumentEntity {
     /* fields */
 
@@ -43,14 +46,16 @@ class DocumentEntity {
     private List<Editor> editorList;
 
     /* static factory methods */
+    @Factory
     static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
         return new DocumentEntity(title, detailList, categoryList, type, owner);
     }
 
     /* constructors */
-
+    @Constructor
     protected DocumentEntity() {}
 
+    @Constructor
     private DocumentEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
         this.title = title;
         this.detailList = detailList;
@@ -91,12 +96,16 @@ class DocumentEntity {
         }
     }
 
+    @ValueObject
     record Title(String mainTitle, String subTitle) {}
 
+    @ValueObject
     record Detail(String title, String content) {}
 
+    @ValueObject
     record Content(String index, String title, String content) {}
 
+    @ValueObject
     record Editor(String name, String userId) {
         public static Editor fromUser(UserEntity user) {
             return new Editor(user.getName(), user.getId());
@@ -109,6 +118,7 @@ class DocumentEntity {
      * MAIN    : 메인 페이지   : 삭제 불가능
      * TEACHER : 선생님 문서   :
      * INCIDENT: 사건사고 문서 :*/
+    @ValueObject
     enum Type {
         STUDENT, MAIN, TEACHER, INCIDENT, TEST
     }
