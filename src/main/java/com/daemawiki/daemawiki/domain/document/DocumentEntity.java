@@ -6,15 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-@Getter(value = AccessLevel.PACKAGE)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
-@org.springframework.data.mongodb.core.mapping.Document(collection = "documents")
+@Getter
+@AllArgsConstructor
+@Document(collection = "documents")
 class DocumentEntity {
     /* fields */
 
