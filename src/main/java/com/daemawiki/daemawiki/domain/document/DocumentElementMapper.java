@@ -17,15 +17,15 @@ import java.util.List;
 public interface DocumentElementMapper {
 
     /* to Document elements */
-    DocumentEntity.Title toTitle(DocumentElementDtos.TitleDto dto);
+    DocumentEntity.Title toTitle(DocumentElementDtos.Title dto);
 
-    DocumentEntity.Detail toDetail(DocumentElementDtos.DetailDto dto);
+    DocumentEntity.Detail toDetail(DocumentElementDtos.Detail dto);
 
-    DocumentEntity.Editor toEditor(DocumentElementDtos.EditorDto dto);
+    DocumentEntity.Editor toEditor(DocumentElementDtos.Editor dto);
 
-    DocumentEntity.EditDateTime toEditDateTime(DocumentElementDtos.EditDateTimeDto dto);
+    DocumentEntity.EditDateTime toEditDateTime(DocumentElementDtos.EditDateTime dto);
 
-    default Tuple2<List<DocumentEntity.Detail>, DocumentEntity.Title> toInfoTuple(DocumentElementDtos.InfoUpdateDto dto) {
+    default Tuple2<List<DocumentEntity.Detail>, DocumentEntity.Title> toInfoTuple(DocumentElementDtos.UpdateInfo dto) {
         return Tuples.of(
                 dto.detailList().stream()
                         .map(detail -> new DocumentEntity.Detail(detail.title(), detail.content()))
@@ -38,58 +38,58 @@ public interface DocumentElementMapper {
         return DocumentEntity.Editor.fromUser(user);
     }
 
-    DocumentEntity.Content toContent(DocumentElementDtos.ContentDto dto);
+    DocumentEntity.Content toContent(DocumentElementDtos.Content dto);
 
-    DocumentEntity.Type toType(DocumentElementDtos.TypeDto typeDto);
+    DocumentEntity.Type toType(DocumentElementDtos.Type typeDto);
 
-    default List<DocumentEntity.Content> toContentList(List<DocumentElementDtos.ContentDto> dtoList) {
+    default List<DocumentEntity.Content> toContentList(List<DocumentElementDtos.Content> dtoList) {
         return dtoList.stream()
                 .map(this::toContent)
                 .toList();
     }
 
-    default List<DocumentEntity.Editor> toEditorList(List<DocumentElementDtos.EditorDto> dtoList) {
+    default List<DocumentEntity.Editor> toEditorList(List<DocumentElementDtos.Editor> dtoList) {
         return dtoList.stream()
                 .map(this::toEditor)
                 .toList();
     }
 
-    default List<DocumentEntity.Detail> toDetailList(List<DocumentElementDtos.DetailDto> dtoList) {
+    default List<DocumentEntity.Detail> toDetailList(List<DocumentElementDtos.Detail> dtoList) {
         return dtoList.stream()
                 .map(this::toDetail)
                 .toList();
     }
 
     /* to dtos */
-    DocumentElementDtos.TitleDto toTitleDto(DocumentEntity.Title documentTitle);
+    DocumentElementDtos.Title toTitleDto(DocumentEntity.Title documentTitle);
 
-    DocumentElementDtos.DetailDto toDetailDto(DocumentEntity.Detail documentDetail);
+    DocumentElementDtos.Detail toDetailDto(DocumentEntity.Detail documentDetail);
 
-    DocumentElementDtos.EditorDto toEditorDto(DocumentEntity.Editor documentEditor);
+    DocumentElementDtos.Editor toEditorDto(DocumentEntity.Editor documentEditor);
 
-    static DocumentElementDtos.EditorDto fromUsertoEditorDto(UserEntity user) {
-        return new DocumentElementDtos.EditorDto(user.getName(), user.getId());
+    static DocumentElementDtos.Editor fromUsertoEditorDto(UserEntity user) {
+        return new DocumentElementDtos.Editor(user.getName(), user.getId());
     }
 
-    DocumentElementDtos.EditDateTimeDto toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime);
+    DocumentElementDtos.EditDateTime toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime);
 
-    DocumentElementDtos.ContentDto toContentDto(DocumentEntity.Content documentContent);
+    DocumentElementDtos.Content toContentDto(DocumentEntity.Content documentContent);
 
-    DocumentElementDtos.TypeDto toTypeDto(DocumentEntity.Type documentType);
+    DocumentElementDtos.Type toTypeDto(DocumentEntity.Type documentType);
 
-    default List<DocumentElementDtos.ContentDto> toContentListDto(List<DocumentEntity.Content> documentContentList) {
+    default List<DocumentElementDtos.Content> toContentListDto(List<DocumentEntity.Content> documentContentList) {
         return documentContentList.stream()
                 .map(this::toContentDto)
                 .toList();
     }
 
-    default List<DocumentElementDtos.EditorDto> toEditorListDto(List<DocumentEntity.Editor> documentEditorList) {
+    default List<DocumentElementDtos.Editor> toEditorListDto(List<DocumentEntity.Editor> documentEditorList) {
         return documentEditorList.stream()
                 .map(this::toEditorDto)
                 .toList();
     }
 
-    default List<DocumentElementDtos.DetailDto> toDetailListDto(List<DocumentEntity.Detail> documentDetailList) {
+    default List<DocumentElementDtos.Detail> toDetailListDto(List<DocumentEntity.Detail> documentDetailList) {
         return documentDetailList.stream()
                 .map(this::toDetailDto)
                 .toList();

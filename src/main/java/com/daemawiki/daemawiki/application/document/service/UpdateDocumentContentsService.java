@@ -13,11 +13,11 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Service
-class UpdateDocumentContentsService extends AbstractDocumentUpdateServiceBase<List<DocumentElementDtos.ContentDto>> implements UpdateDocumentContentsUseCase {
+class UpdateDocumentContentsService extends AbstractDocumentUpdateServiceBase<List<DocumentElementDtos.Content>> implements UpdateDocumentContentsUseCase {
 
     @Override
     @Transactional
-    public Mono<Void> update(String documentId, List<DocumentElementDtos.ContentDto> updateData) {
+    public Mono<Void> update(String documentId, List<DocumentElementDtos.Content> updateData) {
         return updateDocument(
                 documentId,
                 updateData,

@@ -9,11 +9,11 @@ import java.util.Set;
 public record DocumentModel(
         String id,
 
-        DocumentElementDtos.TitleDto title,
+        DocumentElementDtos.Title title,
 
-        List<DocumentElementDtos.DetailDto> detailList,
+        List<DocumentElementDtos.Detail> detailList,
 
-        List<DocumentElementDtos.ContentDto> contentList,
+        List<DocumentElementDtos.Content> contentList,
 
         Set<String> categorySet,
 
@@ -21,43 +21,43 @@ public record DocumentModel(
 
         Long version,
 
-        DocumentElementDtos.TypeDto type,
+        DocumentElementDtos.Type type,
 
-        DocumentElementDtos.EditDateTimeDto dateTime,
+        DocumentElementDtos.EditDateTime dateTime,
 
-        DocumentElementDtos.EditorDto owner,
+        DocumentElementDtos.Editor owner,
 
-        List<DocumentElementDtos.EditorDto> editorList
+        List<DocumentElementDtos.Editor> editorList
 ) {
-    public DocumentModel(DocumentElementDtos.TitleDto title, List<DocumentElementDtos.DetailDto> detailList, Set<String> categoryList, DocumentElementDtos.TypeDto type, DocumentElementDtos.EditorDto owner) {
+    public DocumentModel(DocumentElementDtos.Title title, List<DocumentElementDtos.Detail> detailList, Set<String> categoryList, DocumentElementDtos.Type type, DocumentElementDtos.Editor owner) {
         this(null, title, detailList, null, categoryList, 0L, 0L, type, null, owner, null);
     }
 
     // TODO: 8/22/24 불변 record setter 올바르게 작성하기
 
-    public boolean canEdit(DocumentElementDtos.EditorDto editor) { // TODO: 8/13/24 DSM_MOP 검사 로직 옮기기
+    public boolean canEdit(DocumentElementDtos.Editor editor) { // TODO: 8/13/24 DSM_MOP 검사 로직 옮기기
         return isOwner(editor) || editorList.contains(editor);
     }
 
-    public boolean canDelete(DocumentElementDtos.EditorDto editor) {
+    public boolean canDelete(DocumentElementDtos.Editor editor) {
         return canEdit(editor) && !type.equals(DocumentEntity.Type.STUDENT);
     }
 
-    public boolean isOwner(DocumentElementDtos.EditorDto editor) {
+    public boolean isOwner(DocumentElementDtos.Editor editor) {
         return owner.equals(editor);
     }
 
     /* setters */
 
-    public DocumentModel updateEditors(List<DocumentElementDtos.EditorDto> editorList) {
+    public DocumentModel updateEditors(List<DocumentElementDtos.Editor> editorList) {
         return new DocumentModel(id, title, detailList, contentList, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
     }
 
-    public DocumentModel updateContents(List<DocumentElementDtos.ContentDto> contentList) {
+    public DocumentModel updateContents(List<DocumentElementDtos.Content> contentList) {
         return new DocumentModel(id, title, detailList, contentList, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
     }
 
-    public DocumentModel updateDocumentInfo(Tuple2<List<DocumentElementDtos.DetailDto>, DocumentElementDtos.TitleDto> tuple) {
+    public DocumentModel updateDocumentInfo(Tuple2<List<DocumentElementDtos.Detail>, DocumentElementDtos.Title> tuple) {
         return new DocumentModel(id, tuple.getT2(), tuple.getT1(), contentList, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
     }
 

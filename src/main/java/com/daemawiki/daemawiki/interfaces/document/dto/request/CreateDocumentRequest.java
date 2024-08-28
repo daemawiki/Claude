@@ -44,15 +44,15 @@ import java.util.Set;
  * </pre>
  * </p>
  *
- * @param title    문서의 제목 객체로 메인, 서브 타이틀로 정의됩니다. {@link DocumentElementDtos.TitleDto}
- * @param type     문서의 유형으로 미리 정의된 열거형 클래스 {@link DocumentElementDtos.TypeDto}로 표현됩니다.
+ * @param title    문서의 제목 객체로 메인, 서브 타이틀로 정의됩니다. {@link DocumentElementDtos.Title}
+ * @param type     문서의 유형으로 미리 정의된 열거형 클래스 {@link DocumentElementDtos.Type}로 표현됩니다.
  * @param category 문서가 속하는 카테고리로, 문자열 Set입니다.
  *
  * @author seung won kim
  */
 public record CreateDocumentRequest(
-        DocumentElementDtos.TitleDto title,
-        DocumentElementDtos.TypeDto type,
+        DocumentElementDtos.Title title,
+        DocumentElementDtos.Type type,
         Set<String> category
 ) {
 }

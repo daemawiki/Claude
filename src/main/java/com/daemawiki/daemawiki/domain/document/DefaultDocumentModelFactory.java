@@ -17,21 +17,21 @@ public class DefaultDocumentModelFactory {
         final var major = user.getUserInfo().major();
 
         var details = List.of(
-                new DocumentElementDtos.DetailDto(GENERATION_TITLE, generation),
-                new DocumentElementDtos.DetailDto(MAJOR_TITLE, major)
+                new DocumentElementDtos.Detail(GENERATION_TITLE, generation),
+                new DocumentElementDtos.Detail(MAJOR_TITLE, major)
         );
         final var title = user.getName();
 
         return createDocumentEntity(
-                new DocumentElementDtos.TitleDto(title, title),
+                new DocumentElementDtos.Title(title, title),
                 details,
                 Set.of(generation, major),
-                DocumentElementDtos.TypeDto.STUDENT,
-                new DocumentElementDtos.EditorDto(user.getName(), user.getId())
+                DocumentElementDtos.Type.STUDENT,
+                new DocumentElementDtos.Editor(user.getName(), user.getId())
         );
     }
 
-    public static DocumentModel createDocumentEntity(DocumentElementDtos.TitleDto title, List<DocumentElementDtos.DetailDto> details, Set<String> category, DocumentElementDtos.TypeDto type, DocumentElementDtos.EditorDto owner) {
+    public static DocumentModel createDocumentEntity(DocumentElementDtos.Title title, List<DocumentElementDtos.Detail> details, Set<String> category, DocumentElementDtos.Type type, DocumentElementDtos.Editor owner) {
         return new DocumentModel(
                 title,
                 details,

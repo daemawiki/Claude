@@ -9,49 +9,49 @@ import java.util.Set;
  */
 public class DocumentElementDtos {
 
-    public enum TypeDto {
+    public enum Type {
         STUDENT, MAIN, TEACHER, INCIDENT, TEST
     }
 
-    public record InfoUpdateDto(
-            List<DetailDto> detailList,
-            TitleDto title
+    public record UpdateInfo(
+            List<Detail> detailList,
+            Title title
     ) {}
 
-    public record DetailDto(
+    public record Detail(
             String title,
             String content
     ) {}
 
-    public record TitleDto(
+    public record Title(
             String mainTitle,
             String subTitle
     ) {}
 
-    public record ContentDto(
+    public record Content(
             String index,
             String title,
             String content
     ) {}
 
-    public record DocumentDto(
+    public record Document(
             String mainTitle,
             String subTitle,
             Set<String> categoryList
     ) {}
 
-    public record EditorDto(
+    public record Editor(
             String name,
             String userId
     ) {}
 
-    public record EditDateTimeDto(
+    public record EditDateTime(
             LocalDateTime createdDateTime,
             LocalDateTime lastModifiedDateTime
     ) {
-        public static EditDateTimeDto createNewInstance() {
+        public static EditDateTime createNewInstance() {
             LocalDateTime now = LocalDateTime.now();
-            return new EditDateTimeDto(now, now);
+            return new EditDateTime(now, now);
         }
     }
 }

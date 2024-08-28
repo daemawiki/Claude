@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
-class UpdateDocumentInfoInfoService extends AbstractDocumentUpdateServiceBase<DocumentElementDtos.InfoUpdateDto> implements UpdateDocumentInfoUseCase {
+class UpdateDocumentInfoInfoService extends AbstractDocumentUpdateServiceBase<DocumentElementDtos.UpdateInfo> implements UpdateDocumentInfoUseCase {
 
     @Override
     @Transactional
-    public Mono<Void> update(String documentId, DocumentElementDtos.InfoUpdateDto request) {
+    public Mono<Void> update(String documentId, DocumentElementDtos.UpdateInfo request) {
         return updateDocument(
                 documentId,
                 request,
