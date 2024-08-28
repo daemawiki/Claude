@@ -47,7 +47,7 @@ class DocumentEntity {
 
     /* static factory methods */
     @Factory
-    static DocumentEntity createEntity(Title title, List<Detail> detailList, Set<String> categorySet, Type type, Editor owner) {
+    static DocumentEntity createNewEntity(Title title, List<Detail> detailList, Set<String> categorySet, Type type, Editor owner) {
         return new DocumentEntity(title, detailList, categorySet, type, owner);
     }
 
