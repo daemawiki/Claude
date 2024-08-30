@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.usecase.CreateUserDocumentUseCase;
-import com.daemawiki.daemawiki.domain.document.DefaultDocumentModelFactory;
+import com.daemawiki.daemawiki.domain.document.DocumentDefaultModelFactory;
 import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-class CreateUserDocumentService implements CreateUserDocumentUseCase {
+class DocumentCreateUserService implements CreateUserDocumentUseCase {
 
     @Override
     @Transactional
@@ -30,7 +30,7 @@ class CreateUserDocumentService implements CreateUserDocumentUseCase {
     }
 
     private DocumentModel createDocumentEntity(UserEntity user) {
-        return DefaultDocumentModelFactory.createDocumentModelByStudentEntity(user);
+        return DocumentDefaultModelFactory.createDocumentModelByStudentEntity(user);
     }
 
     private final DocumentRepository documentRepository;
