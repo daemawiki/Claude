@@ -6,7 +6,7 @@ import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
 import java.util.List;
 import java.util.Set;
 
-public class DefaultDocumentModelFactory {
+public class DocumentDefaultModelFactory {
 
     private static final String GENERATION_TITLE = "기수";
     private static final String GENERATION_SUFFIX = "기";
