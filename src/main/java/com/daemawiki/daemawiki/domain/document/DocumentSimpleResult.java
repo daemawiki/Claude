@@ -4,7 +4,7 @@ import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
 
 import java.util.Set;
 
-public record SimpleDocumentResult(
+public record DocumentSimpleResult(
         String id,
         String type,
         String title,
@@ -13,10 +13,10 @@ public record SimpleDocumentResult(
         Long view,
         DocumentElementDtos.EditDateTime dateTime
 ) {
-    public static SimpleDocumentResult fromDocumentModel(DocumentModel model) {
+    public static DocumentSimpleResult fromDocumentModel(DocumentModel model) {
         final var contents = model.contentList();
 
-        return new SimpleDocumentResult(
+        return new DocumentSimpleResult(
                 model.id(),
                 model.type().name(),
                 model.title().mainTitle(),
