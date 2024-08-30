@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 class DocumentEditService implements DocumentEditUseCase {
     private final DocumentRepository documentRepository;
     private final CurrentUser currentUser;
 
     @Override
-    @Transactional
     public Mono<Void> editContents(String documentId, List<DocumentElementDtos.Content> updateData) {
         return updateDocument(
                 documentId,
