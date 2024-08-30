@@ -19,7 +19,7 @@ class DocumentRemoveService implements DocumentRemoveUseCase {
 
     @Override
     @Transactional
-    public Mono<Void> delete(String documentId) {
+    public Mono<Void> remove(String documentId) {
         return findDocument(documentId)
                 .zipWith(currentUser.get())
                 .flatMap(tuple -> validateAccess(tuple.getT1(), tuple.getT2()))
