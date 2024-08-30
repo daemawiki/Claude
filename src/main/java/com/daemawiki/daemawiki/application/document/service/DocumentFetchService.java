@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 class DocumentFetchService implements DocumentFetchUseCase {
-
+    private final DocumentRepository documentRepository;
 
     @Override
     public Mono<FullDocumentResponse> fetchById(String documentId) {
@@ -54,6 +54,4 @@ class DocumentFetchService implements DocumentFetchUseCase {
 
         return SearchResponse.of(finalResult, finalResult.size(), requestPage, hasNext);
     }
-
-    private final DocumentRepository documentRepository;
 }

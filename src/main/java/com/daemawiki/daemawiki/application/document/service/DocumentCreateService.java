@@ -17,6 +17,8 @@ import java.util.Collections;
 @Service
 @RequiredArgsConstructor
 class DocumentCreateService implements CreateDocumentUseCase {
+    private final DocumentRepository documentRepository;
+    private final CurrentUser currentUser;
 
     @Override
     public Mono<Void> create(CreateDocumentRequest request) {
@@ -35,7 +37,4 @@ class DocumentCreateService implements CreateDocumentUseCase {
                 DocumentElementMapper.fromUserToEditorDto(user)
         );
     }
-
-    private final DocumentRepository documentRepository;
-    private final CurrentUser currentUser;
 }
