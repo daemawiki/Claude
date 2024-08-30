@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.service.base.AbstractDocumentUpdateServiceBase;
-import com.daemawiki.daemawiki.application.document.usecase.UpdateDocumentInfoUseCase;
+import com.daemawiki.daemawiki.application.document.usecase.DocumentEditContentsUseCase;
 import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
@@ -10,20 +10,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Service
-class UpdateDocumentInfoInfoService extends AbstractDocumentUpdateServiceBase<DocumentElementDtos.UpdateInfo> implements UpdateDocumentInfoUseCase {
+class DocumentEditContentsService extends AbstractDocumentUpdateServiceBase<List<DocumentElementDtos.Content>> implements DocumentEditContentsUseCase {
 
     @Override
     @Transactional
-    public Mono<Void> update(String documentId, DocumentElementDtos.UpdateInfo request) {
+    public Mono<Void> update(String documentId, List<DocumentElementDtos.Content> updateData) {
         return updateDocument(
                 documentId,
-                request,
-                (document, dto) -> document.updateDocumentInfo(DocumentElementMapper.toInfoTuple(dto))
+                updateData,
+                (document, contents) -> document.updateContents(DocumentElementMapper.toContentList(contents))
         );
     }
 
-    public UpdateDocumentInfoInfoService(DocumentRepository documentRepository, CurrentUser currentUser) {
+    public DocumentEditContentsService(DocumentRepository documentRepository, CurrentUser currentUser) {
         super(documentRepository, currentUser);
     }
 }

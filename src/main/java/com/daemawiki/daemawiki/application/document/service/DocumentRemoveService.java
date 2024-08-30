@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service;
 
-import com.daemawiki.daemawiki.application.document.usecase.DeleteDocumentUseCase;
+import com.daemawiki.daemawiki.application.document.usecase.DocumentRemoveUseCase;
 import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-class DeleteDocumentService implements DeleteDocumentUseCase {
+class DocumentRemoveService implements DocumentRemoveUseCase {
     private final DocumentRepository documentRepository;
     private final CurrentUser currentUser;
 

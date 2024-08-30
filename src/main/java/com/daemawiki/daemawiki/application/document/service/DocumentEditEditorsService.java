@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.document.service;
 
-import com.daemawiki.daemawiki.application.document.usecase.UpdateDocumentEditorsUseCase;
+import com.daemawiki.daemawiki.application.document.usecase.DocumentEditEditorsUseCase;
 import com.daemawiki.daemawiki.domain.document.internal.DocumentEditorInfo;
 import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Service
-class UpdateDocumentEditorsService extends AbstractDocumentUpdateServiceBase<List<DocumentEditorInfo>> implements UpdateDocumentEditorsUseCase {
+class DocumentEditEditorsService extends AbstractDocumentUpdateServiceBase<List<DocumentEditorInfo>> implements DocumentEditEditorsUseCase {
 
     @Override
     @Transactional
@@ -25,7 +25,7 @@ class UpdateDocumentEditorsService extends AbstractDocumentUpdateServiceBase<Lis
         );
     }
 
-    public UpdateDocumentEditorsService(DocumentRepository documentRepository, CurrentUser currentUser) {
+    public DocumentEditEditorsService(DocumentRepository documentRepository, CurrentUser currentUser) {
         super(documentRepository, currentUser);
     }
 }

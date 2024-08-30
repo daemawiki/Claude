@@ -6,6 +6,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-public interface UpdateDocumentEditorsUseCase extends DocumentUpdateUseCaseBase<List<DocumentEditorInfo>> {
+public interface DocumentEditEditorsUseCase extends DocumentUpdateUseCaseBase<List<DocumentEditorInfo>> {
     Mono<Void> update(String documentId, List<DocumentEditorInfo> updateData);
 }
