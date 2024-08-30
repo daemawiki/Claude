@@ -27,10 +27,8 @@ public interface DocumentElementMapper {
 
     default Tuple2<List<DocumentEntity.Detail>, DocumentEntity.Title> toInfoTuple(DocumentElementDtos.UpdateInfo dto) {
         return Tuples.of(
-                dto.detailList().stream()
-                        .map(detail -> new DocumentEntity.Detail(detail.title(), detail.content()))
-                        .toList(),
-                new DocumentEntity.Title(dto.title().mainTitle(), dto.title().subTitle())
+                toDetailList(dto.detailList()),
+                toTitle(dto.title())
         );
     }
 
@@ -77,19 +75,19 @@ public interface DocumentElementMapper {
 
     DocumentElementDtos.Type toTypeDto(DocumentEntity.Type documentType);
 
-    default List<DocumentElementDtos.Content> toContentListDto(List<DocumentEntity.Content> documentContentList) {
+    default List<DocumentElementDtos.Content> toContentDtoList(List<DocumentEntity.Content> documentContentList) {
         return documentContentList.stream()
                 .map(this::toContentDto)
                 .toList();
     }
 
-    default List<DocumentElementDtos.Editor> toEditorListDto(List<DocumentEntity.Editor> documentEditorList) {
+    default List<DocumentElementDtos.Editor> toEditorDtoList(List<DocumentEntity.Editor> documentEditorList) {
         return documentEditorList.stream()
                 .map(this::toEditorDto)
                 .toList();
     }
 
-    default List<DocumentElementDtos.Detail> toDetailListDto(List<DocumentEntity.Detail> documentDetailList) {
+    default List<DocumentElementDtos.Detail> toDetailDtoList(List<DocumentEntity.Detail> documentDetailList) {
         return documentDetailList.stream()
                 .map(this::toDetailDto)
                 .toList();
