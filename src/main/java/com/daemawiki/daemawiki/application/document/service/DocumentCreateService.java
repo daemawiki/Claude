@@ -5,7 +5,7 @@ import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
 import com.daemawiki.daemawiki.domain.document.DocumentDefaultModelFactory;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
-import com.daemawiki.daemawiki.application.document.usecase.CreateDocumentUseCase;
+import com.daemawiki.daemawiki.application.document.usecase.DocumentCreateUseCase;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-class DocumentCreateService implements CreateDocumentUseCase {
+class DocumentCreateService implements DocumentCreateUseCase {
     private final DocumentRepository documentRepository;
     private final CurrentUser currentUser;
 
