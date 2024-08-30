@@ -65,7 +65,7 @@ class DocumentEditService implements DocumentEditUseCase {
     private Mono<DocumentModel> validateAccess(Tuple2<DocumentModel, UserEntity> tuple) {
         return Mono.just(tuple)
                 .filter(t -> t.getT1().canEdit(DocumentElementMapper.fromUserToEditorDto(t.getT2())))
-                .switchIfEmpty(Mono.error(new RuntimeException("궎한 없거요")))
+                .switchIfEmpty(Mono.error(new RuntimeException("문서에 접근할 권한이 없어요")))
                 .map(Tuple2::getT1);
     }
 }
