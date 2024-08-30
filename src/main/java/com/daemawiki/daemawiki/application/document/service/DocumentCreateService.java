@@ -3,7 +3,7 @@ package com.daemawiki.daemawiki.application.document.service;
 import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
 import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import com.daemawiki.daemawiki.interfaces.document.dto.request.CreateDocumentRequest;
-import com.daemawiki.daemawiki.domain.document.DefaultDocumentModelFactory;
+import com.daemawiki.daemawiki.domain.document.DocumentDefaultModelFactory;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.document.usecase.CreateDocumentUseCase;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
@@ -16,7 +16,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-class CreateDocumentService implements CreateDocumentUseCase {
+class DocumentCreateService implements CreateDocumentUseCase {
 
     @Override
     public Mono<Void> create(CreateDocumentRequest request) {
@@ -27,7 +27,7 @@ class CreateDocumentService implements CreateDocumentUseCase {
     }
 
     private static DocumentModel createDocumentEntity(CreateDocumentRequest request, UserEntity user) {
-        return DefaultDocumentModelFactory.createDocumentEntity(
+        return DocumentDefaultModelFactory.createDocumentEntity(
                 request.title(),
                 Collections.emptyList(),
                 request.category(),
