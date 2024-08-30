@@ -23,7 +23,7 @@ class SearchDocumentService implements SearchDocumentUseCase {
     @Transactional(readOnly = true)
     public Mono<SearchResponse<SimpleDocumentResult>> searchDocument(String searchText, PagingRequest request) {
         return documentRepository.search(searchText, PagingInfo.fromPagingRequest(request))
-                .map(SimpleDocumentResult::fromDocumentEntity)
+                .map(SimpleDocumentResult::fromDocumentModel)
                 .collectList()
                 .map(result -> createSearchResponse(result, request.page(), request.size()));
     }

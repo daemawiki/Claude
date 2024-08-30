@@ -1,30 +1,29 @@
 package com.daemawiki.daemawiki.domain.document;
 
-import com.daemawiki.daemawiki.domain.document.model.detail.DocumentType;
-import com.daemawiki.daemawiki.common.util.date.EditDateTime;
+import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
 
-import java.util.List;
+import java.util.Set;
 
 public record SimpleDocumentResult(
         String id,
         String type,
         String title,
         String content,
-        List<String> category,
+        Set<String> category,
         Long view,
-        EditDateTime dateTime
+        DocumentElementDtos.EditDateTime dateTime
 ) {
-    public static SimpleDocumentResult fromDocumentEntity(DocumentEntity entity) {
-        final var contents = entity.getContentList();
+    public static SimpleDocumentResult fromDocumentModel(DocumentModel model) {
+        final var contents = model.contentList();
 
         return new SimpleDocumentResult(
-                entity.getId(),
-                entity.getType(),
-                entity.getTitle(),
+                model.id(),
+                model.type().name(),
+                model.title().mainTitle(),
                 contents.isEmpty() ? "none." : contents.getFirst().content(),
-                entity.getCategorySet(),
-                entity.getViewCount(),
-                entity.getDateTime()
+                model.categorySet(),
+                model.viewCount(),
+                model.dateTime()
         );
     }
 }
