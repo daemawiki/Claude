@@ -65,7 +65,7 @@ public interface DocumentElementMapper {
 
     DocumentElementDtos.Editor toEditorDto(DocumentEntity.Editor documentEditor);
 
-    static DocumentElementDtos.Editor fromUsertoEditorDto(UserEntity user) {
+    static DocumentElementDtos.Editor fromUserToEditorDto(UserEntity user) {
         return new DocumentElementDtos.Editor(user.getName(), user.getId());
     }
 

@@ -33,7 +33,7 @@ class DocumentRemoveService implements DocumentRemoveUseCase {
 
     private Mono<String> validateAccess(DocumentModel document, UserEntity user) {
         return Mono.just(user)
-                .filter(u -> document.canDelete(DocumentElementMapper.fromUsertoEditorDto(u)))
+                .filter(u -> document.canDelete(DocumentElementMapper.fromUserToEditorDto(u)))
                 .switchIfEmpty(Mono.error(new RuntimeException()))
                 .thenReturn(document.id());
     }
