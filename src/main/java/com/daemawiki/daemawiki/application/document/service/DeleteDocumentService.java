@@ -2,7 +2,7 @@ package com.daemawiki.daemawiki.application.document.service;
 
 import com.daemawiki.daemawiki.application.document.usecase.DeleteDocumentUseCase;
 import com.daemawiki.daemawiki.domain.document.DocumentElementMapper;
-import com.daemawiki.daemawiki.domain.document.model.DocumentEntity;
+import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.application.user.component.CurrentUser;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -26,15 +26,15 @@ class DeleteDocumentService implements DeleteDocumentUseCase {
                 .flatMap(documentRepository::deleteById);
     }
 
-    private Mono<DocumentEntity> findDocument(String documentId) {
+    private Mono<DocumentModel> findDocument(String documentId) {
         return documentRepository.findById(documentId)
                 .switchIfEmpty(Mono.error(new RuntimeException()));
     }
 
-    private Mono<String> validateAccess(DocumentEntity document, UserEntity user) {
+    private Mono<String> validateAccess(DocumentModel document, UserEntity user) {
         return Mono.just(user)
-                .filter(u -> document.canDelete(DocumentElementMapper.fromUserToEditor(u)))
+                .filter(u -> document.canDelete(DocumentElementMapper.fromUsertoEditorDto(u)))
                 .switchIfEmpty(Mono.error(new RuntimeException()))
-                .thenReturn(document.getId());
+                .thenReturn(document.id());
     }
 }
