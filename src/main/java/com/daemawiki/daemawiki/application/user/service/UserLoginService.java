@@ -21,6 +21,9 @@ import java.net.InetSocketAddress;
 @Service
 @RequiredArgsConstructor
 class UserLoginService implements UserLoginUseCase {
+    private final SessionRepository sessionRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @Override
     public Mono<String> login(UserLoginRequest request, ServerHttpRequest serverHttpRequest) {
@@ -47,8 +50,4 @@ class UserLoginService implements UserLoginUseCase {
                 ? Mono.just(user)
                 : Mono.error(new RuntimeException());
     }
-
-    private final SessionRepository sessionRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 }
