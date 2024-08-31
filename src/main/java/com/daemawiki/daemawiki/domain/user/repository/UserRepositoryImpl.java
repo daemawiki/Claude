@@ -12,6 +12,13 @@ import reactor.core.publisher.Flux;
 
 @Repository
 class UserRepositoryImpl extends UserAbstractRepository {
+    private final MongoQueryUtils mongoQueryUtils;
+
+    public UserRepositoryImpl(UserMongoRepository userMongoRepository, MongoQueryUtils mongoQueryUtils) {
+        super(userMongoRepository);
+        this.mongoQueryUtils = mongoQueryUtils;
+    }
+
     @Override
     public Flux<UserEntity> findByGenerationAndMajor(Integer generation, String major, PagingInfo pagingInfo) {
         return mongoQueryUtils.find(
@@ -37,12 +44,5 @@ class UserRepositoryImpl extends UserAbstractRepository {
         }
 
         return query;
-    }
-
-    private final MongoQueryUtils mongoQueryUtils;
-
-    public UserRepositoryImpl(UserMongoRepository userMongoRepository, MongoQueryUtils mongoQueryUtils) {
-        super(userMongoRepository);
-        this.mongoQueryUtils = mongoQueryUtils;
     }
 }
