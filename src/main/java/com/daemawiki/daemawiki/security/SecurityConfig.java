@@ -1,12 +1,11 @@
-package com.daemawiki.daemawiki.common.security;
+package com.daemawiki.daemawiki.security;
 
-import com.daemawiki.daemawiki.common.security.session.filter.SecuritySessionFilter;
-import com.daemawiki.daemawiki.common.security.session.component.handler.SessionHandler;
+import com.daemawiki.daemawiki.security.session.component.handler.SessionHandler;
+import com.daemawiki.daemawiki.security.session.filter.SecuritySessionFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.common.security.session.model;
+package com.daemawiki.daemawiki.security.session.model;
 
 import org.bson.types.ObjectId;
 

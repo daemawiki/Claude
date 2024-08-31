@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.common.security;
+package com.daemawiki.daemawiki.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

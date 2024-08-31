@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.common.security.session.util;
+package com.daemawiki.daemawiki.security.session.util;
 
 import org.springframework.security.core.Authentication;
 import reactor.core.publisher.Mono;

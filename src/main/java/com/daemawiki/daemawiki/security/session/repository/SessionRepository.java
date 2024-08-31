@@ -1,6 +1,6 @@
-package com.daemawiki.daemawiki.common.security.session.repository;
+package com.daemawiki.daemawiki.security.session.repository;
 
-import com.daemawiki.daemawiki.common.security.session.model.SessionModel;
+import com.daemawiki.daemawiki.security.session.model.SessionModel;
 import reactor.core.publisher.Mono;
 
 public interface SessionRepository {

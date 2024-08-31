@@ -1,7 +1,7 @@
-package com.daemawiki.daemawiki.common.security.session.filter;
+package com.daemawiki.daemawiki.security.session.filter;
 
 import com.daemawiki.daemawiki.common.error.ErrorResponse;
-import com.daemawiki.daemawiki.common.security.session.component.handler.SessionHandler;
+import com.daemawiki.daemawiki.security.session.component.handler.SessionHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
