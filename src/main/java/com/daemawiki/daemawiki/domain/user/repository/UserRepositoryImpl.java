@@ -1,13 +1,11 @@
 package com.daemawiki.daemawiki.domain.user.repository;
 
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
+import com.daemawiki.daemawiki.infrastructure.mongo.MongoDSL;
 import com.daemawiki.daemawiki.infrastructure.mongo.MongoQueryUtils;
 import com.daemawiki.daemawiki.common.util.paging.PagingInfo;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 import reactor.core.publisher.Flux;
 
 @Repository
@@ -28,21 +26,10 @@ class UserRepositoryImpl extends UserAbstractRepository {
     }
 
     private Query buildQuery(Integer generation, String major, PagingInfo pagingInfo) {
-        Query query = new Query();
-
-        if (generation != null) {
-            query.addCriteria(Criteria.where("userInfo.generation").is(generation));
-        }
-
-        if (StringUtils.hasText(major)) {
-            query.addCriteria(Criteria.where("userInfo.major").is(major));
-        }
-
-        if (pagingInfo.sortBy() != null) {
-            Sort.Direction direction = pagingInfo.sortDirection() == 1 ? Sort.Direction.ASC : Sort.Direction.DESC;
-            query.with(Sort.by(direction, pagingInfo.sortBy().getPath()));
-        }
-
-        return query;
+        return MongoDSL.createQuery()
+                .where("userInfo.generation", generation)
+                .where("userInfo.major", major)
+                .paging(pagingInfo)
+                .build();
     }
 }
