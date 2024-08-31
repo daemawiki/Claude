@@ -17,16 +17,16 @@ import java.time.Duration;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class UserAuthController {
+class UserAuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Void> register(@RequestBody UserRegisterRequest request) {
+    Mono<Void> register(@RequestBody UserRegisterRequest request) {
         return userRegisterUseCase.register(request);
     }
 
     @PostMapping("/login")
-    public Mono<Void> login(
+    Mono<Void> login(
             @RequestBody UserLoginRequest request,
             ServerHttpResponse serverHttpResponse,
             ServerHttpRequest serverHttpRequest
