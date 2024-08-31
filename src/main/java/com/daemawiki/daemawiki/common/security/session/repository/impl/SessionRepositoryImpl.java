@@ -17,7 +17,10 @@ import java.time.Duration;
 @Repository
 @RequiredArgsConstructor
 @Slf4j(topic = "세션 레디스 저장소")
-public class SessionRepositoryImpl implements SessionRepository {
+class SessionRepositoryImpl implements SessionRepository {
+    private static final Duration SESSION_EXPIRATION = Duration.ofHours(3);
+
+    private final RedisOperation redisOperation;
 
     @Override
     public Mono<SessionModel> save(SessionModel session) {
@@ -46,8 +49,4 @@ public class SessionRepositoryImpl implements SessionRepository {
             return e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e;
         });
     }
-
-    private static final Duration SESSION_EXPIRATION = Duration.ofHours(3);
-    
-    private final RedisOperation redisOperation;
 }
