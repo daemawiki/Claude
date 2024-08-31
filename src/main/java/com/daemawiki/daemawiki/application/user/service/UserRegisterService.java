@@ -21,6 +21,12 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 class UserRegisterService implements UserRegisterUseCase {
+    private final CreateUserDocumentUseCase createUserDocumentUseCase;
+    private final AuthUserRepository authUserRepository;
+    private final ManagerRepository managerRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
     /**
      * 회원가입 메서드<br/>
      * validateRegistration 메서드에서 에러 signal을 보내어 then이 작동 안하는 상황이 있어 <br/>
@@ -139,10 +145,4 @@ class UserRegisterService implements UserRegisterUseCase {
                 role
         );
     }
-
-    private final CreateUserDocumentUseCase createUserDocumentUseCase;
-    private final AuthUserRepository authUserRepository;
-    private final ManagerRepository managerRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 }
