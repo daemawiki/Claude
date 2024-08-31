@@ -6,6 +6,8 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 abstract class UserAbstractRepository implements UserRepository {
+    private final UserMongoRepository userMongoRepository;
+
     @Override
     public Mono<UserEntity> save(UserEntity entity) {
         return userMongoRepository.save(entity);
@@ -25,6 +27,4 @@ abstract class UserAbstractRepository implements UserRepository {
     public Mono<UserEntity> findById(String id) {
         return userMongoRepository.findById(id);
     }
-
-    private final UserMongoRepository userMongoRepository;
 }
