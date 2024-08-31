@@ -17,7 +17,7 @@ import reactor.core.scheduler.Schedulers;
 
 @Component
 @RequiredArgsConstructor
-public class UserMailSendEventHandler implements EventHandler<MailSendEvent> {
+class UserMailSendEventHandler implements EventHandler<MailSendEvent> {
 
     @Async
     @Override
