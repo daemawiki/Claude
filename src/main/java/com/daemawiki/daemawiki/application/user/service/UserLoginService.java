@@ -1,8 +1,8 @@
 package com.daemawiki.daemawiki.application.user.service;
 
 import com.daemawiki.daemawiki.application.user.usecase.UserLoginUseCase;
-import com.daemawiki.daemawiki.common.security.session.model.SessionModel;
-import com.daemawiki.daemawiki.common.security.session.repository.SessionRepository;
+import com.daemawiki.daemawiki.security.session.model.SessionModel;
+import com.daemawiki.daemawiki.security.session.repository.SessionRepository;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import com.daemawiki.daemawiki.interfaces.user.dto.UserLoginRequest;
