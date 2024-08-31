@@ -10,7 +10,7 @@ import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
-public class RedisOperationImpl implements RedisOperation {
+class RedisOperationImpl implements RedisOperation {
     @Override
     public Mono<String> getValue(String key) {
         return redisOperations.opsForValue().get(key);
