@@ -13,11 +13,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @RequiredArgsConstructor
-public class RedisConfig {
+class RedisConfig {
 
     @Bean
     @Primary
-    public ReactiveRedisOperations<String, Object> reactiveRedisOperations(ReactiveRedisConnectionFactory factory) {
+    ReactiveRedisOperations<String, Object> reactiveRedisOperations(ReactiveRedisConnectionFactory factory) {
         var keySerializer = new StringRedisSerializer();
         var valueSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
 

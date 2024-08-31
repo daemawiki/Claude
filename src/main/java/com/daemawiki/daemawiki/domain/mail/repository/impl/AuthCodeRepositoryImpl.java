@@ -1,8 +1,8 @@
 package com.daemawiki.daemawiki.domain.mail.repository.impl;
 
+import com.daemawiki.daemawiki.common.error.customs.WrongRedisConnectionException;
 import com.daemawiki.daemawiki.domain.mail.model.AuthCodeModel;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
-import com.daemawiki.daemawiki.common.error.customs.WrongRedisConnectionException;
 import com.daemawiki.daemawiki.infrastructure.redis.RedisKey;
 import com.daemawiki.daemawiki.infrastructure.redis.storage.RedisOperation;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,11 @@ import java.time.Duration;
 @Repository
 @RequiredArgsConstructor
 @Slf4j(topic = "메일 인증 코드 레디스 레포지토리")
-public class AuthCodeRepositoryImpl implements AuthCodeRepository {
+class AuthCodeRepositoryImpl implements AuthCodeRepository {
+    private static final String AUTH_CODE = RedisKey.AUTH_CODE.getKey();
+
+    private final RedisOperation redisOperation;
+
     @Override
     public Mono<Boolean> save(AuthCodeModel model) {
         return handleError(redisOperation.save(
@@ -41,14 +45,11 @@ public class AuthCodeRepositoryImpl implements AuthCodeRepository {
     public Mono<Long> deleteByEmail(String email) {
         return handleError(redisOperation.delete(AUTH_CODE + email));
     }
+
     private static <T> Mono<T> handleError(Mono<T> mono) {
         return mono.onErrorMap(e -> {
             log.error("#- Error: " + e);
             return e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e;
         });
     }
-
-
-    private static final String AUTH_CODE = RedisKey.AUTH_CODE.getKey();
-    private final RedisOperation redisOperation;
 }

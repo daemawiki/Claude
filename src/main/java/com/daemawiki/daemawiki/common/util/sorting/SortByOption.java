@@ -7,7 +7,7 @@ public enum SortByOption {
     CREATED("dateTime.created"),
     UPDATED("dateTime.updated"),
     TITLE("title"),
-    VIEW("view");
+    VIEW("viewCount");
 
     private final String path;
 

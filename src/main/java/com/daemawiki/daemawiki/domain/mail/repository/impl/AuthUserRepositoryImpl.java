@@ -1,7 +1,7 @@
 package com.daemawiki.daemawiki.domain.mail.repository.impl;
 
-import com.daemawiki.daemawiki.domain.mail.repository.AuthUserRepository;
 import com.daemawiki.daemawiki.common.error.customs.WrongRedisConnectionException;
+import com.daemawiki.daemawiki.domain.mail.repository.AuthUserRepository;
 import com.daemawiki.daemawiki.infrastructure.redis.RedisKey;
 import com.daemawiki.daemawiki.infrastructure.redis.storage.RedisOperation;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,11 @@ import java.time.Duration;
 @Repository
 @RequiredArgsConstructor
 @Slf4j(topic = "인증된 유저 레디스 레포지토리")
-public class AuthUserRepositoryImpl implements AuthUserRepository {
+class AuthUserRepositoryImpl implements AuthUserRepository {
+    private static final String AUTH_MAIL = RedisKey.AUTH_USER.getKey();
+
+    private final RedisOperation redisOperation;
+
     @Override
     public Mono<Boolean> save(String mail) {
         return handleError(redisOperation.save(
@@ -41,7 +45,4 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
             return e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e;
         });
     }
-
-    private static final String AUTH_MAIL = RedisKey.AUTH_USER.getKey();
-    private final RedisOperation redisOperation;
 }

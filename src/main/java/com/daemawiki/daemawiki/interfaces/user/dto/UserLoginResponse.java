@@ -16,5 +16,6 @@ public record UserLoginResponse(
     record UserSimpleModel(
             String name,
             UserRole role
-    ) {}
+    ) {
+    }
 }

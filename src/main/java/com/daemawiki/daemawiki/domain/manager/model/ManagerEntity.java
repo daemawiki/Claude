@@ -22,7 +22,8 @@ public class ManagerEntity {
         this.userId = userId;
     }
 
-    protected ManagerEntity() {}
+    protected ManagerEntity() {
+    }
 
     public static ManagerEntity of(String email, String userId) {
         return new ManagerEntity(email, userId);
