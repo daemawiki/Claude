@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 class AddManagerService implements AddManagerUseCase {
+    private final ManagerRepository managerRepository;
+    private final UserRepository userRepository;
 
     /**
      * 관리자 추가 메서드
@@ -51,7 +53,4 @@ class AddManagerService implements AddManagerUseCase {
     private Mono<ManagerEntity> saveManager(String email, String userId) {
         return managerRepository.save(ManagerEntity.of(email, userId));
     }
-
-    private final ManagerRepository managerRepository;
-    private final UserRepository userRepository;
 }
