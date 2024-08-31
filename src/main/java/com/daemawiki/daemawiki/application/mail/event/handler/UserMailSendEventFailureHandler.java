@@ -12,6 +12,8 @@ import reactor.core.scheduler.Schedulers;
 @Component
 @RequiredArgsConstructor
 class UserMailSendEventFailureHandler implements EventFailureHandler<MailSendEvent> {
+    private final AuthCodeRepository authCodeRepository;
+
     @Override
     public void handleFailure(MailSendEvent event, Throwable throwable) {
         authCodeRepository.deleteByEmail(event.to())
@@ -20,6 +22,4 @@ class UserMailSendEventFailureHandler implements EventFailureHandler<MailSendEve
                 .subscribeOn(Schedulers.boundedElastic())
                 .subscribe();
     }
-
-    private final AuthCodeRepository authCodeRepository;
 }
