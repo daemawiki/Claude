@@ -7,10 +7,8 @@ import com.daemawiki.daemawiki.common.util.event.EventHandler;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 import reactor.core.publisher.Mono;
@@ -25,13 +23,11 @@ class UserMailSendEventHandler implements EventHandler<MailSendEvent> {
     private final MailSenderProperties mailSenderProperties;
     private final JavaMailSender mailSender;
 
-    @Async
     @TransactionalEventListener(MailSendEvent.class)
     public @Override void handle(MailSendEvent event) {
         Mono.fromRunnable(() -> sendMail(event))
                 .subscribeOn(Schedulers.boundedElastic())
                 .doOnError(e -> eventFailureHandler.handleFailure(event, e))
-                .subscribeOn(Schedulers.boundedElastic())
                 .subscribe();
     }
 
