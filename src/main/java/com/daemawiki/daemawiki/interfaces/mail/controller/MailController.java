@@ -14,6 +14,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RequestMapping("/api/mail")
 class MailController {
+    private final UserMailVerifyUseCase userMailVerifyUseCase;
+    private final UserMailSendUseCase userMailSendUseCase;
+
     @PostMapping("/send")
     Mono<Void> send(
             @RequestParam("target") String target,
@@ -29,7 +32,4 @@ class MailController {
     ) {
         return userMailVerifyUseCase.verify(target, code);
     }
-
-    private final UserMailVerifyUseCase userMailVerifyUseCase;
-    private final UserMailSendUseCase userMailSendUseCase;
 }
