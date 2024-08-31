@@ -6,7 +6,7 @@ import com.daemawiki.daemawiki.domain.document.DocumentModel;
 import java.util.List;
 import java.util.Set;
 
-public record FullDocumentResponse(
+public record DocumentFullResponse(
         String id,
         Title title,
         List<Detail> details,
@@ -20,8 +20,8 @@ public record FullDocumentResponse(
         List<Editor> editors
 ) {
     @Factory
-    public static FullDocumentResponse createNewInstanceFromDocumentModel(DocumentModel model) {
-        return new FullDocumentResponse(
+    public static DocumentFullResponse createNewInstanceFromDocumentModel(DocumentModel model) {
+        return new DocumentFullResponse(
                 model.id(),
                 new Title(model.title().mainTitle(), model.title().subTitle()),
                 model.detailList().stream()

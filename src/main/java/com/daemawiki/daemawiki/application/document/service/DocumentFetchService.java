@@ -6,7 +6,7 @@ import com.daemawiki.daemawiki.common.util.paging.PagingRequest;
 import com.daemawiki.daemawiki.common.util.searching.SearchResponse;
 import com.daemawiki.daemawiki.domain.document.DocumentRepository;
 import com.daemawiki.daemawiki.domain.document.DocumentSimpleResult;
-import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
+import com.daemawiki.daemawiki.interfaces.document.dto.response.DocumentFullResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +21,16 @@ class DocumentFetchService implements DocumentFetchUseCase {
     private final DocumentRepository documentRepository;
 
     @Override
-    public Mono<FullDocumentResponse> fetchById(String documentId) {
+    public Mono<DocumentFullResponse> fetchById(String documentId) {
         return documentRepository.findById(documentId)
                 .switchIfEmpty(Mono.error(new RuntimeException())) // 문서 id로 찾지 못했을 때
-                .map(FullDocumentResponse::createNewInstanceFromDocumentModel);
+                .map(DocumentFullResponse::createNewInstanceFromDocumentModel);
     }
 
     @Override
-    public Mono<FullDocumentResponse> fetchRandom() {
+    public Mono<DocumentFullResponse> fetchRandom() {
         return documentRepository.getRandom()
-                .map(FullDocumentResponse::createNewInstanceFromDocumentModel);
+                .map(DocumentFullResponse::createNewInstanceFromDocumentModel);
     }
 
     @Override

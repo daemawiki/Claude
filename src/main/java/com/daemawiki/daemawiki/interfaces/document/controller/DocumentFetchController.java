@@ -5,7 +5,7 @@ import com.daemawiki.daemawiki.common.annotation.ui.DocumentApi;
 import com.daemawiki.daemawiki.common.util.paging.PagingRequest;
 import com.daemawiki.daemawiki.common.util.searching.SearchResponse;
 import com.daemawiki.daemawiki.domain.document.DocumentSimpleResult;
-import com.daemawiki.daemawiki.interfaces.document.dto.response.FullDocumentResponse;
+import com.daemawiki.daemawiki.interfaces.document.dto.response.DocumentFullResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ class DocumentFetchController {
     private final DocumentFetchUseCase fetchUseCase;
 
     @GetMapping("/random")
-    Mono<FullDocumentResponse> fetchRandom() {
+    Mono<DocumentFullResponse> fetchRandom() {
         return fetchUseCase.fetchRandom();
     }
 
@@ -30,7 +30,7 @@ class DocumentFetchController {
     }
 
     @GetMapping("/{documentId}")
-    Mono<FullDocumentResponse> fetchById(
+    Mono<DocumentFullResponse> fetchById(
             @PathVariable String documentId
     ) {
         return fetchUseCase.fetchById(documentId);

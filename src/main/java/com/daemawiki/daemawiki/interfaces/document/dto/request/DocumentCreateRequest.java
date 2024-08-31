@@ -50,7 +50,7 @@ import java.util.Set;
  *
  * @author seung won kim
  */
-public record CreateDocumentRequest(
+public record DocumentCreateRequest(
         DocumentElementDtos.Title title,
         DocumentElementDtos.Type type,
         Set<String> category
