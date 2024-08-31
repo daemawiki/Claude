@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.application.manager.service;
 
-import com.daemawiki.daemawiki.application.manager.usecase.AddManagerUseCase;
+import com.daemawiki.daemawiki.application.manager.usecase.ManagerAddUseCase;
 import com.daemawiki.daemawiki.domain.manager.model.ManagerEntity;
 import com.daemawiki.daemawiki.domain.manager.repository.ManagerRepository;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
  */
 @Service
 @RequiredArgsConstructor
-class AddManagerService implements AddManagerUseCase {
+class ManagerAddService implements ManagerAddUseCase {
     private final ManagerRepository managerRepository;
     private final UserRepository userRepository;
 
