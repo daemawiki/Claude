@@ -11,6 +11,9 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 class UserMailVerifyService implements UserMailVerifyUseCase {
+    private final AuthCodeRepository authCodeRepository;
+    private final AuthUserRepository authUserRepository;
+
     @Override
     public Mono<Void> verify(String target, String code) {
         return authCodeRepository.findByMail(target)
@@ -27,7 +30,4 @@ class UserMailVerifyService implements UserMailVerifyUseCase {
     private Mono<Void> saveAuthenticationUser(AuthCodeModel model) {
         return authUserRepository.save(model.email()).then();
     }
-
-    private final AuthCodeRepository authCodeRepository;
-    private final AuthUserRepository authUserRepository;
 }
