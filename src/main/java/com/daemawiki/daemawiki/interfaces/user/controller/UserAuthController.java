@@ -31,7 +31,7 @@ public class UserAuthController {
             ServerHttpResponse serverHttpResponse,
             ServerHttpRequest serverHttpRequest
     ) {
-        return userLoginUseCase.loginWithSession(request, serverHttpRequest)
+        return userLoginUseCase.login(request, serverHttpRequest)
                 .map(sessionValue ->  ResponseCookie.from("sessionId", sessionValue)
                         .path("/api")
                         .httpOnly(true)
