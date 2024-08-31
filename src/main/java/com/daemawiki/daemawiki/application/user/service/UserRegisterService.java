@@ -1,14 +1,14 @@
 package com.daemawiki.daemawiki.application.user.service;
 
 import com.daemawiki.daemawiki.application.document.usecase.CreateUserDocumentUseCase;
+import com.daemawiki.daemawiki.application.user.usecase.UserRegisterUseCase;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthUserRepository;
 import com.daemawiki.daemawiki.domain.manager.model.ManagerEntity;
 import com.daemawiki.daemawiki.domain.manager.repository.ManagerRepository;
-import com.daemawiki.daemawiki.interfaces.user.dto.UserRegisterRequest;
 import com.daemawiki.daemawiki.domain.user.model.UserEntity;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
-import com.daemawiki.daemawiki.application.user.usecase.UserRegisterUseCase;
+import com.daemawiki.daemawiki.interfaces.user.dto.UserRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,7 +46,7 @@ class UserRegisterService implements UserRegisterUseCase {
      * Mono.when을 사용하여 병렬 실행
      *
      * @param request 회원가입 요청 dto
-     * @exception
+     * @throws
      */
     private Mono<Void> validateRegistration(UserRegisterRequest request) {
         return Mono.when(
@@ -59,7 +59,7 @@ class UserRegisterService implements UserRegisterUseCase {
      * 해당 이메일로 가입된 유저가 있는 지 검증 메서드
      *
      * @param email 회원가입 요청 바디의 email 필드
-     * @exception
+     * @throws
      */
     private Mono<Void> ensureEmailNotRegistered(String email) {
         return userRepository.existsByEmail(email)
@@ -72,7 +72,7 @@ class UserRegisterService implements UserRegisterUseCase {
      * 해당 이메일이 DSM 메일 인증이 된 이메일인지 검증 메서드
      *
      * @param email 회원가입 요청 바디의 email 필드
-     * @exception
+     * @throws
      */
     private Mono<Void> validateEmailAuthentication(String email) {
         return authUserRepository.existsByEmail(email)
@@ -122,8 +122,7 @@ class UserRegisterService implements UserRegisterUseCase {
     }
 
     /**
-     *
-     * @param user createUserEntity 메서드를 통해 생성된 유저 엔티티 without mongoid
+     * @param user    createUserEntity 메서드를 통해 생성된 유저 엔티티 without mongoid
      * @param manager DB에서 조회한 Manager 엔티티
      * @return Mono<UserEntity> UserEntity DB에 저장된 유저 엔티티 with mongoid
      */

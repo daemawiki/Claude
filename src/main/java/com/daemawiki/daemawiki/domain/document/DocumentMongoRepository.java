@@ -11,9 +11,9 @@ interface DocumentMongoRepository extends ReactiveMongoRepository<DocumentEntity
 
     @Aggregation(pipeline = {
             "{ $match: { $or: [ " +
-            "  { 'title': { $regex: ?0, $options: 'i' } }, " +
-            "  { 'contents.content': { $regex: ?0, $options: 'i' } } " +
-            "] } }",
+                    "  { 'title': { $regex: ?0, $options: 'i' } }, " +
+                    "  { 'contents.content': { $regex: ?0, $options: 'i' } } " +
+                    "] } }",
             "{ $sort: { ?1: ?2 } }",
             "{ $skip: ?3 }",
             "{ $limit: ?4 }"

@@ -8,7 +8,9 @@ import reactor.core.publisher.Mono;
 
 public interface DocumentFetchUseCase {
     Mono<DocumentFullResponse> fetchById(String documentId);
+
     Mono<DocumentFullResponse> fetchRandom();
+
     Mono<SearchResponse<DocumentSimpleResult>> search(String searchText, PagingRequest request);
 
 }
