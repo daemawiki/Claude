@@ -15,7 +15,8 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class SessionAuthenticationImpl implements SessionUtil {
+class SessionAuthenticationImpl implements SessionUtil {
+    private final UserRepository userRepository;
 
     @Override
     public Mono<Authentication> getAuthentication(String subject) {
@@ -38,6 +39,4 @@ public class SessionAuthenticationImpl implements SessionUtil {
         return new User(subject, "", List.of(
                 new SimpleGrantedAuthority("ROLE_" + user.getRole().name())));
     }
-
-    private final UserRepository userRepository;
 }
