@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -20,16 +21,16 @@ import reactor.core.scheduler.Schedulers;
 class UserMailSendEventHandler implements EventHandler<MailSendEvent> {
     private static final String MAIL_TITLE = "DSM 메일 인증";
 
-    private final EventFailureHandler<MailSendEvent> eventEventFailureHandler;
+    private final EventFailureHandler<MailSendEvent> eventFailureHandler;
     private final MailSenderProperties mailSenderProperties;
     private final JavaMailSender mailSender;
 
     @Async
-    @EventListener(MailSendEvent.class)
+    @TransactionalEventListener(MailSendEvent.class)
     public @Override void handle(MailSendEvent event) {
         Mono.fromRunnable(() -> sendMail(event))
                 .subscribeOn(Schedulers.boundedElastic())
-                .doOnError(e -> eventEventFailureHandler.handleFailure(event, e))
+                .doOnError(e -> eventFailureHandler.handleFailure(event, e))
                 .subscribeOn(Schedulers.boundedElastic())
                 .subscribe();
     }
