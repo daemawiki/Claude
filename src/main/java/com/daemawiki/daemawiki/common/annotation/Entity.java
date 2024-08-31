@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Document
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 public @interface Entity {
 
 }

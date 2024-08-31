@@ -1,12 +1,12 @@
 package com.daemawiki.daemawiki.application.mail.service;
 
-import com.daemawiki.daemawiki.domain.mail.model.AuthCodeModel;
-import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.application.mail.event.model.MailSendEvent;
-import com.daemawiki.daemawiki.domain.mail.model.type.MailType;
 import com.daemawiki.daemawiki.application.mail.usecase.MailSendUseCase;
-import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import com.daemawiki.daemawiki.common.util.random.AuthCodeGenerator;
+import com.daemawiki.daemawiki.domain.mail.model.AuthCodeModel;
+import com.daemawiki.daemawiki.domain.mail.model.type.MailType;
+import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
+import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

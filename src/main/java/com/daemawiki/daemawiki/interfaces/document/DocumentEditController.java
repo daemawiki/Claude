@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.interfaces.document.controller;
+package com.daemawiki.daemawiki.interfaces.document;
 
 import com.daemawiki.daemawiki.application.document.usecase.DocumentEditUseCase;
 import com.daemawiki.daemawiki.common.annotation.ui.DocumentApi;
@@ -6,7 +6,10 @@ import com.daemawiki.daemawiki.common.util.http.ListRequest;
 import com.daemawiki.daemawiki.interfaces.document.dto.DocumentElementDtos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import reactor.core.publisher.Mono;
 
 @DocumentApi

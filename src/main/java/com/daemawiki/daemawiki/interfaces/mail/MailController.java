@@ -1,8 +1,8 @@
-package com.daemawiki.daemawiki.interfaces.mail.controller;
+package com.daemawiki.daemawiki.interfaces.mail;
 
-import com.daemawiki.daemawiki.domain.mail.model.type.MailType;
 import com.daemawiki.daemawiki.application.mail.usecase.MailSendUseCase;
 import com.daemawiki.daemawiki.application.mail.usecase.MailVerifyUseCase;
+import com.daemawiki.daemawiki.domain.mail.model.type.MailType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

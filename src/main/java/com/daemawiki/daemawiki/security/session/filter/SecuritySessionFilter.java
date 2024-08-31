@@ -82,7 +82,7 @@ public class SecuritySessionFilter implements WebFilter {
         return exchange.getResponse().writeWith(wrapResponseToDataBuffer(exchange, responseBytes));
     }
 
-    private static Mono<? extends DataBuffer> wrapResponseToDataBuffer(ServerWebExchange exchange, byte[] responseBytes) {
+    private static Mono<DataBuffer> wrapResponseToDataBuffer(ServerWebExchange exchange, byte[] responseBytes) {
         return Mono.just(exchange.getResponse()
                 .bufferFactory()
                 .wrap(responseBytes));

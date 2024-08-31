@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.interfaces.user.controller;
+package com.daemawiki.daemawiki.interfaces.user;
 
 import com.daemawiki.daemawiki.interfaces.user.dto.UserLoginRequest;
 import com.daemawiki.daemawiki.interfaces.user.dto.UserRegisterRequest;
@@ -36,7 +36,7 @@ class UserAuthController {
             ServerHttpRequest serverHttpRequest
     ) {
         return userLoginUseCase.login(request, serverHttpRequest)
-                .map(sessionValue ->  ResponseCookie.from("sessionId", sessionValue)
+                .map(sessionValue -> ResponseCookie.from("sessionId", sessionValue)
                         .path("/api")
                         .httpOnly(true)
                         .secure(true)

@@ -1,4 +1,4 @@
-package com.daemawiki.daemawiki.interfaces.document.controller;
+package com.daemawiki.daemawiki.interfaces.document;
 
 import com.daemawiki.daemawiki.application.document.usecase.DocumentRemoveUseCase;
 import com.daemawiki.daemawiki.common.annotation.ui.DocumentApi;

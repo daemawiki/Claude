@@ -35,6 +35,7 @@ class ManagerAddService implements ManagerAddUseCase {
     /**
      * 이미 가입된 유저라면 역할 변경 (이전의 역할 -> Manager)
      * <s>신분 상승</s>
+     *
      * @param user 유저 엔티티
      * @return Mono<UserEntity> UserEntity 유저 엔티티
      */
@@ -46,7 +47,7 @@ class ManagerAddService implements ManagerAddUseCase {
     /**
      * DB에 Manager 정보 저장
      *
-     * @param email 기존 관리자에게 입력 받은 새관리자의 이메일
+     * @param email  기존 관리자에게 입력 받은 새관리자의 이메일
      * @param userId 새로운 관리자의 userId
      * @return Mono<ManagerEntity> ManagerEntity 관리자 엔티티
      */

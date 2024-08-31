@@ -46,7 +46,7 @@ public record ErrorResponse(
                 exchange.getRequest().getPath().toString(),
                 e.getClass().getSimpleName(),
                 e.getMessage(),
-                e.getCause() != null? e.getCause().toString() : "Not yet."
+                e.getCause() != null ? e.getCause().toString() : "Not yet."
         );
     }
 }

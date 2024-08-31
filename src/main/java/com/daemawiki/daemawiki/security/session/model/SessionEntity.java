@@ -18,7 +18,18 @@ public class SessionEntity {
     @Indexed(expireAfterSeconds = 60 * 60 * 3)
     private LocalDateTime sessionStartAt;
 
-    protected SessionEntity() {}
+    protected SessionEntity() {
+    }
+
+    private SessionEntity(String address, String token) {
+        ip = address;
+        this.token = token;
+        sessionStartAt = LocalDateTime.now();
+    }
+
+    public static SessionEntity of(String address, String token) {
+        return new SessionEntity(address, token);
+    }
 
     public void refresh() {
         sessionStartAt = LocalDateTime.now();
@@ -30,15 +41,5 @@ public class SessionEntity {
 
     public String getToken() {
         return token;
-    }
-
-    private SessionEntity(String address, String token) {
-        ip = address;
-        this.token = token;
-        sessionStartAt = LocalDateTime.now();
-    }
-
-    public static SessionEntity of(String address, String token) {
-        return new SessionEntity(address, token);
     }
 }

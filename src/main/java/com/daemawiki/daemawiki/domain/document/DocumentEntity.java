@@ -53,7 +53,8 @@ class DocumentEntity {
 
     /* constructors */
     @Constructor
-    protected DocumentEntity() {}
+    protected DocumentEntity() {
+    }
 
     @Constructor
     private DocumentEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
@@ -80,9 +81,9 @@ class DocumentEntity {
 
         /**
          * getters <br/><br/>
-         *
+         * <p>
          * 다른 record value object와 일관성을 유지하기 위해 메서드명 유지
-         * */
+         */
         public LocalDateTime createdDateTime() {
             return createdDateTime;
         }
@@ -98,13 +99,16 @@ class DocumentEntity {
     }
 
     @ValueObject
-    record Title(String mainTitle, String subTitle) {}
+    record Title(String mainTitle, String subTitle) {
+    }
 
     @ValueObject
-    record Detail(String title, String content) {}
+    record Detail(String title, String content) {
+    }
 
     @ValueObject
-    record Content(String index, String title, String content) {}
+    record Content(String index, String title, String content) {
+    }
 
     @ValueObject
     record Editor(String name, String userId) {
@@ -118,7 +122,8 @@ class DocumentEntity {
      * STUDENT : 학생 문서    : 삭제 불가능
      * MAIN    : 메인 페이지   : 삭제 불가능
      * TEACHER : 선생님 문서   :
-     * INCIDENT: 사건사고 문서 :*/
+     * INCIDENT: 사건사고 문서 :
+     */
     @ValueObject
     enum Type {
         STUDENT, MAIN, TEACHER, INCIDENT, TEST

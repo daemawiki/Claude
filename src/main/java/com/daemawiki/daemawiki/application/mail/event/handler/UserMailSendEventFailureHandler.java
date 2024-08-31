@@ -1,8 +1,8 @@
 package com.daemawiki.daemawiki.application.mail.event.handler;
 
 import com.daemawiki.daemawiki.application.mail.event.model.MailSendEvent;
-import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.common.util.event.EventFailureHandler;
+import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ class UserMailSendEventFailureHandler implements EventFailureHandler<MailSendEve
     private final AuthCodeRepository authCodeRepository;
 
     @Override
-    @TransactionalEventListener(classes = { MailSendEvent.class }, phase = TransactionPhase.AFTER_ROLLBACK)
+    @TransactionalEventListener(classes = {MailSendEvent.class}, phase = TransactionPhase.AFTER_ROLLBACK)
     public void handleFailure(MailSendEvent event) {
         authCodeRepository.deleteByEmail(event.to())
                 .subscribeOn(Schedulers.boundedElastic())
