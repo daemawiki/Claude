@@ -21,6 +21,11 @@ import java.time.Duration;
 
 @RequiredArgsConstructor
 public class SecuritySessionFilter implements WebFilter {
+    private static final String HANDLE_VIEW_MESSAGE = "Invalid or expired session.";
+    private static final String HANDLE_MESSAGE = "유효하지 않은 세션입니다.";
+
+    private final ObjectMapper objectMapper;
+    private final SessionHandler sessionHandler;
 
     @NonNull
     @Override
@@ -82,10 +87,4 @@ public class SecuritySessionFilter implements WebFilter {
                 .bufferFactory()
                 .wrap(responseBytes));
     }
-
-    private static final String HANDLE_VIEW_MESSAGE = "Invalid or expired session.";
-    private static final String HANDLE_MESSAGE = "유효하지 않은 세션입니다.";
-
-    private final ObjectMapper objectMapper;
-    private final SessionHandler sessionHandler;
 }
