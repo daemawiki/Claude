@@ -11,7 +11,7 @@ import reactor.core.scheduler.Schedulers;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserMailSendEventFailureHandler implements EventFailureHandler<MailSendEvent> {
+class UserMailSendEventFailureHandler implements EventFailureHandler<MailSendEvent> {
     @Override
     public void handleFailure(MailSendEvent event, Throwable throwable) {
         authCodeRepository.deleteByEmail(event.to())
