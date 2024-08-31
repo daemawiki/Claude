@@ -13,9 +13,9 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/mail")
-public class MailController {
+class MailController {
     @PostMapping("/send")
-    public Mono<Void> send(
+    Mono<Void> send(
             @RequestParam("target") String target,
             @RequestParam("type") MailType type
     ) {
@@ -23,7 +23,7 @@ public class MailController {
     }
 
     @PostMapping("/verify")
-    public Mono<Void> verify(
+    Mono<Void> verify(
             @RequestParam("target") String target,
             @RequestParam("code") String code
     ) {
