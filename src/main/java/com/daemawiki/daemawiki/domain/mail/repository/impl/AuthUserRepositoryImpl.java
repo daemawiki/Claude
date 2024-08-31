@@ -16,6 +16,10 @@ import java.time.Duration;
 @RequiredArgsConstructor
 @Slf4j(topic = "인증된 유저 레디스 레포지토리")
 class AuthUserRepositoryImpl implements AuthUserRepository {
+    private static final String AUTH_MAIL = RedisKey.AUTH_USER.getKey();
+
+    private final RedisOperation redisOperation;
+
     @Override
     public Mono<Boolean> save(String mail) {
         return handleError(redisOperation.save(
@@ -41,7 +45,4 @@ class AuthUserRepositoryImpl implements AuthUserRepository {
             return e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e;
         });
     }
-
-    private static final String AUTH_MAIL = RedisKey.AUTH_USER.getKey();
-    private final RedisOperation redisOperation;
 }
