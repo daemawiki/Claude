@@ -3,14 +3,14 @@ package com.daemawiki.daemawiki.application.mail.service;
 import com.daemawiki.daemawiki.domain.mail.model.AuthCodeModel;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthUserRepository;
-import com.daemawiki.daemawiki.application.mail.usecase.UserMailVerifyUseCase;
+import com.daemawiki.daemawiki.application.mail.usecase.MailVerifyUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-class UserMailVerifyService implements UserMailVerifyUseCase {
+class MailVerifyService implements MailVerifyUseCase {
     private final AuthCodeRepository authCodeRepository;
     private final AuthUserRepository authUserRepository;
 
