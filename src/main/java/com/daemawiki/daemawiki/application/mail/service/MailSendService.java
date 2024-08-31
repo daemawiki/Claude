@@ -4,7 +4,7 @@ import com.daemawiki.daemawiki.domain.mail.model.AuthCodeModel;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.application.mail.event.model.MailSendEvent;
 import com.daemawiki.daemawiki.domain.mail.model.type.MailType;
-import com.daemawiki.daemawiki.application.mail.usecase.UserMailSendUseCase;
+import com.daemawiki.daemawiki.application.mail.usecase.MailSendUseCase;
 import com.daemawiki.daemawiki.domain.user.repository.UserRepository;
 import com.daemawiki.daemawiki.common.util.random.AuthCodeGenerator;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 @Slf4j(topic = "유저 메일 전송 서비스")
-class UserMailSendService implements UserMailSendUseCase {
+class MailSendService implements MailSendUseCase {
     private static final String MAIL_TEMPLATE =
             "<div style='margin: 10px; background-color: #f5f5f5; padding: 20px; border-radius: 10px;'>"
                     + "<p style='font-size: 16px; color: #333;'><b><span style='color: #007bff;'>D</span><span style='color: #ffcc00;'>S</span><span style='color: #ff0000;'>M</span></b> 이메일 인증 코드 :</p>"
