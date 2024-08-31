@@ -12,6 +12,8 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 class RemoveManagerService implements RemoveManagerUseCase {
+    private final ManagerRepository managerRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Mono<Void> remove(String email) {
@@ -33,7 +35,4 @@ class RemoveManagerService implements RemoveManagerUseCase {
                 .flatMap(userRepository::save)
                 .thenReturn(manager);
     }
-
-    private final ManagerRepository managerRepository;
-    private final UserRepository userRepository;
 }
