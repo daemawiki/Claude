@@ -18,11 +18,15 @@ import reactor.core.scheduler.Schedulers;
 @Component
 @RequiredArgsConstructor
 class UserMailSendEventHandler implements EventHandler<MailSendEvent> {
+    private static final String MAIL_TITLE = "DSM 메일 인증";
+
+    private final EventFailureHandler<MailSendEvent> eventEventFailureHandler;
+    private final MailSenderProperties mailSenderProperties;
+    private final JavaMailSender mailSender;
 
     @Async
-    @Override
     @EventListener(MailSendEvent.class)
-    public void handle(MailSendEvent event) {
+    public @Override void handle(MailSendEvent event) {
         Mono.fromRunnable(() -> sendMail(event))
                 .subscribeOn(Schedulers.boundedElastic())
                 .doOnError(e -> eventEventFailureHandler.handleFailure(event, e))
@@ -45,10 +49,4 @@ class UserMailSendEventHandler implements EventHandler<MailSendEvent> {
             throw new RuntimeException();
         }
     }
-
-    private static final String MAIL_TITLE = "DSM 메일 인증";
-
-    private final EventFailureHandler<MailSendEvent> eventEventFailureHandler;
-    private final MailSenderProperties mailSenderProperties;
-    private final JavaMailSender mailSender;
 }
