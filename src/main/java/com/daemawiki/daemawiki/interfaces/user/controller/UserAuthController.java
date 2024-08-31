@@ -18,6 +18,10 @@ import java.time.Duration;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 class UserAuthController {
+    private static final Duration COOKIE_EXPIRATION = Duration.ofHours(3);
+
+    private final UserRegisterUseCase userRegisterUseCase;
+    private final UserLoginUseCase userLoginUseCase;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
@@ -41,9 +45,4 @@ class UserAuthController {
                 .doOnNext(serverHttpResponse::addCookie)
                 .then();
     }
-
-    private static final Duration COOKIE_EXPIRATION = Duration.ofHours(3);
-
-    private final UserRegisterUseCase userRegisterUseCase;
-    private final UserLoginUseCase userLoginUseCase;
 }
