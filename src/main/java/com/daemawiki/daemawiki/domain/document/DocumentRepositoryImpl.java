@@ -9,6 +9,9 @@ import reactor.core.publisher.Mono;
 @Repository
 @RequiredArgsConstructor
 class DocumentRepositoryImpl implements DocumentRepository {
+    private final DocumentMongoRepository documentMongoRepository;
+    private final DocumentEntityMapper documentEntityMapper;
+
     @Override
     public Mono<DocumentModel> save(DocumentModel model) {
         var mono = documentMongoRepository.save(documentEntityMapper.toEntity(model));
@@ -47,7 +50,4 @@ class DocumentRepositoryImpl implements DocumentRepository {
 
         return documentEntityMapper.toFluxModel(flux);
     }
-
-    private final DocumentMongoRepository documentMongoRepository;
-    private final DocumentEntityMapper documentEntityMapper;
 }
