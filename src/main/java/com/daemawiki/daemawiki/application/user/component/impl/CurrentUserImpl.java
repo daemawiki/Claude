@@ -14,6 +14,8 @@ import java.security.Principal;
 @Component
 @RequiredArgsConstructor
 class CurrentUserImpl implements CurrentUser {
+    private final UserRepository userRepository;
+
     @Override
     public Mono<UserEntity> get() {
         return ReactiveSecurityContextHolder.getContext()
@@ -22,6 +24,4 @@ class CurrentUserImpl implements CurrentUser {
                 .flatMap(userRepository::findByEmail)
                 .switchIfEmpty(Mono.error(new RuntimeException()));
     }
-
-    private final UserRepository userRepository;
 }
