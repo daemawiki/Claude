@@ -13,6 +13,8 @@ import java.net.InetSocketAddress;
 @Component
 @RequiredArgsConstructor
 public class SessionHandlerImpl implements SessionHandler {
+    private final SessionRepository sessionRepository;
+    private final SessionUtil sessionUtil;
 
     @Override
     public Mono<Authentication> getAuthentication(String sessionId, InetSocketAddress socketAddress) {
@@ -23,7 +25,4 @@ public class SessionHandlerImpl implements SessionHandler {
                 .flatMap(sessionRepository::save)
                 .flatMap(session -> sessionUtil.getAuthentication(session.userName()));
     }
-
-    private final SessionRepository sessionRepository;
-    private final SessionUtil sessionUtil;
 }
