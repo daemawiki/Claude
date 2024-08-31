@@ -5,5 +5,5 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import reactor.core.publisher.Mono;
 
 public interface UserLoginUseCase {
-    Mono<String> loginWithSession(UserLoginRequest request, ServerHttpRequest serverHttpRequest);
+    Mono<String> login(UserLoginRequest request, ServerHttpRequest serverHttpRequest);
 }
