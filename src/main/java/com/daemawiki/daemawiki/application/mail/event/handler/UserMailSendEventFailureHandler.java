@@ -1,23 +1,28 @@
 package com.daemawiki.daemawiki.application.mail.event.handler;
 
 import com.daemawiki.daemawiki.application.mail.event.model.MailSendEvent;
-import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.common.util.event.EventFailureHandler;
+import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
+import reactor.core.scheduler.Schedulers;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserMailSendEventFailureHandler implements EventFailureHandler<MailSendEvent> {
+class UserMailSendEventFailureHandler implements EventFailureHandler<MailSendEvent> {
+    private final AuthCodeRepository authCodeRepository;
+
     @Override
-    public void handleFailure(MailSendEvent event, Throwable throwable) {
+    @TransactionalEventListener(classes = {MailSendEvent.class}, phase = TransactionPhase.AFTER_ROLLBACK)
+    public void handleFailure(MailSendEvent event) {
         authCodeRepository.deleteByEmail(event.to())
-                .doOnNext(l -> log.error(l + "- Mail send failed : " + throwable))
-                .doOnError(e -> log.error("Redis entity delete failed : " + e))
+                .subscribeOn(Schedulers.boundedElastic())
+                .doOnNext(count -> log.error("{}-Mail send failed for {}", count, event.to()))
+                .doOnError(e -> log.error("Redis entity delete failed for {}: {}", event.to(), e.getMessage()))
                 .subscribe();
     }
-
-    private final AuthCodeRepository authCodeRepository;
 }

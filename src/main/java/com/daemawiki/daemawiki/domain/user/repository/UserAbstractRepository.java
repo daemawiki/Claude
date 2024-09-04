@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public abstract class UserAbstractRepository implements UserRepository {
+abstract class UserAbstractRepository implements UserRepository {
+    private final UserMongoRepository userMongoRepository;
+
     @Override
     public Mono<UserEntity> save(UserEntity entity) {
         return userMongoRepository.save(entity);
@@ -25,6 +27,4 @@ public abstract class UserAbstractRepository implements UserRepository {
     public Mono<UserEntity> findById(String id) {
         return userMongoRepository.findById(id);
     }
-
-    private final UserMongoRepository userMongoRepository;
 }

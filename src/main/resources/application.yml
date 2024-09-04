@@ -12,15 +12,11 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
 
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
 server:
   port: 8080
-
-dm:
-  security:
-    secret: ${SECURITY_SECRET}
-    issuer: ${SECURITY_ISSUER}
-    expiration: ${SECURITY_EXPIRATION}
-    prefix: ${SECURITY_PREFIX}
 
 mail:
   sender:

@@ -9,12 +9,13 @@ import reactor.core.publisher.Flux;
 
 @Component
 @RequiredArgsConstructor
-public class MongoQueryUtilsImpl implements MongoQueryUtils {
+class MongoQueryUtilsImpl implements MongoQueryUtils {
+    private final ReactiveMongoTemplate reactiveMongoTemplate;
+
+    @Override
     public <T> Flux<T> find(Query query, Class<T> targetClass) {
         return reactiveMongoTemplate.find(
                 query, targetClass
         );
     }
-
-    private final ReactiveMongoTemplate reactiveMongoTemplate;
 }

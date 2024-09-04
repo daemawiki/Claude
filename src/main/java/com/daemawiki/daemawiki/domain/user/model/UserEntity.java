@@ -5,7 +5,6 @@ import com.daemawiki.daemawiki.domain.user.model.detail.UserInfo;
 import com.daemawiki.daemawiki.domain.user.model.detail.UserRole;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -19,7 +18,7 @@ import java.util.List;
 public class UserEntity {
     @Id
     private String id;
-    
+
     private String name;
 
     @Indexed(unique = true)
@@ -47,8 +46,12 @@ public class UserEntity {
         this.documentId = documentId;
     }
 
-    public void updateUserRole(UserRole role) {
-        this.role = role;
+    public void setRoleToDSM_MOP() {
+        this.role = UserRole.DSM_MOP;
+    }
+
+    public void setRoleToMANAGER() {
+        this.role = UserRole.MANAGER;
     }
 
     public UserEntity updateUserInfo(UserInfo userInfo) {
@@ -64,7 +67,8 @@ public class UserEntity {
         return new UserEntity(name, email, password, documentId, userInfo, classInfos, role);
     }
 
-    protected UserEntity() {}
+    protected UserEntity() {
+    }
 
     private UserEntity(String name, String email, String password, String documentId, UserInfo userInfo, List<ClassInfo> classInfos, UserRole role) {
         this.name = name;

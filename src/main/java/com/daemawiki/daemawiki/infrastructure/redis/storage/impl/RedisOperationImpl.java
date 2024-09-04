@@ -10,7 +10,9 @@ import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
-public class RedisOperationImpl implements RedisOperation {
+class RedisOperationImpl implements RedisOperation {
+    private final ReactiveRedisOperations<String, String> redisOperations;
+
     @Override
     public Mono<String> getValue(String key) {
         return redisOperations.opsForValue().get(key);
@@ -30,7 +32,5 @@ public class RedisOperationImpl implements RedisOperation {
     public Mono<Boolean> save(String key, String value, Duration expiration) {
         return redisOperations.opsForValue().set(key, value, expiration);
     }
-
-    private final ReactiveRedisOperations<String, String> redisOperations;
 }
 
