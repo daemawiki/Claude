@@ -1,10 +1,10 @@
 package com.daemawiki.daemawiki.security.session.repository.impl;
 
 import com.daemawiki.daemawiki.common.error.exception.CustomExceptionFactory;
-import com.daemawiki.daemawiki.common.error.customs.WrongRedisConnectionException;
 import com.daemawiki.daemawiki.infrastructure.redis.RedisKey;
 import com.daemawiki.daemawiki.infrastructure.redis.storage.RedisOperation;
 import com.daemawiki.daemawiki.security.session.model.SessionModel;
+import com.daemawiki.daemawiki.security.session.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.RedisConnectionFailureException;
@@ -49,8 +49,4 @@ class SessionRepositoryImpl implements SessionRepository {
                     CustomExceptionFactory.internalServerError(e.getMessage(), e) : e;
         });
     }
-
-    private static final Duration SESSION_EXPIRATION = Duration.ofHours(3);
-
-    private final RedisOperation redisOperation;
 }

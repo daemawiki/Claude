@@ -1,7 +1,6 @@
 package com.daemawiki.daemawiki.domain.mail.repository.impl;
 
 import com.daemawiki.daemawiki.common.error.exception.CustomExceptionFactory;
-import com.daemawiki.daemawiki.common.error.customs.WrongRedisConnectionException;
 import com.daemawiki.daemawiki.domain.mail.model.AuthCodeModel;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthCodeRepository;
 import com.daemawiki.daemawiki.infrastructure.redis.RedisKey;
