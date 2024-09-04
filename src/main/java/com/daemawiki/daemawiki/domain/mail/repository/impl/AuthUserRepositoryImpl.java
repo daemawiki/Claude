@@ -1,6 +1,6 @@
 package com.daemawiki.daemawiki.domain.mail.repository.impl;
 
-import com.daemawiki.daemawiki.common.error.customs.WrongRedisConnectionException;
+import com.daemawiki.daemawiki.common.error.exception.CustomExceptionFactory;
 import com.daemawiki.daemawiki.domain.mail.repository.AuthUserRepository;
 import com.daemawiki.daemawiki.infrastructure.redis.RedisKey;
 import com.daemawiki.daemawiki.infrastructure.redis.storage.RedisOperation;
@@ -42,7 +42,10 @@ class AuthUserRepositoryImpl implements AuthUserRepository {
     private static <T> Mono<T> handleError(Mono<T> mono) {
         return mono.onErrorMap(e -> {
             log.error("#- Error: " + e);
-            return e instanceof RedisConnectionFailureException ? WrongRedisConnectionException.EXCEPTION : e;
+            return e instanceof RedisConnectionFailureException ?
+                    CustomExceptionFactory.internalServerError(
+                            "레디스 서버에 연결하는데 문제가 발생했습니다."
+                    ) : e;
         });
     }
 }
