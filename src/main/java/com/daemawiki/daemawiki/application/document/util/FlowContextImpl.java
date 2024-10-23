@@ -48,30 +48,38 @@ public class FlowContextImpl implements FlowContext {
         private final List<ElementImpl> elements = Collections.synchronizedList(new ArrayList<>());
 
         @Override
-        synchronized public void createElement(final String content) {
+        public void createElement(final String content) {
             verifyNotClosed();
 
-            this.elements.add(elementOf(content));
+            synchronized(this) {
+                this.elements.add(elementOf(content));
+            }
         }
 
         @Override
-        synchronized public void createElement(final int lastElementId, final String content) {
+        public void createElement(final int lastElementId, final String content) {
             verifyNotClosed();
 
-            this.elements.add(
-                    this.elements.indexOf(
-                            this.elements.stream().filter(it -> it.id == lastElementId).findFirst()
-                                    .orElseThrow(() -> new IllegalArgumentException("Element not found"))
-                    ),
-                    elementOf(content)
-            );
+            synchronized(this) {
+                this.elements.add(
+                        this.elements.indexOf(
+                                this.elements.stream()
+                                        .filter(it -> it.id == lastElementId)
+                                        .findFirst()
+                                        .orElseThrow(() -> new IllegalArgumentException("Element not found"))
+                        ),
+                        elementOf(content)
+                );
+            }
         }
 
-        synchronized public Flow withCreateElements(final Stream<String> contents) {
+        public Flow withCreateElements(final Stream<String> contents) {
             verifyNotClosed();
 
-            contents.forEach(this::createElement);
-            return this;
+            synchronized(this) {
+                contents.forEach(this::createElement);
+                return this;
+            }
         }
 
         @Override
