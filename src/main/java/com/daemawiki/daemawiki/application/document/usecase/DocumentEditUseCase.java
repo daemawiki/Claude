@@ -10,5 +10,5 @@ public interface DocumentEditUseCase {
 
     Mono<Void> editEditors(String documentId, List<DocumentElementDtos.Editor> updateData);
 
-    Mono<Void> editContents(String documentId, List<DocumentElementDtos.Content> updateData);
+    Mono<Void> editContents(String documentId, String content);
 }

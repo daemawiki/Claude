@@ -14,13 +14,11 @@ public record DocumentSimpleResult(
         DocumentElementDtos.EditDateTime dateTime
 ) {
     public static DocumentSimpleResult fromDocumentModel(DocumentModel model) {
-        final var contents = model.contentList();
-
         return new DocumentSimpleResult(
                 model.id(),
                 model.type().name(),
                 model.title().mainTitle(),
-                contents.isEmpty() ? "none." : contents.getFirst().content(),
+                model.content(),
                 model.categorySet(),
                 model.viewCount(),
                 model.dateTime()

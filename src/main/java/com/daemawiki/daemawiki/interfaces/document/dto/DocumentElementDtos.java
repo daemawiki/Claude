@@ -28,12 +28,6 @@ public class DocumentElementDtos {
             String subTitle
     ) {}
 
-    public record Content(
-            String index,
-            String title,
-            String content
-    ) {}
-
     public record Document(
             String mainTitle,
             String subTitle,

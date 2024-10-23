@@ -10,7 +10,7 @@ public record DocumentFullResponse(
         String id,
         Title title,
         List<Detail> details,
-        List<Content> contents,
+        String content,
         Set<String> categories,
         Long viewCount,
         Long version,
@@ -27,9 +27,7 @@ public record DocumentFullResponse(
                 model.detailList().stream()
                         .map(detail -> new Detail(detail.title(), detail.content()))
                         .toList(),
-                model.contentList().stream()
-                        .map(content -> new Content(content.index(), content.title(), content.content()))
-                        .toList(),
+                model.content(),
                 model.categorySet(),
                 model.viewCount(),
                 model.version(),
@@ -45,6 +43,5 @@ public record DocumentFullResponse(
     record Title(String mainTitle, String subTitle) {}
     record EditDateTime(String createdDateTime, String lastModifiedDateTime) {}
     record Detail(String title, String content) {}
-    record Content(String index, String title, String content) {}
     record Editor(String name, String userId) {}
 }

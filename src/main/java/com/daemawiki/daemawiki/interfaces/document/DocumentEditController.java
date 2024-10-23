@@ -35,13 +35,4 @@ class DocumentEditController {
     ) {
         return editUseCase.editInfo(documentId, request);
     }
-
-    @PatchMapping("/{documentId}/content")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    Mono<Void> editContents(
-            @PathVariable String documentId,
-            @RequestBody ListRequest<DocumentElementDtos.Content> request
-    ) {
-        return editUseCase.editContents(documentId, request.list());
-    }
 }
