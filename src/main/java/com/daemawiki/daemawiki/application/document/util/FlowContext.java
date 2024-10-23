@@ -3,15 +3,12 @@ package com.daemawiki.daemawiki.application.document.util;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FlowContext {
 
-    Mono<Optional<Flow>> getFlow(final String documentId);
+    Mono<Flow> getFlow(final String documentId);
 
-    void closeFlow(final String documentId);
-
-    interface Flow {
+    interface Flow extends AutoCloseable {
 
         List<Element> getElements();
 
