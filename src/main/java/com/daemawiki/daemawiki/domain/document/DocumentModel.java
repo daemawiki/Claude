@@ -13,7 +13,7 @@ public record DocumentModel(
 
         List<DocumentElementDtos.Detail> detailList,
 
-        List<DocumentElementDtos.Content> contentList,
+        String content,
 
         Set<String> categorySet,
 
@@ -50,18 +50,18 @@ public record DocumentModel(
     /* setters */
 
     public DocumentModel updateEditors(List<DocumentElementDtos.Editor> editorList) {
-        return new DocumentModel(id, title, detailList, contentList, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
+        return new DocumentModel(id, title, detailList, content, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
     }
 
-    public DocumentModel updateContents(List<DocumentElementDtos.Content> contentList) {
-        return new DocumentModel(id, title, detailList, contentList, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
+    public DocumentModel updateContents(String content) {
+        return new DocumentModel(id, title, detailList, content, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
     }
 
     public DocumentModel updateDocumentInfo(Tuple2<List<DocumentElementDtos.Detail>, DocumentElementDtos.Title> tuple) {
-        return new DocumentModel(id, tuple.getT2(), tuple.getT1(), contentList, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
+        return new DocumentModel(id, tuple.getT2(), tuple.getT1(), content, categorySet, viewCount, version + 1, type, dateTime, owner, editorList);
     }
 
     public DocumentModel increaseView() {
-        return new DocumentModel(id, title, detailList, contentList, categorySet, viewCount + 1, version, type, dateTime, owner, editorList);
+        return new DocumentModel(id, title, detailList, content, categorySet, viewCount + 1, version, type, dateTime, owner, editorList);
     }
 }

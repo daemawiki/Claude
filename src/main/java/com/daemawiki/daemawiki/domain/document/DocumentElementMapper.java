@@ -36,15 +36,7 @@ public interface DocumentElementMapper {
         return DocumentEntity.Editor.fromUser(user);
     }
 
-    DocumentEntity.Content toContent(DocumentElementDtos.Content dto);
-
     DocumentEntity.Type toType(DocumentElementDtos.Type typeDto);
-
-    default List<DocumentEntity.Content> toContentList(List<DocumentElementDtos.Content> dtoList) {
-        return dtoList.stream()
-                .map(this::toContent)
-                .toList();
-    }
 
     default List<DocumentEntity.Editor> toEditorList(List<DocumentElementDtos.Editor> dtoList) {
         return dtoList.stream()
@@ -71,15 +63,7 @@ public interface DocumentElementMapper {
 
     DocumentElementDtos.EditDateTime toEditDateTimeDto(DocumentEntity.EditDateTime documentEditDateTime);
 
-    DocumentElementDtos.Content toContentDto(DocumentEntity.Content documentContent);
-
     DocumentElementDtos.Type toTypeDto(DocumentEntity.Type documentType);
-
-    default List<DocumentElementDtos.Content> toContentDtoList(List<DocumentEntity.Content> documentContentList) {
-        return documentContentList.stream()
-                .map(this::toContentDto)
-                .toList();
-    }
 
     default List<DocumentElementDtos.Editor> toEditorDtoList(List<DocumentEntity.Editor> documentEditorList) {
         return documentEditorList.stream()

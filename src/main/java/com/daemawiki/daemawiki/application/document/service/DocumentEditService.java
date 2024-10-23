@@ -25,10 +25,10 @@ class DocumentEditService implements DocumentEditUseCase {
     private final CurrentUser currentUser;
 
     @Override
-    public Mono<Void> editContents(String documentId, List<DocumentElementDtos.Content> updateData) {
+    public Mono<Void> editContents(String documentId, String content) {
         return updateDocument(
                 documentId,
-                updateData,
+                content,
                 DocumentModel::updateContents
         );
     }

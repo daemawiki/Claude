@@ -29,7 +29,7 @@ class DocumentEntity {
 
     private List<Detail> detailList;
 
-    private List<Content> contentList;
+    private String content;
 
     private Set<String> categorySet;
 
@@ -60,7 +60,7 @@ class DocumentEntity {
     private DocumentEntity(Title title, List<Detail> detailList, Set<String> categoryList, Type type, Editor owner) {
         this.title = title;
         this.detailList = detailList;
-        this.contentList = Collections.emptyList();
+        this.content = "";
         this.categorySet = categoryList;
         this.viewCount = 0L;
         this.version = 0L;
