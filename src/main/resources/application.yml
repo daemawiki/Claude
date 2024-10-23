@@ -15,6 +15,12 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
+  rsocket:
+    server:
+      port: 19132
+      transport: websocket
+      mapping-path: /mincraft
+
 server:
   port: 8080
 
